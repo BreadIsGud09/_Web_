@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/Navigation_Bar.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/SignUp_Page.css">
+  
+</head>
+
+<body>
+    <div>
+        <span class="Server-Message">@ViewBag.Status </span>
+
+    </div>
+
+    <div class="Sign-up-field">
+        <h1 class="header">Sign up</h1>
+
+        <form class="input-field" action="SignUp" method="post">
+            <label>Username:</label>
+            <input class="Username-box" autocomplete="off" type="text" name="UserName" placeholder="how should we call you ?" required />
+            <label>Email:</label>
+            <input name="Email" autocomplete="off" type="email" class="gmail-box" placeholder="enter your email:" required />
+            <label>Password:</label>
+            <input name="Password" autocomplete="off" type="password" class="password-box" placeholder="create your password" required />
+
+
+            <input type="submit" class="Submit-gmail-button" value="Continue" formmethod="post" />
+        </form>
+
+        <a class="Login-Link" href="#">already have an account ?</a>
+    </div>
+</body>
+
+
+
+
+
+

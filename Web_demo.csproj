@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\Fonts\.otf" />
+    <None Remove="wwwroot\Fonts\Baron Neue Black Italic.otf" />
+    <None Remove="wwwroot\Fonts\Baron Neue Bold.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Fonts\._BaronNeue-Bold.otf" />
+    <None Include="wwwroot\Fonts\Baron Neue Bold Italic.otf" />
+    <None Include="wwwroot\Fonts\Baron Neue Italic.otf" />
+    <None Include="wwwroot\Fonts\Baron Neue.otf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-Black.ttf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-BlackItalic.ttf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-Bold.ttf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-BoldItalic.ttf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-Italic.ttf" />
+    <None Include="wwwroot\Fonts\DopeDisplay-Normal.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
+  </ItemGroup>
+
+</Project>

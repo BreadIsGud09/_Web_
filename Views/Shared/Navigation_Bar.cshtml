@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Navgiation.css">
+
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="Navigation-bar-Container">
+        <nav class="Main-Navigation">
+            @{
+                if (ViewBag.UserStatus == "Visitor")
+                {
+                    <a href=@Url.Action("Index") class="Brand-Button">
+                        <span class="BrandFont-Text">SCHEDULED</span>
+                    </a>
+                    <a href=@Url.Action("SignUp") class="Sign-up-button" type="submit"><span id="Log2">Create new account</span></a>
+                    <a href=@Url.Action("Login") class="Login-button" type="submit"><span id="Log1">Login</span></a>
+                    <button class="Login-icon">&#9776;</button>
+
+                    <div class="Login-options">
+                        <a id="sub-button1" href="@Url.Action("SignUp")">Sign up</a>
+                        <a id="sub-button2" href="@Url.Action("SignUp")">Login</a>
+                    </div>
+                }
+                else if (ViewBag.UserStatus == "Logged in")
+                {
+                    <a href=@Url.Action("Index") class="Brand-Button">
+                        <span class="BrandFont-Text">SCHEDULED</span>
+                    </a>
+                }
+            }
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginIcon = document.querySelector(".Login-icon");
+            const loginOptions = document.querySelector(".Login-options");
+
+            let isOpen = false; // Track the state of the Login options
+
+            loginIcon.addEventListener("click", function () {
+                isOpen = !isOpen; // Toggle the state
+
+                if (isOpen) {
+                    loginOptions.style.display = "flex";
+                    loginOptions.style.flexDirection = "column";
+                    loginOptions.style.opacity = "1";
+                } else {
+                    loginOptions.style.display = "none";
+                    loginOptions.style.opacity = "0";
+                }
+            });
+        });
+    </script>
+
+    <div class="Render-Body">
+        @RenderBody()
+    </div>
+
+</body>
+</html>

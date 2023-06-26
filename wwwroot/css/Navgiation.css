@@ -1,0 +1,208 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed:ital,wght@0,700;1,400&family=Rubik:ital,wght@1,500&family=Sora:wght@700&family=Vollkorn:wght@500;700&display=swap');
+
+
+@font-face {
+    font-family: 'baron black';
+    font-display: swap;
+    font-weight: bold;
+    src: url('../Fonts/Baron Neue Bold.otf') format('opentype');
+}
+/*Custom font*/
+
+body {
+    background-color: rgb(242, 239, 234);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Brand-Button {
+    text-decoration: from-font;
+}
+
+.Login-icon {
+    display: none;
+}
+
+.Login-options {
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+    width: 12rem;
+    background-color: white;
+    padding: 1rem;
+    display: none;
+}
+/*media Queryt for desktop screen*/
+@media only screen and (min-width: 768px) {
+    .Navigation-bar-Container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4.5rem;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        flex-direction: row;
+        background-color: rgb(242, 239, 234);
+    }
+
+    .Main-Navigation {
+        height: 4.5rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        padding: 0 5%;
+        background-color: rgb(242, 239, 234);
+    }
+
+    .BrandFont-Text {
+        color: rgb(44, 46, 49);
+        font-family: 'baron black';
+    }
+
+    .Brand-Button {
+        position: fixed;
+        height: fit-content;
+        color: rgb(255, 149, 5);
+        left: 0.5rem;
+        font-size: 4rem;
+        margin-right: auto;
+    }
+
+    .Sign-up-button {
+        height: fit-content;
+        display: block;
+        background: rgb(44, 46, 49);
+        position: fixed;
+        right: 0.5rem;
+        border: 5px solid;
+        border-color: rgb(44, 46, 49);
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+    .Login-button {
+        height: fit-content;
+        display: block;
+        position: fixed;
+        right: 17rem;
+        text-decoration: none;
+    }
+
+    #Log1,
+    #Log2 {
+        font-size: 1.5rem;
+        font-family: 'Sora', sans-serif;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    #Log1 {
+        color: black;
+    }
+
+    #Log2 {
+        color: rgb(250, 166, 19);
+    }
+}
+
+
+
+
+/* Media Query for Mobile */
+@media only screen and (max-width: 600px) {
+    .Navigation-bar-Container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        flex-direction: row;
+        background-color: rgb(242, 239, 234);
+    }
+
+    .Main-Navigation {
+        height: 3.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        padding: 1rem 10%;
+        background-color: color(242, 239, 234);
+    }
+
+    .BrandFont-Text {
+        color: rgb(44, 46, 49);
+        font-family: 'baron black';
+        font-size: 2rem;
+    }
+
+
+    #Log1 {
+        display: none;
+    }
+
+    #Log2 {
+        display: none;
+    }
+
+    .Login-button,
+    .Sign-up-button {
+        display: none;
+    }
+
+    .Login-icon {
+        display: block;
+        position: fixed;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 2rem;
+        color: white;
+        cursor: pointer;
+        background: black;
+        border-radius: 8px;
+    }
+
+        .Login-icon:active + .Login-options {
+            transition: opacity 0.5s ease;
+        }
+
+    .Login-options {
+        height: 6rem;
+    }
+
+    #sub-button1 {
+        font-size: 1.5rem;
+        font-family: 'Sora', sans-serif;
+        font-weight: 400;
+        text-decoration: none;
+        border: 5px solid;
+        border-color: rgb(52, 52, 52);
+        border-radius: 8px;
+        background-color: rgb(52, 52, 52);
+        color: rgb(255, 149, 5);
+    }
+
+    #sub-button2 {
+        margin-top: 0.5rem;
+        font-size: 1.5rem;
+        font-family: 'Sora', sans-serif;
+        font-weight: 400;
+        text-decoration: none;
+        border: 5px solid;
+        border-color: rgb(52, 52, 52);
+        border-radius: 8px;
+        background-color: rgb(52, 52, 52);
+        color: rgb(242, 239, 234);
+    }
+}

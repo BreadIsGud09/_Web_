@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/Navigation_Bar.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/MainVisitorPage.css"/>
+</head>
+
+<body class="Main-interfaces">
+    <div class="HeaderContainer">
+        <h1 class="header">
+            Empower your work with
+            <span class="BrandFont">Scheduled</span>
+        </h1>
+        <h1 class="header">
+            <span class="Text-Highlight"><u>10X</u></span>
+            your Productivity now!
+        </h1>
+    </div>
+    <div class="sub-header-container">
+        <h2 class="Sub-header">The ultimate tool to revolutionize time management</h2>
+        <h2 class="Sub-header">and boost your productivity</h2>
+
+        <form action='@Url.Action("SignUp")' method="get">
+            <input class="Sign-Up-Button" type="submit" value="Try out scheduled →" />
+        </form>
+    </div>
+</body>
+
