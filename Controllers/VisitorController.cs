@@ -8,13 +8,17 @@ namespace RoutingTest.Controllers
 {
     public class VisitorController : Controller
     {
-        User_DB UserProfile = new User_DB();
 
-        public IActionResult Index(bool? status)
+
+            this.userProfile = userProfile; 
+
+        }
+
+        public IActionResult Index(string? status)
         {
-            if (status is true && status.HasValue)
+            if (status is "Logged In" && status != null)
             {
-                ViewBag.UserStatus = "Logged in";
+                ViewBag.UserStatus = status;
                 
                 
                 return RedirectToAction("Index", "MainPage", new { user_state = "Logged in" });
@@ -28,32 +32,47 @@ namespace RoutingTest.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(string UserName, string Email, string Password)
+        public IActionResult SignUp(string? UserName, string? Email, string? Password)
         {
-            bool status = false;
-
-            List<object> ValuesToAdd = new List<object>() {UserName,Email,Password,status};
-
-            status = UserProfile.AddValuesTo(ValuesToAdd);
+            if (UserName != null || Email != null || Password != null)
+            {
+                try
+        {
+            var Values = new userinfo ///Create a new items 
+            {
+                username = UserName,
+                email = Email,
+                emailkey = Password,
+                    status = "Logged In"
+            };
 
             
-            return RedirectToAction("Index", "Visitor", new {Status = status});
+                return RedirectToAction("Index", "Visitor", new { Status = "Logged in" });
+            }
+            else
+            {
+                ViewBag.UserStatus = "Fail";
+                return View();
+            }
         }
 
         [HttpPost]
-        public IActionResult Login(string userName, string email, string password)
+        public IActionResult Login(string _Email, string password)
         {
-            string status;///Passing user Status
+            ///Login and pass user data to mainpage
+            ///
+            var UserList = userProfile.userinfo.ToList();
 
-            try
-            {
-                // Perform login logic here
-            }
-            catch (Exception Message)
-            {
-                // Handle login exception
+
+            foreach (var user in UserList) 
+            { 
+                if(user.email == _Email || user.emailkey == password)
+                {
+                    return RedirectToAction("Index", "MainPage",user);
+                }
             }
 
+            ViewBag.message = "please try again";
             return View();
         }
 

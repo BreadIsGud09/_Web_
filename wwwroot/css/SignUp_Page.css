@@ -39,9 +39,9 @@ h1 {
 
 label {
     position: relative;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 1.5rem;
-    color: dimgrey;
+    color:black;
     left: 0rem;
     padding-bottom: 0.1rem;
     width: fit-content;
@@ -85,11 +85,6 @@ label {
     bottom: 30vh; /* Adjust the bottom value as needed */
     left: 50%;
     transform: translateX(-50%);
-}
-
-.Server-Message {
-    position: relative;
-    top: 573px;
 }
 
 

@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContextPool<UserDB>(options =>
+builder.Services.AddDbContext<UserDB>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("web"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("web"));
 });
 
 
