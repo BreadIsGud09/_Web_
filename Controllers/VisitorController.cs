@@ -4,11 +4,15 @@ using System;
 using System.Data;
 using Web_demo.Models;
 
+
 namespace RoutingTest.Controllers
 {
     public class VisitorController : Controller
     {
+        UserDB userProfile;
 
+        public VisitorController(UserDB userProfile)
+        {
 
             this.userProfile = userProfile; 
 
@@ -37,16 +41,25 @@ namespace RoutingTest.Controllers
             if (UserName != null || Email != null || Password != null)
             {
                 try
-        {
-            var Values = new userinfo ///Create a new items 
-            {
-                username = UserName,
-                email = Email,
-                emailkey = Password,
-                    status = "Logged In"
-            };
+                {
+                    var Values = new userinfo ///Create a new items 
+                    {
+                        username = UserName,
+                        email = Email,
+                        emailkey = Password,
+                        status = "Logged In"
+                    };
 
-            
+                    userProfile.userinfo.Add(Values);
+
+                    userProfile.SaveChanges();
+                }
+                catch(Exception E)
+                {
+                    ViewBag.UserStatus = "Fail";
+                    return View();
+                }
+                
                 return RedirectToAction("Index", "Visitor", new { Status = "Logged in" });
             }
             else
@@ -62,7 +75,7 @@ namespace RoutingTest.Controllers
             ///Login and pass user data to mainpage
             ///
             var UserList = userProfile.userinfo.ToList();
-
+    
 
             foreach (var user in UserList) 
             { 

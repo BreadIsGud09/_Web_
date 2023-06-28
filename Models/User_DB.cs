@@ -27,6 +27,9 @@ namespace Web_demo.Models
 
     public class UserDB : DbContext //Host=localhost;Port=5432;Database=web;Username=postgres;Password=123chu123so;
     {
+        public UserDB(DbContextOptions<UserDB> options) : base(options) { }
 
+        public DbSet<userinfo> userinfo { get; set; }///Table
     }
+
 }

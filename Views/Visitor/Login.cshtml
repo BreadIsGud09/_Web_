@@ -3,9 +3,20 @@
 }
 
 <head>
-        <link rel="stylesheet" href="~/css/Login.css">
+    <link rel="stylesheet" href="~/css/Login.css">
 </head>
 
 <body>
-    <h1>Welcome Back!</h1>
+    <div class="interaction-field">
+        <h1>Welcome back!</h1>
+
+        <form class="user-Info-box" action="Login" method="post">
+            <label>Email:</label>
+            <input class="email-box" type="email" autocomplete="off" required autofocus>
+            <label>Password:</label>
+            <input class="paswords_box" type="password" autocomplete="off" required autofocus>
+
+            <input type="submit" class="Sender" formmethod="post" value="Continue">
+        </form>
+    </div>
 </body>

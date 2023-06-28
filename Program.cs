@@ -2,6 +2,7 @@ using Web_demo.Models;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 

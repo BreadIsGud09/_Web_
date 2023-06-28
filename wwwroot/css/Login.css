@@ -1,0 +1,27 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed:ital,wght@0,700;1,400&family=Rubik:ital,wght@1,500&family=Sora:wght@700&family=Vollkorn:wght@500;700&display=swap');
+
+@keyframes TransitionIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    animation: TransitionIn 0.75s;
+}
+
+.interaction-field {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    left:50%;
+    top:50%;
+}
