@@ -18,11 +18,17 @@
                     </a>
                     <a href=@Url.Action("SignUp") class="Sign-up-button" type="submit"><span id="Log2">Create new account</span></a>
                     <a href=@Url.Action("Login") class="Login-button" type="submit"><span id="Log1">Login</span></a>
-                    <button class="Login-icon">&#9776;</button>
+                    <button class="Login-icon">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 5.75H19.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 18.25H19.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.75 12H19.25"></path>
+                        </svg>
+                    </button>
 
                     <div class="Login-options">
                         <a id="sub-button1" href="@Url.Action("SignUp")">Sign up</a>
-                        <a id="sub-button2" href="@Url.Action("SignUp")">Login</a>
+                        <a id="sub-button2" href="@Url.Action("Login")">Login</a>
                     </div>
                 }
                 else if (ViewBag.UserStatus == "Logged in")

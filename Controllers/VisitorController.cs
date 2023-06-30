@@ -38,6 +38,8 @@ namespace RoutingTest.Controllers
         [HttpPost]
         public IActionResult SignUp(string? UserName, string? Email, string? Password)
         {
+            userinfo Values;///Values that pass in
+
             if (UserName != null || Email != null || Password != null)
             {
                 try

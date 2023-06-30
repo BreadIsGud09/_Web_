@@ -168,11 +168,12 @@ body {
         border: none;
         background: none;
         cursor: pointer;
+        border-radius:50%;
     }
 
-        .Login-icon:active + .Login-options {
-            transition: opacity 0.5s ease;
-        }
+    .Login-icon:active + .Login-options {
+        transition: opacity 0.5s ease;
+    }
 
     .Login-options {
         height: 6rem;

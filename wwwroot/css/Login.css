@@ -10,6 +10,13 @@
     }
 }
 
+html,body{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+}
+
 .interaction-field {
     display: flex;
     position: relative;
@@ -86,5 +93,6 @@ label {
     }
     h1{
         font-size:1rem;
+        color:white;
     }
 }
