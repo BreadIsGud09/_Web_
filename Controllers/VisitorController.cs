@@ -16,7 +16,7 @@ namespace RoutingTest.Controllers
 
             this.userProfile = userProfile; 
 
-        }
+        }///init DB
 
         public IActionResult Index(string? status)
         {
@@ -42,7 +42,7 @@ namespace RoutingTest.Controllers
             {
                 try
                 {
-                    var Values = new userinfo ///Create a new items 
+                    Values = new userinfo ///Create a new items 
                     {
                         username = UserName,
                         email = Email,
@@ -60,7 +60,7 @@ namespace RoutingTest.Controllers
                     return View();
                 }
                 
-                return RedirectToAction("Index", "Visitor", new { Status = "Logged in" });
+                return RedirectToAction("Index", "MainPage",Values);
             }
             else
             {
@@ -75,7 +75,7 @@ namespace RoutingTest.Controllers
             ///Login and pass user data to mainpage
             ///
             var UserList = userProfile.userinfo.ToList();
-    
+
             foreach (var user in UserList) 
             { 
                 if(user.email == _Email || user.emailkey == password)
@@ -84,13 +84,14 @@ namespace RoutingTest.Controllers
                 }
             }
 
+            ViewBag.UserStatus = "Logged in";
             ViewBag.message = "please try again";
             return View();
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
+        public IActionResult Login() 
+        { 
             ViewBag.UserStatus = "Logged in";
             
             return View();

@@ -1,15 +1,17 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed:ital,wght@0,700;1,400&family=Rubik:ital,wght@1,500&family=Sora:wght@700&family=Vollkorn:wght@500;700&display=swap');
 
-body {
-    height: 100%;
-    width: 100%;
+html,body {
+    height:100%;
+    width:100%;
+    display:flex;
+    justify-content:center;
     animation: TransitionIn 0.75s;
 }
 
 
 .Sign-up-field {
     display: flex;
-    position: fixed;
+    position: relative;
     flex-direction: column;
     justify-content: space-evenly;
     text-align: center;
@@ -26,6 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     height: fit-content;
+    margin-bottom:10px;
 }
 
 h1 {
@@ -95,5 +98,13 @@ label {
 
     to {
         opacity: 1;
+    }
+}
+/*Mobile screen*/
+@media only screen and (max-height: 480px) 
+{
+    body{
+        height:90vh;
+        width:100vw;
     }
 }
