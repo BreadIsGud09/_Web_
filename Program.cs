@@ -14,6 +14,8 @@ builder.Services.AddDbContext<UserDB>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("web"));
 });
 
+builder.Services.Configure<Email_Details>(builder.Configuration.GetSection(nameof(Email_Details)));
+
 
 var app = builder.Build();
 
