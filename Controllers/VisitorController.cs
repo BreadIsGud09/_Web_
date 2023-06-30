@@ -25,7 +25,7 @@ namespace RoutingTest.Controllers
                 ViewBag.UserStatus = status;
                 
                 
-                return RedirectToAction("Index", "MainPage", new { user_state = "Logged in" });
+                return RedirectToAction("Index", "MainPage");
             }
             else
             {
@@ -76,7 +76,6 @@ namespace RoutingTest.Controllers
             ///
             var UserList = userProfile.userinfo.ToList();
     
-
             foreach (var user in UserList) 
             { 
                 if(user.email == _Email || user.emailkey == password)
@@ -92,7 +91,7 @@ namespace RoutingTest.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            ViewBag.UserStatus = "Logged In";
+            ViewBag.UserStatus = "Logged in";
             
             return View();
         }

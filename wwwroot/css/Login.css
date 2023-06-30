@@ -10,18 +10,15 @@
     }
 }
 
-body {
-    height: 100%;
-    width: 100%;
-    animation: TransitionIn 0.75s;
-}
-
 .interaction-field {
     display: flex;
-    position: fixed;
+    position: relative;
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    left:50%;
-    top:50%;
+    flex-wrap:wrap;
+    width:fit-content;
+    height:fit-content;
+    top:2rem;
+    
 }

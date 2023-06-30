@@ -15,28 +15,25 @@ body {
     text-align: center;
     align-content: center;
     align-items: center;
-    height: 30vh;
+    height: fit-content;
     top: 10%;
-    left: 15%;
-    width: 70%;
-    gap: 10px;
+    width: fit-content;
+    gap: 5px;
 }
 
 
 .input-field {
-    position: fixed;
     display: flex;
     flex-direction: column;
-    top: 25%;
     height: fit-content;
 }
 
 h1 {
-    position: relative;
+    margin-bottom:4px;
     font-size: 4rem;
     font-weight: bold;
     font-family: 'Sora', sans-serif;
-    top: -2rem;
+    
 }
 
 
@@ -83,12 +80,11 @@ label {
 
 .Login-Link {
     color: rgb(52, 52, 52);
-    position: fixed;
+    
     font-size: 1rem;
     font-family: 'Sora', sans-serif;
-    bottom: 30vh; /* Adjust the bottom value as needed */
-    left: 50%;
-    transform: translateX(-50%);
+    
+    
 }
 
 
