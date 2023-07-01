@@ -1,6 +1,6 @@
-﻿namespace Web_demo.Config
+﻿namespace Web_demo.Models
 {
-    public class Email_Details
+    public class MailSettings
     {
         public string? DisplayName { get; set; }
         public string? From { get; set; }
