@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using Microsoft.Extensions.DependencyInjection;
+using Web_demo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ builder.Services.AddDbContext<UserDB>(options =>
 });
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-builder.Services.AddScoped<IEmail_Sender,Email_Handler>();
+builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 
 var app = builder.Build();
 

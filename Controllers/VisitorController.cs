@@ -3,6 +3,7 @@ using Npgsql;
 using System;
 using System.Data;
 using Web_demo.Models;
+using Web_demo.Services;
 
 
 namespace RoutingTest.Controllers
@@ -11,16 +12,17 @@ namespace RoutingTest.Controllers
     {
         private UserDB userProfile;
         private readonly IEmail_Sender Email_Services;///email services
-
+        
         public VisitorController(UserDB userProfile,IEmail_Sender sender_)//injection 
         {
-            this.userProfile = userProfile; 
+            this.userProfile = userProfile;
+            this.Email_Services = sender_;
 
         }///init DB
 
         public IActionResult Index()
-            {
-
+        {
+           
             return View();
         }
 
@@ -29,10 +31,13 @@ namespace RoutingTest.Controllers
         {
             userinfo Values;///Values that pass in
 
+            string body = "<h1>Please Verifield your email by reading this</h1>";
+
             if (UserName != null || Email != null || Password != null)
             {
                 try
                 {
+                    
                     Values = new userinfo ///Create a new items 
                     {
                         username = UserName,
@@ -40,6 +45,8 @@ namespace RoutingTest.Controllers
                         emailkey = Password,
                         status = "Logged In"
                     };
+
+                    Email_Services.SendAsync(Email, "Scheduled verification!", body);
 
                     userProfile.userinfo.Add(Values);
 

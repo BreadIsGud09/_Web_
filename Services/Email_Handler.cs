@@ -2,26 +2,24 @@
 using MimeKit;
 using MailKit.Net.Smtp;
 using System.Threading;
+using Microsoft.Extensions.Options;
+using MimeKit.Cryptography;
+using MailKit.Security;
 
 namespace Web_demo.Services
 {
-    interface Email_Sender 
+    public interface IEmail_Sender 
     {
         public Task<bool> SendAsync(string ToEmail,string subject, string body);
     }
 
     public class Email_Handler : IEmail_Sender
     {
-        private readonly MailSettings _Details;
+        private readonly MailSettings settings;
 
-        public Email_Handler(MailSettings _Mail_)
+        public Email_Handler(IOptions<MailSettings> _Settings)
         {
-            _Details = _Email;
-        }
-
-        public Email_Handler()
-        {
-            
+            settings = _Settings.Value;
         }
 
         public async Task<bool> SendAsync(string ToEmail,string subject, string body)///Sending Email To Direct Email;
@@ -31,15 +29,15 @@ namespace Web_demo.Services
 
             SmtpClient smtp = new SmtpClient();
 
-            await smtp.ConnectAsync(_Details.Host, _Details.Port);
-            await smtp.AuthenticateAsync(_Details.UserName, _Details.Password); 
+            await smtp.ConnectAsync(settings.Host, settings.Port, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(settings.UserName, settings.Password);
 
             try 
             {
                 var Message = new MimeMessage();
 
-                Message.From.Add(new MailboxAddress(_Details.DisplayName, _Details.From));
-                Message.To.Add(new MailboxAddress("NAM LWE",ToEmail));///Target
+                Message.From.Add(new MailboxAddress(settings.DisplayName, settings.From));
+                Message.To.Add(new MailboxAddress("",ToEmail));///Target
                 Message.Subject = subject;
                 Message.Body = BodyBuilder.ToMessageBody();
 
@@ -56,5 +54,8 @@ namespace Web_demo.Services
                 return false;
             }
         }
+
+
+
     }
 }
