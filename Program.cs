@@ -14,8 +14,8 @@ builder.Services.AddDbContext<UserDB>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("web"));
 });
 
-builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(Email_Details)));
-
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<IEmail_Sender,Email_Handler>();
 
 var app = builder.Build();
 

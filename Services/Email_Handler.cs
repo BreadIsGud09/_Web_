@@ -10,13 +10,18 @@ namespace Web_demo.Services
         public Task<bool> SendAsync(string ToEmail,string subject, string body);
     }
 
-    public class Email_Handler : Email_Sender
+    public class Email_Handler : IEmail_Sender
     {
         private readonly MailSettings _Details;
 
-        public Email_Handler(MailSettings _Emails)
+        public Email_Handler(MailSettings _Mail_)
         {
-            _Details = _Emails;
+            _Details = _Email;
+        }
+
+        public Email_Handler()
+        {
+            
         }
 
         public async Task<bool> SendAsync(string ToEmail,string subject, string body)///Sending Email To Direct Email;

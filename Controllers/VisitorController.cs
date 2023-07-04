@@ -9,28 +9,17 @@ namespace RoutingTest.Controllers
 {
     public class VisitorController : Controller
     {
-        UserDB userProfile;
+        private UserDB userProfile;
+        private readonly IEmail_Sender Email_Services;///email services
 
-        public VisitorController(UserDB userProfile)
+        public VisitorController(UserDB userProfile,IEmail_Sender sender_)//injection 
         {
-
             this.userProfile = userProfile; 
 
         }///init DB
 
-        public IActionResult Index(string? status)
-        {
-            if (status is "Logged In" && status != null)
+        public IActionResult Index()
             {
-                ViewBag.UserStatus = status;
-                
-                
-                return RedirectToAction("Index", "MainPage");
-            }
-            else
-            {
-                ViewBag.UserStatus = "Visitor";
-            }
 
             return View();
         }
