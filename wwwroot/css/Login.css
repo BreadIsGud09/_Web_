@@ -15,6 +15,7 @@ html,body{
     height:100%;
     display:flex;
     justify-content:center;
+    animation:TransitionIn 0.75s;
 }
 
 .interaction-field {
@@ -84,6 +85,14 @@ label {
     margin-top: 15px;
     position: relative;
     cursor: pointer;
+}
+
+
+.SignUpLink
+{
+    color: rgb(52, 52, 52);
+    font-size: 1rem;
+    font-family: 'Sora', sans-serif;
 }
 
 

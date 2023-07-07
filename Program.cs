@@ -18,6 +18,7 @@ builder.Services.AddDbContext<UserDB>(options =>
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
+builder.Services.AddTransient<IDB_Services,Database_Handler>();
 
 var app = builder.Build();
 
@@ -39,8 +40,18 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
+
+app.UseEndpoints(endpoints =>
+{
+    app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Visitor}/{action=Index}/{id?}");
+
+    app.MapControllerRoute(
+        name: "MainPage",
+        pattern: "{controller=MainPage}/{action=Main}/{user?}"
+        );
+
+});
 
 app.Run();

@@ -2,6 +2,7 @@
 using Npgsql;
 using System;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
 using Web_demo.Models;
 using Web_demo.Services;
 
@@ -10,12 +11,12 @@ namespace RoutingTest.Controllers
 {
     public class VisitorController : Controller
     {
-        private UserDB userProfile;
+        private IDB_Services userProfile;
         private readonly IEmail_Sender Email_Services;///email services
         
-        public VisitorController(UserDB userProfile,IEmail_Sender sender_)//injection 
+        public VisitorController(IDB_Services _userProfile,IEmail_Sender sender_)//injection 
         {
-            this.userProfile = userProfile;
+            this.userProfile = _userProfile;
             this.Email_Services = sender_;
 
         }///init DB
@@ -29,15 +30,15 @@ namespace RoutingTest.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(string? UserName, string? Email, string? Password)
         {
-            userinfo User_Data;///Values that pass in
-
             string body = "<h1>Please Verifield your email by reading this</h1>";
+            userinfo UserData;
 
             if (UserName != null || Email != null || Password != null)
             {
                 try
                 {
-                    
+                    var IsSuccess = await Email_Services.SendAsync(Email, "Scheduled verification!", body);
+
                     if (IsSuccess.Equals(true)) 
                     {
                         UserData = userProfile.AddToDB(UserName, Email, Password);
@@ -56,11 +57,8 @@ namespace RoutingTest.Controllers
                 
                 return RedirectToAction("Index", "MainPage",UserData);
             }
-            else
-            {
-                ViewBag.UserStatus = "Fail";
-                return View();
-            }
+
+            return View();
         }
 
         [HttpPost]
@@ -68,30 +66,33 @@ namespace RoutingTest.Controllers
         {
             ///Login and pass user data to mainpage
             ///
-           
             var Result = userProfile.GetUserInDB(_Email, password);
 
             if(Result is userinfo)
-                {
+            {
+                ViewBag.UserInfo = Result;
+                ViewBag.UserStatus = "Logged In";
                 return RedirectToAction("Index", "MainPage", Result);
             }
-
-            ViewBag.UserStatus = "Logged in";
-            ViewBag.message = "please try again";
-            return View();
+            else 
+            {
+                ViewBag.UserStatus = "Logged In";
+                ViewBag.message = "please try again";
+                return View();
+            }
         }
 
         [HttpGet]
         public IActionResult Login() 
         { 
-            ViewBag.UserStatus = "Logged in";
+            ViewBag.UserStatus = "Logging In";
             
             return View();
         }
 
         public IActionResult SignUp()
         {
-            ViewBag.UserStatus = "Logged in";
+            ViewBag.UserStatus = "Signing up";
 
             return View();
         }

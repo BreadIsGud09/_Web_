@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/Navgiation.css">
@@ -33,7 +35,13 @@
                 }
                 else if (ViewBag.UserStatus == "Logged in")
                 {
-                    <a href=@Url.Action("Index","MainPage") class="Brand-Button">
+                    <a href=@Url.Action("Index","MainPage",new {user = ViewBag.UserInfo}) class="Brand-Button">
+                        <span class="BrandFont-Text">SCHEDULED</span>
+                    </a>
+                }
+                else if(ViewBag.UserStatus == "Logging In" || ViewBag.UserStatus == "Signing up")
+                {
+                    <a href=@Url.Action("Index","Visitor") class="Brand-Button">
                         <span class="BrandFont-Text">SCHEDULED</span>
                     </a>
                 }

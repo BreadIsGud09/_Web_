@@ -10,13 +10,16 @@ namespace RoutingTest.Controllers
     public class MainPageController : Controller
     {
         // GET: MainPage
+        
         public ActionResult Index(userinfo user)
         {
-            if(user.email != null) 
+            int? ID = user.id;
+
+            if(ID.HasValue) 
             {
                 ViewBag.UserStatus = "Logged in";
             }
-            else
+            else if(ID == null)
             {
                 return RedirectToAction("Index","Visitor");
             }
