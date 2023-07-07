@@ -22,14 +22,14 @@ namespace RoutingTest.Controllers
 
         public IActionResult Index()
         {
-           
+            ViewBag.UserStatus = "Visitor";
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignUp(string? UserName, string? Email, string? Password)
+        public async Task<IActionResult> SignUp(string? UserName, string? Email, string? Password)
         {
-            userinfo Values;///Values that pass in
+            userinfo User_Data;///Values that pass in
 
             string body = "<h1>Please Verifield your email by reading this</h1>";
 
@@ -38,19 +38,15 @@ namespace RoutingTest.Controllers
                 try
                 {
                     
-                    Values = new userinfo ///Create a new items 
+                    if (IsSuccess.Equals(true)) 
                     {
-                        username = UserName,
-                        email = Email,
-                        emailkey = Password,
-                        status = "Logged In"
-                    };
-
-                    Email_Services.SendAsync(Email, "Scheduled verification!", body);
-
-                    userProfile.userinfo.Add(Values);
-
-                    userProfile.SaveChanges();
+                        UserData = userProfile.AddToDB(UserName, Email, Password);
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "Something occur please try again!";
+                        return View();
+                    }
                 }
                 catch(Exception E)
                 {
@@ -58,7 +54,7 @@ namespace RoutingTest.Controllers
                     return View();
                 }
                 
-                return RedirectToAction("Index", "MainPage",Values);
+                return RedirectToAction("Index", "MainPage",UserData);
             }
             else
             {
@@ -72,14 +68,12 @@ namespace RoutingTest.Controllers
         {
             ///Login and pass user data to mainpage
             ///
-            var UserList = userProfile.userinfo.ToList();
+           
+            var Result = userProfile.GetUserInDB(_Email, password);
 
-            foreach (var user in UserList) 
-            { 
-                if(user.email == _Email || user.emailkey == password)
+            if(Result is userinfo)
                 {
-                    return RedirectToAction("Index", "MainPage",user);
-                }
+                return RedirectToAction("Index", "MainPage", Result);
             }
 
             ViewBag.UserStatus = "Logged in";

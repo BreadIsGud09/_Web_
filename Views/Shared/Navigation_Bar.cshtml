@@ -13,7 +13,7 @@
             @{
                 if (ViewBag.UserStatus == "Visitor")
                 {
-                    <a href=@Url.Action("Index") class="Brand-Button">
+                    <a href=@Url.Action("Index","Visitor") class="Brand-Button">
                         <span class="BrandFont-Text">SCHEDULED</span>
                     </a>
                     <a href=@Url.Action("SignUp") class="Sign-up-button" type="submit"><span id="Log2">Create new account</span></a>
@@ -33,7 +33,7 @@
                 }
                 else if (ViewBag.UserStatus == "Logged in")
                 {
-                    <a href=@Url.Action("Index") class="Brand-Button">
+                    <a href=@Url.Action("Index","MainPage") class="Brand-Button">
                         <span class="BrandFont-Text">SCHEDULED</span>
                     </a>
                 }
