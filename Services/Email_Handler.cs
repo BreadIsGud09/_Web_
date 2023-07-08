@@ -5,12 +5,15 @@ using System.Threading;
 using Microsoft.Extensions.Options;
 using MimeKit.Cryptography;
 using MailKit.Security;
+using System.Text.RegularExpressions;
 
 namespace Web_demo.Services
 {
     public interface IEmail_Sender 
     {
         public Task<bool> SendAsync(string ToEmail,string subject, string body);
+
+        public bool IsGmailFormat(string Gmail);
     }
 
     public class Email_Handler : IEmail_Sender
@@ -55,7 +58,13 @@ namespace Web_demo.Services
             }
         }
 
-        
+        public bool IsGmailFormat(string Gmail)
+        {
+            string pattern = @"^[a-zA-Z0-9_.+-]+@gmail.com$";
+
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(Gmail);
+        }
 
     }
 }

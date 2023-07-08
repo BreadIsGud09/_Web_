@@ -32,6 +32,13 @@ namespace RoutingTest.Controllers
         {
             string body = "<h1>Please Verifield your email by reading this</h1>";
             userinfo UserData;
+            var GmailExsit = userProfile.GetUserInDB(Email,null);
+
+            if (GmailExsit) 
+            {
+                ViewBag.Message = "The Account already signed in";
+                return View();    
+            }
 
             if (UserName != null || Email != null || Password != null)
             {
@@ -66,17 +73,20 @@ namespace RoutingTest.Controllers
         {
             ///Login and pass user data to mainpage
             ///
-            var Result = userProfile.GetUserInDB(_Email, password);
+            bool IsCorrectGmail = Email_Services.IsGmailFormat(_Email);
 
-            if(Result is userinfo)
+            var info = userProfile.GetUserInDB(_Email, password);
+
+
+            if (info is userinfo && IsCorrectGmail)
             {
-                ViewBag.UserInfo = Result;
+                ViewBag.UserInfo = info;
                 ViewBag.UserStatus = "Logged In";
                 return RedirectToAction("Index", "MainPage", Result);
             }
-            else 
+            else
             {
-                ViewBag.UserStatus = "Logged In";
+                ViewBag.UserStatus = "Logged in";
                 ViewBag.message = "please try again";
                 return View();
             }
