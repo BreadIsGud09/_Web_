@@ -41,7 +41,7 @@ namespace Web_demo.Services
         public dynamic GetUserInDB(string? mail,string? pass)
         {
             foreach(var user in Profile.userinfo) {
-                if(user.email == mail || user.emailkey == pass) 
+                if((mail != null && user.email == mail) || (pass  != null && user.emailkey == pass)) 
                 {
                     return user;
                 }

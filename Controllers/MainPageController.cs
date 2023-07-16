@@ -11,13 +11,14 @@ namespace RoutingTest.Controllers
     {
         // GET: MainPage
         
-        public ActionResult Index(userinfo user)
+        public ActionResult Index(userinfo user)///Main field
         {
             int? ID = user.id;
 
             if(ID.HasValue) 
             {
                 ViewBag.UserStatus = "Logged in";
+                ViewBag.Username = user.username;
             }
             else if(ID == null)
             {

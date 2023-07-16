@@ -1,0 +1,226 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed:ital,wght@0,700;1,400&family=Rubik:ital,wght@1,500&family=Sora:wght@700&family=Vollkorn:wght@500;700&display=swap');
+
+body {
+    display: grid;
+    grid-template-rows:100%;
+    grid-template-columns:auto 83.8%;
+    background-color: rgb(35, 35, 34);
+    height: 100vh;
+    margin: 0px;
+
+}
+
+.Main-Section{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    grid-column:2;
+    grid-row:1;
+    align-items:center;
+      
+}
+
+.nav container {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+
+.nav-bar-trigger {
+    position:fixed;
+    padding:0px;
+    background-color: rgb(45, 45, 42);
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    top:10px;
+    left:10px;
+}
+
+.nav-bar-trigger img{
+    padding: 0px;
+    width: 40px;
+    height: 40px;
+}
+.nav-bar {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    max-width: 15.4rem;
+    /*min-width: 250px;
+    width:100%;
+    max-width:15.4rem;
+    max-width: 400px;
+    */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    background-color: rgb(45, 45, 42);
+    outline: 0;
+    border-radius: 5px;
+}
+
+.Menus{
+    position:absolute;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:15.3rem;
+    height:50px;
+    top:0%;
+    border-radius:5px;
+}
+
+.Menus button img{
+    width:30px;
+    height:30px;
+}
+
+.Menus button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 15.3rem;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.Scheduled-Views
+{
+    position: absolute;
+    background-color: rgb(45, 45, 42);
+    width: 15.3rem;
+    height: 50px;
+    top:40%;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.Task-Views {
+    position: absolute;
+    background-color: rgb(45, 45, 42);
+    margin-bottom: 10px;
+    width: 15.3rem;
+    height: 50px;
+    top:47%;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+
+.User-settings {
+    position: absolute;
+    width: 15.3em;
+    background-color: rgb(45, 45, 42);
+    display: flex;
+    flex-direction: row;
+    top:93%;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.User-Profile-Canva {
+    position: absolute;
+    width: 15.3em;
+    background-color: rgb(45, 45, 42);
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    border-radius: 5px;
+    top:7.5%;
+}
+
+img {
+    padding-left:10px;
+    padding-right:4px;
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+}
+
+span {
+    font-family: 'Sora', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: rgb(243, 243, 244)
+}
+
+button {
+    background-color: rgb(45, 45, 42);
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 0px;
+    width: 15.3rem;
+    height: 50px;
+    border-radius: 5px;
+}
+
+/* Optional: Add hover effect for navigation items */
+.User-Profile-Canva:hover button,
+.Scheduled-Views:hover button,
+.Task-Views:hover button,
+.User-settings:hover button {
+    background-color: rgba(126, 127, 131,0.3);
+    cursor: pointer;
+}
+
+.Menus:hover img {
+    content: url("../Images/menu-regular-48 White.png");
+}
+
+
+.nav-bar-trigger:hover img {
+    content: url("../Images/menu-regular-48 White.png");
+}
+
+.User-Profile-Canva:hover span,
+.Scheduled-Views:hover span,
+.Task-Views:hover span,
+.User-settings:hover span {
+    color: rgb(243, 243, 244);
+}
+
+@keyframes sidebarAnimation {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes reverseSidebarAnimation {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.Menus + button.
+{
+
+}
+
+.nav-bar.collapsed {
+    animation: reverseSidebarAnimation 0.3s forwards;
+}
+
+.nav-bar:not(.collapsed){
+    animation: sidebarAnimation 0.3s forwards;
+}
+
+

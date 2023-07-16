@@ -1,43 +1,56 @@
 ﻿<!DOCTYPE html>
+@{
+    ViewBag.Title = "Sidebar";
+}
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/Project-site/Registered-Navigation.css">
+    <script language="javascript" type="text/javascript" src="~/js/SideBar_handler.js"></script>
 </head>
-<body>
-    <div class="container">
-        <nav class="nav-bar">
-            <div class="User-Profile-Canva">
-                <img src="~/Images/user-logo.png">
-                <button type="submit" class="Profile-Button">
-                    <span>Profile</span>
-                </button>
-            </div>
-            <div class="Scheduled-Views">
-                <button type="submit">
-                    <span>Calendar</span>
+    <body>
+        <div class="nav-bar-trigger">
+            <img src="~/Images/menu-regular-48Gray.png"/>
+        </div>
+
+        <div class="nav container"> 
+            <nav class="nav-bar">
+                <div class="Menus">
+                    <button>
+                        <img src="~/Images/menu-regular-48Gray.png" />
                     </button>
-                <img src="~/Images/calendar-canva.png">
-            </div>
-            <div class="Task-Views">
-                <button type="submit">
-                    <span>Events</span>
-                </button>
-                <img src="~/Images/To-do-list.png">
-            </div>
-            <div class="User-settings">
-                <img src="~/Images/configure-icon.png">
-                <button type="submit">
-                    <span>Settings</span>
-                </button>
-            </div>
-        </nav>
-    </div>
+                </div>
+                <div class="User-Profile-Canva">
+                    <button type="submit" class="Profile-Button">
+                        <img src="~/Images/User-Profile.png">
+                        <span>@ViewData["username"]</span>
+                    </button>
+                </div>
+                <div class="Scheduled-Views">
+                    <button type="submit">
+                        <img src="~/Images/Scheduled.png">
+                        <span>My Calendar</span>
+                    </button>
+                </div>
+                <div class="Task-Views">
+                    <button type="submit">
+                        <img src="~/Images/TaskListpng.png" />
+                        <span>My Events</span>
+                    </button>
+                </div>
+                <div class="User-settings">
+                    <button type="submit">
+                        <img src="~/Images/setting-iconpng.png">
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
 
-
-    <div>
-        @RenderBody()
-    </div>
-</body>
+        <div class="Main-Section">
+            @RenderBody()
+        </div>
+    </body>
 </html>

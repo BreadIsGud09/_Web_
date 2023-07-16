@@ -34,8 +34,9 @@ namespace RoutingTest.Controllers
             userinfo UserData;
             var GmailExsit = userProfile.GetUserInDB(Email,null);
 
-            if (GmailExsit) 
+            if (GmailExsit is userinfo) 
             {
+                ViewBag.UserStatus = "Visitor";
                 ViewBag.Message = "The Account already signed in";
                 return View();    
             }
@@ -82,7 +83,7 @@ namespace RoutingTest.Controllers
             {
                 ViewBag.UserInfo = info;
                 ViewBag.UserStatus = "Logged In";
-                return RedirectToAction("Index", "MainPage", Result);
+                return RedirectToAction("Index", "MainPage", info);
             }
             else
             {

@@ -23,6 +23,11 @@
     <None Include="wwwroot\Fonts\DopeDisplay-BoldItalic.ttf" />
     <None Include="wwwroot\Fonts\DopeDisplay-Italic.ttf" />
     <None Include="wwwroot\Fonts\DopeDisplay-Normal.ttf" />
+    <None Include="wwwroot\Images\book_icon.png" />
+    <None Include="wwwroot\Images\calendar.png" />
+    <None Include="wwwroot\Images\user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" />
+    <None Include="wwwroot\Images\user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.png" />
+    <None Include="wwwroot\Images\users_profile.png" />
   </ItemGroup>
 
   <ItemGroup>
