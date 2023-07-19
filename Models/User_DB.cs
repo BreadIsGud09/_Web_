@@ -21,7 +21,9 @@ namespace Web_demo.Models
         [Required]
         public string? emailkey { get; set; }
         [Required]
-        public string? status { get; set; } 
+        public string? status { get; set; }
+        [Required]
+        public string? Cookies_ID { get; set; }
     }
 
 

@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Web_demo.Models;
+using Web_demo.Services;
 
 namespace RoutingTest.Controllers
 {
     public class MainPageController : Controller
     {
-        // GET: MainPage
-        
+    // GET: MainPage
+        [HttpGet]
+        [Route("Project/YourProject/{user?}")]
         public ActionResult Index(userinfo user)///Main field
         {
             int? ID = user.id;
+            IDB_Services dB_Services;///Loading user project
+            
 
-            if(ID.HasValue) 
+            if(ID.HasValue) /// Get valid values
             {
-                ViewBag.UserStatus = "Logged in";
-                ViewBag.Username = user.username;
+                ViewBag.UserStatus = "Logged in"; ////set status
+                ViewBag.Username = user.username;///Get username for page
             }
             else if(ID == null)
             {
@@ -27,5 +32,16 @@ namespace RoutingTest.Controllers
             
             return View();
         }
+
+        public ActionResult Calendar() ///calendar Section button
+        { 
+            ///Load project filed////
+            ///
+
+            //Operation filed///
+
+            return View();
+        }
+
     }
 }

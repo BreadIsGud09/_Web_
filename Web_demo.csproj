@@ -13,16 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Fonts\._BaronNeue-Bold.otf" />
-    <None Include="wwwroot\Fonts\Baron Neue Bold Italic.otf" />
-    <None Include="wwwroot\Fonts\Baron Neue Italic.otf" />
-    <None Include="wwwroot\Fonts\Baron Neue.otf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-Black.ttf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-BlackItalic.ttf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-Bold.ttf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-BoldItalic.ttf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-Italic.ttf" />
-    <None Include="wwwroot\Fonts\DopeDisplay-Normal.ttf" />
     <None Include="wwwroot\Images\book_icon.png" />
     <None Include="wwwroot\Images\calendar.png" />
     <None Include="wwwroot\Images\user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" />
@@ -41,6 +31,10 @@
     <PackageReference Include="MimeKit" Version="4.1.0" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Fonts\" />
   </ItemGroup>
 
 </Project>

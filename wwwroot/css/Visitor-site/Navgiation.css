@@ -2,16 +2,15 @@
 
 
 @font-face {
-    font-family: 'baron black';
+    font-family: 'Baron Black';
     font-display: swap;
-    font-weight: bold;
-    src: url('../Fonts/Baron Neue Bold.otf') format('opentype');
+    font-weight: 300;
+    src: url('/Fonts/Baron Neue Black.otf') format('opentype');
 }
 /*Custom font*/
 
 body {
     background-color: rgb(242, 239, 234);
-    
 }
 
 .Brand-Button {
@@ -60,7 +59,7 @@ body {
 
     .BrandFont-Text {
         color: rgb(44, 46, 49);
-        font-family: 'baron black';
+        font-family: 'Baron Black';
     }
 
     .Brand-Button {
@@ -140,7 +139,7 @@ body {
 
     .BrandFont-Text {
         color: rgb(44, 46, 49);
-        font-family: 'baron black';
+        font-family: 'Baron Black';
         font-size: 2rem;
     }
 

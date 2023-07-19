@@ -1,11 +1,15 @@
-﻿using Web_demo.Models;
+﻿using System.Reflection;
+using Web_demo.Models;
 
 namespace Web_demo.Services
 {
     public interface IDB_Services
     {
-        public userinfo AddToDB(string? USname, string? mail, string pass);
-        public dynamic GetUserInDB(string? mail,string? pass);
+        public userinfo AddToDB(string? USname, string? mail, string pass,string Cookies_Values);///Adding new user to DB/// 
+
+        public List<userinfo> GetPropertiesValuesFromUser(string UserName,userinfo properties);
+
+        public dynamic GetUserInDB(string? mail,string? pass); ///Check if Email and pass exsit and return
     }
 
     public class Database_Handler : IDB_Services
@@ -19,7 +23,7 @@ namespace Web_demo.Services
             
         }
 
-        public userinfo AddToDB(string? USname,string? mail,string pass)
+        public userinfo AddToDB(string? USname,string? mail,string pass,string Cookies_Values)
         {
             using (Profile)
             {
@@ -28,7 +32,8 @@ namespace Web_demo.Services
                     username = USname,
                     email = mail,
                     emailkey = pass,
-                    status = "Logged in"
+                    status = "Logged in",
+                    Cookies_ID = Cookies_Values
                 };
 
                 Profile.userinfo.Add(Values);
@@ -47,6 +52,18 @@ namespace Web_demo.Services
                 }
             }
             return "Can't find user";
+        }
+
+        public List<userinfo> GetPropertiesValuesFromUser(string Rows,userinfo properties)///Getting the properties values
+        {
+            var Userinf = Profile.userinfo.ToList();
+
+            foreach(userinfo userinfo in Userinf) 
+            {
+               
+            }
+
+            return Userinf;
         }
     }
 }

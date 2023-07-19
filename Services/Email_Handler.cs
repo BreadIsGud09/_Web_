@@ -65,6 +65,5 @@ namespace Web_demo.Services
             Regex regex = new Regex(pattern);
             return regex.IsMatch(Gmail);
         }
-
     }
 }

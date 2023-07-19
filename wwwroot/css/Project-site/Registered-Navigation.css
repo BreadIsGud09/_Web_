@@ -175,12 +175,12 @@ button {
 }
 
 .Menus:hover img {
-    content: url('../../Images/menu-regular-48 White.png');
+    content: url('/Images/menu-regular-48 White.png');
 }
 
 
 .nav-bar-trigger:hover img {
-    content: url('../../Images/menu-regular-48 White.png');
+    content: url('/Images/menu-regular-48 White.png');
 }
 
 .User-Profile-Canva:hover span,
@@ -211,6 +211,8 @@ button {
 }
 
 
+.nav-bar:not(.collapsed) {
+    animation: sidebarAnimation 0.3s forwards;
 }
 
 .nav-bar.collapsed {

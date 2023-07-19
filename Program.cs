@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Microsoft.Extensions.DependencyInjection;
 using Web_demo.Services;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,10 +52,7 @@ app.UseEndpoints(endpoints =>
         name: "MainPage",
         pattern: "Project/YourProject/{user?}",
         defaults: new { controller = "MainPage", Action = "Index"}
-         
-
-        );
-
+    );
 });
 
 app.Run();
