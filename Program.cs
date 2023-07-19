@@ -49,7 +49,10 @@ app.UseEndpoints(endpoints =>
 
     app.MapControllerRoute(
         name: "MainPage",
-        pattern: "{controller=MainPage}/{action=Main}/{user?}"
+        pattern: "Project/YourProject/{user?}",
+        defaults: new { controller = "MainPage", Action = "Index"}
+         
+
         );
 
 });
