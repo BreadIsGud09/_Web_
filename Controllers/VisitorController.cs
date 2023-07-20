@@ -61,13 +61,22 @@ namespace RoutingTest.Controllers
             return Cookies;
         }
 
+
         //Cookies Handler
         //---------------------------------------------||
         //Pages
-
+        [HttpGet]
         public IActionResult Index()
         {
             ///Perform checking for Cookies 
+            string getUserCookies = GetCookies();
+            var IsUserVerified = userProfile.Verified_User_Cookies(getUserCookies);
+
+            if (!(getUserCookies is null) && !(IsUserVerified is null)) ///Checl if not null
+            {
+                ViewBag.UserStatus = "Logged In";
+                return RedirectToAction("Index", "MainPage", IsUserVerified);
+            }
 
 
             ViewBag.UserStatus = "Visitor";
@@ -80,7 +89,7 @@ namespace RoutingTest.Controllers
             string body = "<h1>Please Verifield your email by reading this</h1>";
             userinfo UserData;
             string Cookies = GetCookies();
-            var GmailExsit = userProfile.GetUserInDB(Email, null);
+            var GmailExsit = userProfile.Get_UserInfo(Email, null);
 
             if (GmailExsit is userinfo && !(Cookies is null))
             {
@@ -125,22 +134,14 @@ namespace RoutingTest.Controllers
             ///Login and pass user data to mainpage
             ///
             bool IsCorrectGmail = Email_Services.IsGmailFormat(_Email);
-            var info = userProfile.GetUserInDB(_Email, password);
+            var info = userProfile.Get_UserInfo(_Email, password); ///Get all INFO for the user required
+            string Requested_Cookies = GetCookies();
 
-            
-            if (info is userinfo && IsCorrectGmail)
+            if (info is userinfo && IsCorrectGmail && info.Cookies_ID == Requested_Cookies)////Checking Cookies Values and stuff
             {
-                string CookiesValue = GetCookies();
-                string UserCookies = userProfile.GetPropertiesValuesFromUser(info.username, "Cookies_ID ");
-                ////Checking Cookies Values    
-
-                if (CookiesValue == UserCookies) 
-                {
-                    ViewBag.UserInfo = info;
-                    ViewBag.UserStatus = "Logged In";
-                    return RedirectToAction("Index", "MainPage", info);
-                }
-                return RedirectToAction("Index");
+                ViewBag.UserInfo = info;
+                ViewBag.UserStatus = "Logged In";
+                return RedirectToAction("Index", "MainPage", info);
             }
             else
             {
