@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 @{
-    ViewBag.Title = "Sidebar";
+    ViewBag.Title = "Project";
 }
 
 <html>
@@ -29,15 +29,15 @@
                     </button>
                 </div>
                 <div class="Scheduled-Views">
-                    <button onclick="location.href =''">
+                <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
                         <img src="~/Images/Scheduled.png">
-                        <span>My Calendar</span>
+                        <span>Schedule</span>
                     </button>
                 </div>
                 <div class="Task-Views">
                     <button>
                         <img src="~/Images/TaskListpng.png" />
-                        <span>My Events</span>
+                        <span>Task</span>
                     </button>
                 </div>
                 <div class="User-settings">

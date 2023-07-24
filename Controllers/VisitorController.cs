@@ -10,66 +10,30 @@ namespace RoutingTest.Controllers
     public class VisitorController : Controller
     {
         private IDB_Services userProfile;
+        private ICookies_Handler cookies;
         private string Cookies_Key = "Scheduled_Cookies_Login";
         private readonly IEmail_Sender Email_Services;///email services
 
-        public VisitorController(IDB_Services _userProfile, IEmail_Sender sender_)//injection 
+        ////---Services---\\\\\
+        public VisitorController(IDB_Services _userProfile, IEmail_Sender sender_,ICookies_Handler CookiesServices)//injection 
         {
+            CookieOptions option = new CookieOptions() 
+            {
+                Expires =  DateTime.UtcNow.AddMonths(2)
+            };
+
             this.userProfile = _userProfile;
             this.Email_Services = sender_;
+            this.cookies = CookiesServices;
+            cookies.SetCookies_Configuration(option,"Scheudled_Cookies");
 
         }///init DB
 
-        public string CookiesValues_Generate(int size, bool lowerCase)
-        {
-            StringBuilder builder = new StringBuilder();
-            Random random = new Random();
-            char ch;
-            for (int i = 0; i < size; i++)
-            {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-                builder.Append(ch);
-            }
-            if (lowerCase)
-                return builder.ToString().ToLower();
-            return builder.ToString();
-        }
-
-        private string CreateCookies() ///Create Login Cookies for user
-        {
-            string Value = CookiesValues_Generate(10,true);
-
-            CookieOptions cookieOptions = new CookieOptions() {
-                Expires = DateTime.UtcNow.AddMonths(2),
-            };
-            var Res_Cookies = Response.Cookies;
-
-            Res_Cookies.Append(Cookies_Key,Value);
-
-            return Value;
-        }
-
-        private string GetCookies()
-        {
-            var Cookies = Request.Cookies[Cookies_Key];
-
-            if(Cookies is null)
-            {
-                return "Fail";
-            }
-
-            return Cookies;
-        }
-
-
-        //Cookies Handler
-        //---------------------------------------------||
-        //Pages
         [HttpGet]
         public IActionResult Index()
         {
             ///Perform checking for Cookies 
-            string getUserCookies = GetCookies();
+            string getUserCookies = cookies.Get_LocalCookies();
             var IsUserVerified = userProfile.Verified_User_Cookies(getUserCookies);
 
             if (!(getUserCookies is null) && !(IsUserVerified is null)) ///Checl if not null
@@ -88,7 +52,7 @@ namespace RoutingTest.Controllers
         {
             string body = "<h1>Please Verifield your email by reading this</h1>";
             userinfo UserData;
-            string Cookies = GetCookies();
+            string Cookies = cookies.Get_LocalCookies();
             var GmailExsit = userProfile.Get_UserInfo(Email, null);
 
             if (GmailExsit is userinfo && !(Cookies is null))
@@ -102,11 +66,13 @@ namespace RoutingTest.Controllers
             {
                 try
                 {
-                    var IsSuccess = await Email_Services.SendAsync(Email, "Scheduled verification!", body);
+                    //var IsSuccess = await Email_Services.SendAsync(Email, "Scheduled verification!", body);
+
+                    var IsSuccess = true;
 
                     if (IsSuccess.Equals(true))
                     {
-                        string CK_Value = CreateCookies();
+                        string CK_Value = cookies.CreateCookies();
 
                         UserData = userProfile.AddToDB(UserName, Email, Password,CK_Value);
                     }
@@ -135,7 +101,7 @@ namespace RoutingTest.Controllers
             ///
             bool IsCorrectGmail = Email_Services.IsGmailFormat(_Email);
             var info = userProfile.Get_UserInfo(_Email, password); ///Get all INFO for the user required
-            string Requested_Cookies = GetCookies();
+            string Requested_Cookies = cookies.Get_LocalCookies();
 
             if (info is userinfo && IsCorrectGmail && info.Cookies_ID == Requested_Cookies)////Checking Cookies Values and stuff
             {
@@ -145,7 +111,7 @@ namespace RoutingTest.Controllers
             }
             else
             {
-                ViewBag.UserStatus = "Logged in";
+                ViewBag.UserStatus = "Logging In";
                 ViewBag.message = "please try again";
                 return View();
             }

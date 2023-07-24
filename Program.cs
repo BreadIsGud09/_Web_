@@ -6,6 +6,8 @@ using Npgsql;
 using Microsoft.Extensions.DependencyInjection;
 using Web_demo.Services;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,16 @@ builder.Services.AddDbContext<UserDB>(options =>
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 builder.Services.AddTransient<IDB_Services,Database_Handler>();
+builder.Services.AddTransient<ICookies_Handler, Cookies_Handler>();
+
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+    options.IdleTimeout = TimeSpan.FromDays(2.5)
+);
+
 
 var app = builder.Build();
 
@@ -36,7 +48,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

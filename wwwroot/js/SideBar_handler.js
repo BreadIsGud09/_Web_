@@ -33,6 +33,17 @@
     // Remove the class after the initial state is set to prevent animation on page load
     body.classList.remove('page-loading');
 
+    function dispatchSidebarOpenEvent() {
+        const event = new CustomEvent('sidebarOpen');
+        document.dispatchEvent(event);
+    }
+
+    // Function to dispatch the custom event when the sidebar is closed
+    function dispatchSidebarCloseEvent() {
+        const event = new CustomEvent('sidebarClose');
+        document.dispatchEvent(event);
+    }
+
     menusButton.addEventListener('click', () => {
         mainContent.classList.add('expanded');//add state
 
@@ -44,12 +55,14 @@
             console.log("Saving data");
             saveStateToLocalStorage(true);
 
+            dispatchSidebarCloseEvent();
             navBarTrigger.style.display = 'flex';
             navBarTrigger.style.justifyContent = 'center';
             navBarTrigger.style.alignItems = 'center';
             body.style.gridTemplateColumns = 'auto 100%';
         } else {
             saveStateToLocalStorage(false);
+            dispatchSidebarOpenEvent();
             body.style.gridTemplateColumns = 'auto 83.8%';
             navBarTrigger.style.display = 'none';
         }

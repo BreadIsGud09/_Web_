@@ -7,7 +7,7 @@ body {
     background-color: rgb(35, 35, 34);
     height: 100vh;
     margin: 0px;
-
+    
 }
 
 .Main-Section{
@@ -17,8 +17,7 @@ body {
     grid-column:2;
     grid-row:1;
     align-items:center;
-      
-}
+ }
 
 .nav container {
     grid-column: 1;

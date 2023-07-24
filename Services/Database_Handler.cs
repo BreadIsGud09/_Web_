@@ -11,6 +11,8 @@ namespace Web_demo.Services
         public userinfo? Verified_User_Cookies(string? InputCookies);
 
         public dynamic Get_UserInfo(string? mail, string? pass); ///Check if Email and pass exsit and return
+
+        public userinfo? Get_UserInfo(int ID); ///getting user info by ID
     }
 
     public class Database_Handler : IDB_Services
@@ -54,6 +56,19 @@ namespace Web_demo.Services
                 }
             }
             return "Can't find user";
+        }
+
+        public userinfo? Get_UserInfo(int ID)
+        {
+            foreach(var user in Profile.userinfo)
+            {
+                if(user.id == ID)
+                {
+                    return user;
+                }
+            }
+
+            return null;
         }
 
 
