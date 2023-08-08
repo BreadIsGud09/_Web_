@@ -96,14 +96,7 @@
 }
 
 .Add-Event-Button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row ;
-    width: fit-content;
-    height: fit-content;
-    background-color: rgb(82, 82, 82);
-    border-radius: 5px;
+    display:none;
 }
 
 /*-----Button-----*/
