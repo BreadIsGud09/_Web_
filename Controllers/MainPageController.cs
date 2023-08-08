@@ -9,6 +9,8 @@ using Web_demo.Services;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore.Internal;
+using System.Net;
+using Microsoft.VisualBasic;
 
 namespace RoutingTest.Controllers
 {
@@ -26,10 +28,12 @@ namespace RoutingTest.Controllers
         }
 
 
+    
         [HttpGet]
         [Route("Project/YourProject")]
         public ActionResult Index()
         {
+            ViewBag.OnPage = "First-Visited-Page";
             var Contxt = _HttpContextAccessor.HttpContext;
             string LocalCookies = Ck_Handler.Get_Cookies_Key();
             var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; 
@@ -52,10 +56,14 @@ namespace RoutingTest.Controllers
             return View();
         }
 
+
+
         [HttpGet]
         [Route("Project/YourProject/Calendar")]
         public IActionResult Calendar_Project_Section()
         {
+    
+            ViewBag.OnPage = "Scheduled-Page";
             ////Load all current Project/display
             var Http_Context = _HttpContextAccessor.HttpContext;
 
@@ -70,9 +78,7 @@ namespace RoutingTest.Controllers
             {
                 return RedirectToAction("Index", "MainPage");
             }
-            ///Support creating new project calendar
-            ///suppport creating new timetable
-            ///support direct adding event
+            
             return View();
         }
     }

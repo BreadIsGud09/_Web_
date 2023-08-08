@@ -4,19 +4,20 @@
     width: 100%;
     height:100%;
     display: grid;
-    grid-template-rows: 15% 10% auto;
+    grid-template-rows: 12% 10% auto;
     grid-template-columns: 100%;
-
 }
-.Calendar-Text-header:not(.sidebar-opened) {
+
+.Calendar-Text-header {
     display: grid;
     grid-column: 1;
     grid-row: 1;
-    grid-template-columns: 70px 16rem 5rem 55rem auto;
+    grid-template-columns: 70px 17rem 5rem 40.5rem auto;
     grid-template-rows: 100%;
 }
 
 .Calendar-Month-Container{
+    width:100%;
     display: flex;
     flex-direction:row;
     justify-content:center;
@@ -36,19 +37,29 @@
     grid-row: 1;
 }
 
-/*Container----Section*/
-
-.Calendar-Month-Container h1 {
-    display:flex;
+.Calendar-Container{
+    display:grid;
+    grid-template-rows:10% 17.8% 17.8% 17.8% 17.8% 17.8%;
+    grid-template-columns:14.2% 14.2% 14.2% 14.2% 14.2% 14.2% 14.2%;
     width:100%;
     height:100%;
+    justify-content:center;
+}
+
+/*Container----Section*/
+
+.Calendar-Month-Container > #Calendar-Header {
+    display: flex;
+    width: fit-content;
+    height: 100%;
     font-family: 'Sora', sans-serif;
     font-size: 3rem;
     font-weight: 500;
+    margin-top: 0px;
+    margin-bottom: 0px;
     color: rgb(243, 243, 244);
-    margin:0px;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 #Text-Event-button {
@@ -63,7 +74,96 @@
     height: 50px;
 }
 
-/*----------------------*/
+#Text-Box {
+    width:100%;
+    height:100%;
+    position: inherit;
+    display: flex;
+    resize: none;
+    background-color: transparent;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    color: rgb(163, 163, 163);
+    font-weight: 500;
+    border: none;
+    margin: 0px;
+    overflow: hidden;
+    padding: 0px 0px 0px 77px;
+    align-items: center;
+    text-align: left;
+    word-break: break-all;
+    white-space: nowrap;
+}
+
+.First-Calendar-Row > div span {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    padding-left:5px;
+    width: 25px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.Second-Calendar-Row > div #Days-Text {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    width: 25px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.Third-Calendar-Row > div #Days-Text {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    width: 25px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.Fourth-Calendar-Row > div #Days-Text {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    width: 25px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.Fifth-Calendar-Row > div #Days-Text {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    width: 25px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+.Sub-Task-Container > #Task-Name {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding-top: 5px;
+    padding-left: 10px;
+    width: 125px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/*-----Text------*/
 /*-----Button-----*/
 .Button-arrow-container {
     display: flex;
@@ -72,6 +172,7 @@
     justify-content: center;
     grid-column:3;
     grid-row:1;
+
 }
 
 .Calendar-Main-interface, .Transition-button-left {
@@ -96,36 +197,359 @@
 }
 
 .Add-Event-Button {
-    display:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(82, 82, 82);
+    border-radius: 5px;
 }
 
 /*-----Button-----*/
+
+
+/*----Main class layout -----*/
 .Calendar-Text-header button img {
     width: 2rem;
     height: 2rem;
 }
 
 .Sub-header {
+    border-radius: 5px;
     display: flex;
     grid-column: 1;
     grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    justify-items: flex-start;
 }
 
 
 .Calendar-Main-interface {
-    display: flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
     grid-column: 1;
     grid-row: 3;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
 }
-/**/
-/*Text styling*/
-/**/
 
+/*--------------------------*/
 
-
-/*------Event-------*/
-.Calendar-Text-header.sidebar-opened {
-    grid-template-columns: 70px 16rem 5rem 40.5rem auto;
-    grid-template-rows: 100%;
+/*Element*/
+.Task-Container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / 4;
+    grid-row: 2;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
 }
+
+.Sub-Task-Container {
+    display: flex;
+    width: 95%;
+    height: 80%;
+    background-color: rgb(48, 46, 47);
+    border-radius: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index:1;
+}
+
+#Line-Break {
+    height:80%;
+    border: 1px solid rgb(242, 243, 244);
+}
+
+#Open-Task{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    flex:1;
+}
+
+#Open-Task > img {
+    width: 25px;
+    height: 25px;
+    color: rgb(242, 239, 234);
+}
+
+.header-content{
+    display:flex;
+    grid-column:1 / 4;
+    grid-row: 1;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-around;
+    height:100%;
+    width:100%;
+}
+
+
+#Add-event-Button {
+    display:flex;
+    flex-direction:row;
+    align-content:center;
+    justify-content:center;
+    margin-top:7.5px;
+    margin-left:120px;
+    margin-right:5px;
+    width:25px;
+    height:100%;
+    visibility:hidden;
+}
+
+#Add-event-Button img {
+    padding:0px;
+    width: 20px;
+    height: 20px;
+}
+
+/*----Days Section-----*/
+#Days-Section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    grid-row: 1;
+    border-radius: 5px;
+    border-bottom: 2px solid rgba(224, 221, 216,0.2);
+    grid-column: 1;
+    grid-column-end: 8;
+    gap: 5px;
+    background-color: rgba(148, 148, 148,0.2)
+}
+
+#Monday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+}
+#Tuesday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+    
+}
+#Wednesday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+    
+}
+#Thursday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+    
+}
+#Friday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+}
+#Saturday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+}
+#Sunday {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 14.2%;
+    height: 100%;
+}
+/*--------------------*/
+
+
+/*---event----*/
+#Text-Box:focus {
+    resize: none;
+    outline: none;
+}
+/*-----------*/
+
+/*----Calendar Rows------*/
+
+.First-Calendar-Row {
+    
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-column: 1 / 8;
+    grid-row: 2;
+}
+
+
+.Second-Calendar-Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-column: 1 / 8;
+    grid-row: 3;
+}
+
+.Third-Calendar-Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-column: 1 / 8;
+    grid-row: 4;
+}
+
+.Fourth-Calendar-Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-column: 1 / 8;
+    grid-row: 5;
+}
+
+.Fifth-Calendar-Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    grid-column: 1 / 8;
+    grid-row: 6;
+}
+
+.First-Calendar-Row > div { /*all the element inside First calendar rows*/
+    display: grid;
+    flex: 1; /* Add this line to make the elements inside First-Calendar-Row have equal width */
+    width: 14%;
+    height: 100%;
+    border: 2px solid rgb(128, 128, 128);
+    flex-direction: row;
+    grid-template-rows: 25% 75%;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+    justify-items: center;
+}
+
+.Second-Calendar-Row > div {
+    display: grid;
+    width: 14.2%;
+    height: 100%;
+    border: 2px solid rgb(128, 128, 128);
+    flex-direction: row;
+    grid-template-rows: 25% 75%;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+    justify-items: center;
+}
+
+.Third-Calendar-Row > div {
+    display: grid;
+    width: 14.2%;
+    height: 100%;
+    border: 2px solid rgb(128, 128, 128);
+    flex-direction: row;
+    grid-template-rows: 25% 75%;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+    justify-items: center;
+}
+
+.Fourth-Calendar-Row > div {
+    display: grid;
+    width: 14.2%;
+    height: 100%;
+    border: 2px solid rgb(128, 128, 128);
+    flex-direction: row;
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+    justify-items: center;
+}
+
+.Fifth-Calendar-Row > div {
+    display: grid;
+    width: 14.2%;
+    height: 100%;
+    border: 2px solid rgb(128, 128, 128);
+    flex-direction: row;
+    grid-template-rows: 20% 80%;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+    justify-items: center;
+}
+
+/*-----------------------*/
+
+/*-------Event------*/
+
+@keyframes Hovereffect {
+    from {
+
+    }
+}
+
+.Transition-button-right:hover {
+    background-color: rgb(69, 69, 69);
+}
+
+.Transition-button-left:hover {
+    background-color: rgb(69, 69, 69);
+}
+
+#Open-Task:hover {
+    background-color: rgb(78, 78, 78);
+}
+
+.Date-Block:has(#Open-Task:hover)
+{
+    background-color:transparent;
+}
+
+.Date-Block:hover {
+    background-color: rgb(69, 69, 69);
+}
+
+/* Styles for showing Add-event-Button on hover for each Date-Block */
+.Date-Block:hover .header-content #Add-event-Button
+{
+    visibility: visible;
+}
+
+
+.Date-Block:has(#Add-event-Button:hover){
+    background-color: transparent;
+}
+
 

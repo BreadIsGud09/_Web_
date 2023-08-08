@@ -4,42 +4,498 @@
     ViewBag.user_info = "none";
 }
 
+<!DOCTYPE html>
+    
 <head>
     <link rel="stylesheet" href="~/css/Project-site/Schedule_Section_Style.css" />
-    <script language="javascript" type="module" src ="~/js/Schedule_Section.js"></script>
-</head>
+    <script language="javascript" type="module" src ="~/js/Scheduled-Page/Scheduled-Page-Handler.js"></script>
+    <script language="javascript" type="module" src="~/js/Scheduled-Page/Calendar-Handler.js"></script>
+</head> 
 
 <div class="Layout-container">
     <div class="Calendar-Text-header">
         <div class="Calendar-Month-Container">
-            <h1>July 2023</h1>
+            <h1 id="Calendar-Header"></h1>
         </div>
         
         <div class="Button-arrow-container">
             <button class="Transition-button-left">
-                <img src="~/Images/left-arrow-alt-regular-48.png">
+                <img src="~/Images/chevron-left-solid-48.png">
             </button>
 
             <button class="Transition-button-right">
-                <img src="~/Images//Right-arrow-white.png">
+                <img src="~/Images/chevron-right-solid-48 white.png">
             </button>
         </div>
 
-        <div class="Add-Event-Container">
+        <div class="Add-Event-Container" onclick="">
             <button type="submit" class="Add-Event-Button" id="event-Button">
                 <span id="Text-Event-button">Add Event</span>
             </button>
         </div>
-        
-
     </div>
 
     <div class="Sub-header">
-
+        <textarea 
+            id="Text-Box" 
+            contenteditable="true"phga 
+            placeholder="Add description...."
+            maxlength="100";
+            spellcheck="false"
+            >Welcome to Scheduled Calendar !!!!!(*￣▽￣*)ブ!!!!</textarea>
     </div>
 
     <div class="Calendar-Main-interface">
+        <div class="Calendar-Container">
+            <div id="Days-Section">
+                <span id="Monday">MONDAY</span>
+                <span id="Tuesday">TUESDAY</span>
+                <span id="Wednesday">WEDNESDAY</span>
+                <span id="Thursday">THURSDAY</span>
+                <span id="Friday">FRIDAY</span>
+                <span id="Saturday">SATURDAY</span>
+                <span id ="Sunday">SUNDAY</span>
+            </div>
+            
+            <div class="First-Calendar-Row">
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
 
+                    <div class="Task-Container">
+                    </div>
+                </div>
+
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="Second-Calendar-Row">
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="Third-Calendar-Row">
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        <div class="Sub-Task-Container">
+                        </div>
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        <div class="Sub-Task-Container">
+                            <span id="Task-Name">Task name</span>
+                            <hr id="Line-Break"/>
+                            <button id="Open-Task">
+                                <img src="~/Images/chevron-right-solid-48 white.png" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="Fourth-Calendar-Row">
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="Fifth-Calendar-Row">
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                       
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+                <div class="Date-Block">
+                    <div class="header-content">
+                        <span id="Days-Text"></span>
+                        <button id="Add-event-Button">
+                            <img src="~/Images/plus-regular-48.png" />
+                        </button>
+                    </div>
+
+                    <div class="Task-Container">
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 

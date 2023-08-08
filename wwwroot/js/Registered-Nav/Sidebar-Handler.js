@@ -19,32 +19,40 @@
     // Add a class to indicate the page is loading
     body.classList.add('page-loading');
 
+
+    function dispatchSidebarOpenEvent() {
+        const event = new CustomEvent('sidebarOpen', { detail: true });
+        document.dispatchEvent(event);
+    }
+
+    function dispatchSidebarCloseEvent() {
+        const event = new CustomEvent('sidebarClose', { detail: false });
+        document.dispatchEvent(event);
+    }
+
     // Check the state from local storage and set the initial state of the navbar
     const initialNavBarCollapsed = loadStateFromLocalStorage();
+
     if (initialNavBarCollapsed) {
         navBar.classList.add('collapsed');
-
+        dispatchSidebarCloseEvent();
         navBarTrigger.style.display = 'flex';
         navBarTrigger.style.justifyContent = 'center';
         navBarTrigger.style.alignItems = 'center';
         body.style.gridTemplateColumns = 'auto 100%';
+    } else {
+        dispatchSidebarOpenEvent();
+        body.style.gridTemplateColumns = 'auto 83.8%';
+        navBarTrigger.style.display = 'none';
     }
 
     // Remove the class after the initial state is set to prevent animation on page load
     body.classList.remove('page-loading');
 
-    function dispatchSidebarOpenEvent() {
-        const event = new CustomEvent('sidebarOpen');
-        document.dispatchEvent(event);
-    }
 
-    // Function to dispatch the custom event when the sidebar is closed
-    function dispatchSidebarCloseEvent() {
-        const event = new CustomEvent('sidebarClose');
-        document.dispatchEvent(event);
-    }
 
     menusButton.addEventListener('click', () => {
+        
         mainContent.classList.add('expanded');//add state
 
         navBar.classList.toggle('collapsed');
@@ -52,23 +60,27 @@
 
 
         if (navBar.classList.contains('collapsed')) {
+            
             console.log("Saving data");
+            dispatchSidebarCloseEvent();
             saveStateToLocalStorage(true);
 
-            dispatchSidebarCloseEvent();
+          
             navBarTrigger.style.display = 'flex';
             navBarTrigger.style.justifyContent = 'center';
             navBarTrigger.style.alignItems = 'center';
             body.style.gridTemplateColumns = 'auto 100%';
         } else {
-            saveStateToLocalStorage(false);
             dispatchSidebarOpenEvent();
+            saveStateToLocalStorage(false);
             body.style.gridTemplateColumns = 'auto 83.8%';
             navBarTrigger.style.display = 'none';
         }
     });
 
     navBarTrigger.addEventListener('click', () => {
+        
+        dispatchSidebarOpenEvent();
         navBar.classList.remove('collapsed');
         mainContent.classList.remove('expanded');
         navBarTrigger.style.display = 'none';
