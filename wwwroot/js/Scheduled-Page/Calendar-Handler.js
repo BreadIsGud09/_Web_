@@ -29,7 +29,15 @@ function updateCalendar(_year,_month)///update the current time or set time
     }
 
     const dateObj = new Date(currentYear, currentMonth, 1);
-    const firstDayOfWeek = dateObj.getDay();
+    let firstDayOfWeek = dateObj.getDay() - 1;
+
+    let IsSunday = firstDayOfWeek < 0 ? true : false;
+
+    if (IsSunday)
+    {
+        firstDayOfWeek = dateObj.getDay();
+    }
+
     const previuosDayOfMonth = firstDayOfWeek;
     const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -88,7 +96,6 @@ function GetToStringMonth(MonthIndex)
 }
 
 function UpdatePreviousMonth() {
-    debugger
     const currentDateObj = new Date();
     let currentYear = currentDateObj.getFullYear();
     let currentMonth = currentDateObj.getMonth();
@@ -116,13 +123,11 @@ function UpdatePreviousMonth() {
     ///updating the element of which display the month and years
     
 
-    updateCalendar(CurrentmonthInCalendar,CurrentyearsInCalendar);
+    updateCalendar(CurrentyearsInCalendar,CurrentmonthInCalendar);
     UpdateElement("#Calendar-Header",MonthValues + " " + CurrentyearsInCalendar);
 }
 
 function UpdateNextMonth() {
-    debugger
-
     const currentDateObj = new Date();
     let currentYear = currentDateObj.getFullYear();
     let currentMonth = currentDateObj.getMonth();
