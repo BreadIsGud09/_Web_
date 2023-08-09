@@ -1,6 +1,9 @@
 ﻿const LeftArrow = document.querySelector(".Transition-button-left");
 const RightArrow = document.querySelector(".Transition-button-right");
 
+const dateObj = new Date()
+let CurrentmonthInCalendar = dateObj.getMonth();
+let CurrentyearsInCalendar = dateObj.getFullYear();
 
 function UpdateElement(selector, data) {
     let Element = document.querySelector(selector);
@@ -19,20 +22,19 @@ function updateCalendar(_year,_month)///update the current time or set time
     if (_year !== undefined && _month !== undefined) {
         currentYear = _year;
         currentMonth = _month;
-    } else {
+    } else { ///Get current time
         const currentDateObj = new Date();
         currentYear = currentDateObj.getFullYear();
         currentMonth = currentDateObj.getMonth();
     }
 
     const dateObj = new Date(currentYear, currentMonth, 1);
-    const firstDayOfWeek = dateObj.getDay() - 1;
-    const previuosDayOfMonth = firstDayOfWeek - 1;
+    const firstDayOfWeek = dateObj.getDay();
+    const previuosDayOfMonth = firstDayOfWeek;
     const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     const dateBlocks = document.querySelectorAll(".Date-Block #Days-Text");
-    const taskContainers = document.querySelectorAll('.Task-Container');
-
+  
     let currentDate = 1;
 
     // Calculate the last day of the previous month
@@ -68,7 +70,7 @@ function GetCurrentYear() {
 
 function GetToStringMonth(MonthIndex)
 {
-    debugger
+
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -88,9 +90,14 @@ function GetToStringMonth(MonthIndex)
 function UpdatePreviousMonth() {
     debugger
     const currentDateObj = new Date();
-    const currentYear = currentDateObj.getFullYear();
-    const currentMonth = currentDateObj.getMonth();
+    let currentYear = currentDateObj.getFullYear();
+    let currentMonth = currentDateObj.getMonth();
 
+    if(CurrentmonthInCalendar != currentMonth || CurrentyearsInCalendar != currentYear)
+    {
+        currentMonth = CurrentmonthInCalendar;
+        currentYear = CurrentyearsInCalendar 
+    }
     
     // Calculate the previous month and year
     let previousMonth = currentMonth - 1;
@@ -100,54 +107,46 @@ function UpdatePreviousMonth() {
         previousYear -= 1;
     }
 
-    let MonthValues = GetToStringMonth(previousMonth);
+    CurrentmonthInCalendar = previousMonth; //update the overall state of script
+    CurrentyearsInCalendar = previousYear;
+
+
+    let MonthValues = GetToStringMonth(CurrentmonthInCalendar);
 
     ///updating the element of which display the month and years
     
 
-    // Update the date object to represent the previous month
-    //const dateObj = new Date(previousYear, previousMonth, 1);
-    //const firstDayOfWeek = dateObj.getDay() - 1;
-    //const previuosDayOfMonth = firstDayOfWeek - 1;
-    //const totalDays = new Date(previousYear, previousMonth + 1, 0).getDate();
-
-    // ... (Rest of the code to update the calendar with the previous month's data)
-    // You can reuse the same code from the `updateCalendar` function
-
-    // Call updateCalendar() to update the calendar with the previous month's data
-    updateCalendar(previousYear,previousMonth);
-    UpdateElement("#Calendar-Header", MonthValues + " " + previousYear);
+    updateCalendar(CurrentmonthInCalendar,CurrentyearsInCalendar);
+    UpdateElement("#Calendar-Header",MonthValues + " " + CurrentyearsInCalendar);
 }
 
 function UpdateNextMonth() {
     debugger
-    const currentDateObj = new Date();
-    const currentYear = currentDateObj.getFullYear();
-    const currentMonth = currentDateObj.getMonth();
 
+    const currentDateObj = new Date();
+    let currentYear = currentDateObj.getFullYear();
+    let currentMonth = currentDateObj.getMonth();
+
+    if(CurrentmonthInCalendar != currentMonth || CurrentyearsInCalendar != currentYear)
+    {
+        currentMonth = CurrentmonthInCalendar;
+        currentYear = CurrentyearsInCalendar 
+    }
     // Calculate the next month and year
+   
     let nextMonth = currentMonth + 1;
     let nextYear = currentYear;
     if (nextMonth > 11) {
         nextMonth = 0; // January
         nextYear += 1;
     }
-    let MonthTostring = GetToStringMonth(nextMonth);
+    CurrentmonthInCalendar = nextMonth;
+    CurrentyearsInCalendar = nextYear;
 
-    
-    // Update the date object to represent the next month
-    //const dateObj = new Date(nextYear, nextMonth, 1);
-    //const firstDayOfWeek = dateObj.getDay() - 1;
-    //const previuosDayOfMonth = firstDayOfWeek - 1;
-    //const totalDays = new Date(nextYear, nextMonth + 1, 0).getDate();
+    let MonthTostring = GetToStringMonth(CurrentmonthInCalendar);
 
-    // ... (Rest of the code to update the calendar with the next month's data)
-    // You can reuse the same code from the `updateCalendar` function
-
-    // Call updateCalendar() to update the calendar with the next month's data
-
-    updateCalendar(nextYear,nextMonth);
-    UpdateElement("#Calendar-Header", MonthTostring + " " + nextYear);
+    updateCalendar(CurrentyearsInCalendar,CurrentmonthInCalendar);
+    UpdateElement("#Calendar-Header", MonthTostring + " " + CurrentyearsInCalendar);
 
 }
 
@@ -156,14 +155,12 @@ function UpdateNextMonth() {
 // Initial call to update the calendar when the page loads
 
 LeftArrow.addEventListener("click", () => {
-    debugger
-    UpdatePreviousMonth();
+    UpdatePreviousMonth(); //update next month
 })
 
 RightArrow.addEventListener("click", () =>
 {
-    debugger
-    UpdateNextMonth();
+    UpdateNextMonth();///update the previous month
 })
 
 window.onload = function () {
