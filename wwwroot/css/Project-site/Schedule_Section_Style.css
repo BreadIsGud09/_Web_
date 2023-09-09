@@ -1,10 +1,20 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed');
 
+:root {
+    /*Root properties*/
+    --DaysText-color: rgb(242, 239, 234);
+    --LayoutContainerGrid-Rows: 12% 10% auto;
+    --HeaderLayoutRows: 70px 17rem 5rem 40.5rem auto;
+
+
+    /*Event properties*/
+}
+
 .Layout-container {
     width: 100%;
     height:100%;
     display: grid;
-    grid-template-rows: 12% 10% auto;
+    grid-template-rows: var(--LayoutContainerGrid-Rows);
     grid-template-columns: 100%;
 }
 
@@ -12,7 +22,7 @@
     display: grid;
     grid-column: 1;
     grid-row: 1;
-    grid-template-columns: 70px 17rem 5rem 40.5rem auto;
+    grid-template-columns: var(--HeaderLayoutRows);
     grid-template-rows: 100%;
 }
 
@@ -50,7 +60,7 @@
 
 .Calendar-Month-Container > #Calendar-Header {
     display: flex;
-    width: fit-content;
+    width: 100%;
     height: 100%;
     font-family: 'Sora', sans-serif;
     font-size: 3rem;
@@ -95,12 +105,12 @@
     white-space: nowrap;
 }
 
-.First-Calendar-Row > div span {
+.First-Calendar-Row > div #Days-Text {
     display: flex;
     align-items: center;
     justify-items: center;
     padding-top: 5px;
-    padding-left:5px;
+    padding-left: 5px;
     width: 25px;
     font-family: 'Sora', sans-serif;
     font-size: 1rem;
@@ -402,7 +412,6 @@
 /*----Calendar Rows------*/
 
 .First-Calendar-Row {
-    
     width:100%;
     display: flex;
     flex-direction: row;
@@ -513,11 +522,19 @@
 /*-----------------------*/
 
 /*-------Event------*/
+#Days-Text.IsCurrentDays {
+   color: rgb(239, 160, 11) !important;
+}
 
-@keyframes Hovereffect {
-    from {
+#Days-Text.Is_Days_In_Month {
+    --DaysText-color: rgb(242, 239, 234);
+    color: var(--DaysText-color);
+}
 
-    }
+#Days-Text:not(.Is_Days_In_Month) {
+    --DaysText-color: rgb(181, 181, 181);
+
+    color: var(--DaysText-color)
 }
 
 .Transition-button-right:hover {

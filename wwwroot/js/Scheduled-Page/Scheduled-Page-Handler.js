@@ -6,7 +6,7 @@
     // Update the grid-template-columns and grid-template-rows when the sidebar is opened
     const containerElement = document.querySelector('.Calendar-Text-header');
     if (containerElement) {
-        containerElement.style.gridTemplateColumns = "70px 22rem 5rem 35.5rem auto";
+        containerElement.style.gridTemplateColumns = "70px 24rem 5rem 33.5rem auto";
         containerElement.style.gridTemplateRows = '100%';
     }
 }
@@ -19,7 +19,7 @@ function handleSidebarCloseEvent() {
     const containerElement = document.querySelector('.Calendar-Text-header');
 
     if (containerElement) {
-        containerElement.style.gridTemplateColumns = "70px 22rem 5rem 50rem auto";
+        containerElement.style.gridTemplateColumns = "70px 30rem 5rem 42rem auto";
         containerElement.style.gridTemplateRows = "100%";            ;
     } 
 }

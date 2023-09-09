@@ -28,7 +28,6 @@ namespace RoutingTest.Controllers
         }
 
 
-    
         [HttpGet]
         [Route("Project/YourProject")]
         public ActionResult Index()
@@ -48,7 +47,7 @@ namespace RoutingTest.Controllers
                     ViewBag.Username = Local_UserInfo.username;///Get username for page
                 }
             }
-            else
+            else //Return to the Visitor pages
             {
                 return RedirectToAction("Index","Visitor");
             }

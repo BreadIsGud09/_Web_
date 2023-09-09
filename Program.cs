@@ -23,7 +23,7 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 builder.Services.AddTransient<IDB_Services,Database_Handler>();
 builder.Services.AddTransient<ICookies_Handler, Cookies_Handler>();
-builder.Services.AddTransient<Itimes_Services, Time_Services>();
+
 ///Adding Services
 ///
 builder.Services.AddHttpContextAccessor();

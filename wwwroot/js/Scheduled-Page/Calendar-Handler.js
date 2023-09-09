@@ -5,6 +5,27 @@ const dateObj = new Date()
 let CurrentmonthInCalendar = dateObj.getMonth();
 let CurrentyearsInCalendar = dateObj.getFullYear();
 
+const dateBlocks = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element
+///css events class
+const IsCurrentMonthDays = new CustomEvent("IsCurrentMonthDays");
+
+const IsNotCurrentMonthDays = new CustomEvent("IsNotCurrentMonthDays");
+
+const CurrentDays_Event = new CustomEvent("IsCurrentDays",{
+    settings:{
+        IsCurrentDay: true
+    }
+});
+
+const NotCurrentDays_Event = new CustomEvent("IsNotCurrentDays",
+{
+    settings:
+    {
+        IsCurrenday: false
+    }
+})
+////
+
 function UpdateElement(selector, data) {
     let Element = document.querySelector(selector);
 
@@ -13,49 +34,93 @@ function UpdateElement(selector, data) {
     }
 }
 
-
-function updateCalendar(_year,_month)///update the current time or set time 
+function UpdateElement_Style(_selector, properties,data)
 {
+    let Target_Element = document.querySelector(_selector);
 
+    if(Target_Element !== null)
+    {
+        Target_Element.style[properties] = data
+    }
+}
+//----------------------------\\
+
+
+function GetCurrentDaysOfMonth()
+{
+    const Currentdate = new Date().getDate();
+    const CurrentMonth = new Date().getMonth();
+
+    return {
+        date: Currentdate,
+        month: CurrentMonth
+    };
+}
+
+function updateCalendar(_year, _month) {
     let currentYear, currentMonth;
+    const Time_Now = GetCurrentDaysOfMonth();
 
     if (_year !== undefined && _month !== undefined) {
         currentYear = _year;
         currentMonth = _month;
-    } else { ///Get current time
+    } else {
         const currentDateObj = new Date();
         currentYear = currentDateObj.getFullYear();
         currentMonth = currentDateObj.getMonth();
     }
 
     const dateObj = new Date(currentYear, currentMonth, 1);
-    let firstDayOfWeek = dateObj.getDay() - 1;
-
-    let IsSunday = firstDayOfWeek < 0 ? true : false;
-
-    if (IsSunday)
-    {
-        firstDayOfWeek = dateObj.getDay();
-    }
-
-    const previuosDayOfMonth = firstDayOfWeek;
+    let firstDayOfWeek = dateObj.getDay(); // Sunday is 0, Monday is 1
+    
+    const previuosDayOfMonth = (firstDayOfWeek === 0) ? -1 : (firstDayOfWeek + 6) % 7;
     const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-    const dateBlocks = document.querySelectorAll(".Date-Block #Days-Text");
-  
     let currentDate = 1;
-
-    // Calculate the last day of the previous month
     let lastDayOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
 
     // Display the last day of the previous month
     for (let i = previuosDayOfMonth; i >= 0; i--) {
+        if (lastDayOfPrevMonth == Time_Now.date && currentMonth - 1 == Time_Now.month) {
+            dateBlocks[i].dispatchEvent(CurrentDays_Event);///firing current days event
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays);///Firing event
+        } 
+        else if(currentMonth - 1 == Time_Now.month)
+        {
+            dateBlocks[i].dispatchEvent(NotCurrentDays_Event);
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays);
+        }
+        else 
+        {
+            dateBlocks[i].dispatchEvent(IsNotCurrentMonthDays);
+        }
+
         dateBlocks[i].textContent = lastDayOfPrevMonth;
         lastDayOfPrevMonth--;
     }
 
     // Display the current month's dates
-    for (let i = firstDayOfWeek; i < firstDayOfWeek + totalDays; i++) {
+    for (let i = previuosDayOfMonth + 1; i < totalDays + previuosDayOfMonth + 1; i++) {
+        if(i >= dateBlocks.length)
+        {
+            break;
+        }
+
+        if (currentDate == Time_Now.date && currentMonth == Time_Now.month) {///checking for current days
+            dateBlocks[i].dispatchEvent(CurrentDays_Event);///firing current days event
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays);///Firing event
+        } 
+        else if(currentMonth == Time_Now.month)///checking for current monthS
+        {
+            dateBlocks[i].dispatchEvent(NotCurrentDays_Event);
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays)//the current days of month
+        }
+        else {
+            
+            dateBlocks[i].dispatchEvent(IsNotCurrentMonthDays);
+            dateBlocks[i].dispatchEvent(NotCurrentDays_Event);
+        }
+
         dateBlocks[i].textContent = currentDate;
         currentDate++;
     }
@@ -63,13 +128,30 @@ function updateCalendar(_year,_month)///update the current time or set time
     // Calculate the number of days to display from the next month
     let nextMonthDate = 1;
     for (let i = firstDayOfWeek + totalDays; i < dateBlocks.length; i++) {
+        if(nextMonthDate == Time_Now.date && currentMonth + 1 == Time_Now.month)
+        {
+            dateBlocks[i].dispatchEvent(CurrentDays_Event);///firing current days event
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays);///Firing event
+        }
+        else if(currentMonth + 1 == Time_Now.month)
+        {
+            dateBlocks[i].dispatchEvent(NotCurrentDays_Event);
+            dateBlocks[i].dispatchEvent(IsCurrentMonthDays);
+        }
+        else
+        {
+            dateBlocks[i].dispatchEvent(IsNotCurrentMonthDays);
+            dateBlocks[i].dispatchEvent(NotCurrentDays_Event)///remove the event for css
+        }
+
         dateBlocks[i].textContent = nextMonthDate;
         nextMonthDate++;
     }
+
 }
 
-
-function GetCurrentYear() { 
+   
+function GetCurrentYear() {  
     const currentDateObj = new Date();
     const currentYear = currentDateObj.getFullYear();
 
@@ -152,12 +234,11 @@ function UpdateNextMonth() {
 
     updateCalendar(CurrentyearsInCalendar,CurrentmonthInCalendar);
     UpdateElement("#Calendar-Header", MonthTostring + " " + CurrentyearsInCalendar);
-
 }
 
-
-
+///---\\\
 // Initial call to update the calendar when the page loads
+
 
 LeftArrow.addEventListener("click", () => {
     UpdatePreviousMonth(); //update next month
@@ -169,9 +250,29 @@ RightArrow.addEventListener("click", () =>
 })
 
 window.onload = function () {
-    updateCalendar();
     const Month = GetToStringMonth();
     const Year = GetCurrentYear();
 
+    dateBlocks.forEach(E => {
+        E.addEventListener("IsCurrentDays", (EventConfig) => {
+            E.classList.add("IsCurrentDays");
+        });
+
+        E.addEventListener("IsNotCurrentDays",(EventConfig) => 
+        {
+            E.classList.remove("IsCurrentDays")
+        });
+
+        E.addEventListener("IsCurrentMonthDays",() =>  ////IsCurrent Monthdays event
+        {
+            E.classList.add("Is_Days_In_Month")
+        })
+
+        E.addEventListener("IsNotCurrentMonthDays",() => {
+            E.classList.remove("Is_Days_In_Month")
+        })
+    });
+
     UpdateElement("#Calendar-Header", Month + " " + Year);
+    updateCalendar();
 };
