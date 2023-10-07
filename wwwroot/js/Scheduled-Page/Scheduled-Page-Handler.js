@@ -6,7 +6,7 @@
     // Update the grid-template-columns and grid-template-rows when the sidebar is opened
     const containerElement = document.querySelector('.Calendar-Text-header');
     if (containerElement) {
-        containerElement.style.gridTemplateColumns = "70px 24rem 5rem 33.5rem auto";
+        containerElement.style.gridTemplateColumns = "70px 30rem auto"; ///header layout 
         containerElement.style.gridTemplateRows = '100%';
     }
 }
@@ -19,13 +19,16 @@ function handleSidebarCloseEvent() {
     const containerElement = document.querySelector('.Calendar-Text-header');
 
     if (containerElement) {
-        containerElement.style.gridTemplateColumns = "70px 30rem 5rem 42rem auto";
+        containerElement.style.gridTemplateColumns = "70px 30rem auto"; ///header layout when closed navbar
         containerElement.style.gridTemplateRows = "100%";            ;
     } 
 }
 
 document.addEventListener('sidebarOpen', handleSidebarOpenEvent);
 document.addEventListener('sidebarClose', handleSidebarCloseEvent);
+
+
+
 ///----Event Handler----\\
 
   // Function to update the day of the month for the current month

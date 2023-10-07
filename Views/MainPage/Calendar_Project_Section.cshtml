@@ -17,27 +17,30 @@
         <div class="Calendar-Month-Container">
             <h1 id="Calendar-Header"></h1>
         </div>
-        
-        <div class="Button-arrow-container">
-            <button class="Transition-button-left">
-                <img src="~/Images/chevron-left-solid-48.png">
-            </button>
 
-            <button class="Transition-button-right">
-                <img src="~/Images/chevron-right-solid-48 white.png">
-            </button>
-        </div>
+        <div class="Calendar-Tool-Section">
+            <div class="Button-arrow-container">
+                <button class="Transition-button-left">
+                    <img src="~/Images/chevron-left-solid-48.png">
+                </button>
 
-        <div class ="CurrentDaysButtonContainer">
-            <button class="CurrentDaysButton">
-                <img src="">
-            </button>
-        </div>
+                <div class="CurrentDaysButtonContainer">
+                    <button class="CurrentDaysButton">
+                        <span id="CurrentDays-Button-Content">Today</span>
+                    </button>
+                </div>
 
-        <div class="Add-Event-Container" onclick="">
-            <button type="submit" class="Add-Event-Button" id="event-Button">
-                <span id="Text-Event-button">Add Event</span>
-            </button>
+                <button class="Transition-button-right">
+                    <img src="~/Images/chevron-right-solid-48 white.png">
+                </button>
+            </div>
+
+
+            <div class="Add-Event-Container" onclick="">
+                <button type="submit" class="Add-Event-Button" id="event-Button">
+                    <span id="Text-Event-button">Add Event</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -47,19 +50,19 @@
             contenteditable="true"
             placeholder="Add description...."
             maxlength="100";
-            spellcheck="false">write your text here</textarea>
+            spellcheck="false"></textarea>
     </div>
 
     <div class="Calendar-Main-interface">
         <div class="Calendar-Container">
             <div id="Days-Section">
-                <span id="Sunday">SUNDAY</span>
-                <span id="Monday">MONDAY</span>
-                <span id="Tuesday">TUESDAY</span>
-                <span id="Wednesday">WEDNESDAY</span>
-                <span id="Thursday">THURSDAY</span>
-                <span id="Friday">FRIDAY</span>
-                <span id="Saturday">SATURDAY</span>
+                <span id="Sunday">SUN</span>
+                <span id="Monday">MON</span>
+                <span id="Tuesday">TUE</span>
+                <span id="Wednesday">WED</span>
+                <span id="Thursday">THU</span>
+                <span id="Friday">FRI</span>
+                <span id="Saturday">SAT</span>
             </div>
             
             <div class="First-Calendar-Row">
