@@ -1,16 +1,12 @@
-﻿
-
-class Calendar_Rendering ////This class handles everything about calendar behavior
+﻿export class Calendar_Rendering  ////This class handles everything about calendar behavior
 {   
-   ///accessor
-    UpdateElementAccessor = (Tag,Values) => ///Accessor for update element method
-    {
-        return this.#UpdateElement(Tag,Values);
-    }
-    //-----\\
-
     constructor(RenderBlocks) ///Must provide a RenderBlocks
     {
+        //--Componets--\\
+        this.Element_Renderer = new ElementRenderer();///Element Renderer Componets
+        
+        //Handles all the Event
+        //-------------\\
         ///Assigning Values
          //Defualt Events
         this.IsCurrentMonthDays = new CustomEvent("IsCurrentMonthDays");
@@ -24,7 +20,7 @@ class Calendar_Rendering ////This class handles everything about calendar behavi
         this.currentYear = this.#GetCurrentYear();
         this.Current_MonthInCalendar = this.#ConvertMonthType(this.CurrentMonth);
         this.CurrentyearsInCalendar = this.currentYear;///initial values
-        
+        //---------------------\\\
         debugger
         let RenderCondition = typeof(RenderBlocks);
 
@@ -61,29 +57,6 @@ class Calendar_Rendering ////This class handles everything about calendar behavi
     }
 
 ///Private componets method 
-    #UpdateElement(selector, data) {
-        let Element = document.querySelector(selector);
-
-        if (Element) {
-            Element.textContent = data;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    #UpdateElement_Style(_selector, properties,data)
-    {
-        let Target_Element = document.querySelector(_selector);
-
-        if(Target_Element !== null)
-        {
-            Target_Element.style[properties] = data
-        }
-    }
-
     #GetFirstDaysOfCurrentMonth()
     {
         const Currentdate = new Date().getDate();
@@ -243,7 +216,7 @@ class Calendar_Rendering ////This class handles everything about calendar behavi
         let MonthValues = this.#ConvertMonthType(this.Current_MonthInCalendar);
     
         this.updateCalendar(this.CurrentyearsInCalendar,MonthValues);
-        this.#UpdateElement("#Calendar-Header",this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
+        this.Element_Renderer.UpdateElement("#Calendar-Header",this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
     }
     
     UpdateNextMonth() {///Update the previous month of current month 
@@ -266,44 +239,70 @@ class Calendar_Rendering ////This class handles everything about calendar behavi
         this.CurrentyearsInCalendar = nextYear;
     
         this.updateCalendar(this.CurrentyearsInCalendar,nextMonth);
-        this.#UpdateElement("#Calendar-Header", this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
+        this.Element_Renderer.UpdateElement("#Calendar-Header", this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
     }
 }   
 
-//----------------------------\\
-document.addEventListener('DOMContentLoaded',() => 
+
+class ElementRenderer ///modify html tag and style class
 {
-        
-    const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element
-    const CalendarRenderer = new Calendar_Rendering(Days_DisplayElement);
-    const Month = CalendarRenderer.Current_MonthInCalendar;
-    const Year = CalendarRenderer.currentYear;
+    UpdateElement(selector, data) {
+        let Element = document.querySelector(selector);
 
-    const LeftArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-left ");
-    const RightArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-right");
-    debugger
-    console.log("Runnning");
-    console.log(LeftArrow,RightArrow);
+        if (Element) {
+            Element.textContent = data;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    UpdateElement_Style(_selector, properties,data)
+    {
+        let Target_Element = document.querySelector(_selector);
+
+        if(Target_Element !== null)
+        {
+            Target_Element.style[properties] = data
+        }
+    }
+}
+
+class Custom_UI_Event_Handler ///Allows to assign multiple event to a single element
+{
+    constructor(tags,{Event_Name,Event_config})
+    {
+        if(typeof tags == "object" && tags != null)
+        {
+            this.Tags = tags
+            this.Event_Info = [Event_Name,Event_config]
+
+            return this.#Initialize_Event();///This will assign and attach event to tags
+        }
+        else
+        {
+            return "invalid types";
+        }
+    }
     
-    let state = CalendarRenderer.UpdateElementAccessor("#Calendar-Header", Month + " " + Year);
-
-
-    RightArrow.addEventListener("click",() => 
+    #Initialize_Event()///When setup dispatch will work
     {
-        console.log("Ininti1");
-        CalendarRenderer.UpdateNextMonth();
-    });
-    LeftArrow.addEventListener("click",() => 
+        const Event_Info = new CustomEvent(this.Event_Info[0],this.Event_Info[1]);
+
+        this.Tags.addEventListener(this.Event_Info[0]);
+
+        return Event_Info;
+    }
+
+    GetEventInfo()
     {
-        console.log("Init event2")
-        CalendarRenderer.UpdatePreviousMonth();
-    });
-    ///event init
-
-    CalendarRenderer.updateCalendar(); 
-})
+        return this.Event_Info;
+    }
 
 
+}
 
 
 
