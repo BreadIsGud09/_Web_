@@ -1,15 +1,22 @@
 ﻿import { Calendar_Rendering } from "/js/Scheduled-Page/Lib/Calendar_lib.js"
 
+const Calendar_Header = document.querySelector(".Calendar-Month-Container > #Calendar-Header");///getting the header
+const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element
+
+
 document.addEventListener('DOMContentLoaded',() =>
 {   
-    const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element
     const CalendarRenderer = new Calendar_Rendering(Days_DisplayElement);
     const Month = CalendarRenderer.Current_MonthInCalendar;
     const Year = CalendarRenderer.currentYear;
 
+    console.warn(Calendar_Header);
+    
+    Calendar_Header.textContent = Month + " " + Year
+
     const LeftArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-left ");
     const RightArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-right");
-    debugger
+    
 
     
     function handleSidebarOpenEvent() {
@@ -39,22 +46,20 @@ document.addEventListener('DOMContentLoaded',() =>
     }
     ///Hard UI function
 
-    console.log("Runnning");
-    console.log(LeftArrow,RightArrow);
-    
-    let state = CalendarRenderer.UpdateElementAccessor("#Calendar-Header", Month + " " + Year);
-
-
-    RightArrow.addEventListener("click",() => 
+    if(RightArrow && LeftArrow) 
     {
-        console.log("Ininti1");
-        CalendarRenderer.UpdateNextMonth();
-    });
-    LeftArrow.addEventListener("click",() => 
-    {
-        console.log("Init event2")
-        CalendarRenderer.UpdatePreviousMonth();
-    });
+        RightArrow.addEventListener("click",() => 
+        {
+            console.log("Ininti1");
+            CalendarRenderer.UpdateNextMonth();
+        });
+        LeftArrow.addEventListener("click",() => 
+        {
+            console.log("Init event2");
+            CalendarRenderer.UpdatePreviousMonth();
+        });
+    }
+
     ///event init
 
     CalendarRenderer.updateCalendar(); 

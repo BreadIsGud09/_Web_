@@ -7,7 +7,7 @@
     --HeaderLayoutRows: 70px 17rem 5rem 40.5rem auto;
     /*Root Text properties*/
     --Defualt_Font: 'Sora', sans-serif;
-    --Defualt_Font_Size:2rem;
+    --Defualt_Font_Size: 2rem;
     /*Root Event properties*/
 }
 
@@ -580,15 +580,16 @@
    color: rgb(239, 160, 11) !important;
 }
 
-#Days-Text.Is_Days_In_Month {
-    --DaysText-color: rgb(242, 239, 234);
+#Days-Text.IsNotCurrentDays {
     color: var(--DaysText-color);
 }
 
-#Days-Text:not(.Is_Days_In_Month) {
-    --DaysText-color: rgba(148, 148, 148);
+#Days-Text.IsCurrentMonthDays {
+    color: var(--DaysText-color);
+}
 
-    color: var(--DaysText-color)
+#Days-Text.IsNotCurrentMonthDays {
+    color: rgba(148,148,148);
 }
 
 .Transition-button-right:hover {

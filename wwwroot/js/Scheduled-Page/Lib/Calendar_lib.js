@@ -4,15 +4,14 @@
     {
         //--Componets--\\
         this.Element_Renderer = new ElementRenderer();///Element Renderer Componets
-        
         //Handles all the Event
         //-------------\\
         ///Assigning Values
          //Defualt Events
-        this.IsCurrentMonthDays = new CustomEvent("IsCurrentMonthDays");
-        this.IsNotCurrentMonthDays = new CustomEvent("IsNotCurrentMonthDays");
-        this.CurrentDays_Event = new CustomEvent("IsCurrentDays");
-        this.NotCurrentDays_Event = new CustomEvent("IsNotCurrentDays");
+        //this.IsCurrentMonthDays = new CustomEvent("IsCurrentMonthDays");
+        //this.IsNotCurrentMonthDays = new CustomEvent("IsNotCurrentMonthDays");
+        //this.CurrentDays_Event = new CustomEvent("IsCurrentDays");
+        //this.NotCurrentDays_Event = new CustomEvent("IsNotCurretDays");
 
         ///Defualt properties
         let DateObj = new Date();
@@ -21,7 +20,7 @@
         this.Current_MonthInCalendar = this.#ConvertMonthType(this.CurrentMonth);
         this.CurrentyearsInCalendar = this.currentYear;///initial values
         //---------------------\\\
-        debugger
+      
         let RenderCondition = typeof(RenderBlocks);
 
         if(RenderCondition !== "object")
@@ -30,28 +29,33 @@
         }
         else if(RenderCondition == "object")
         {
-            debugger
+            
             this.DateBlocks = RenderBlocks;///assigning renderElement
 
+            
             ///Initialize events
             this.DateBlocks.forEach(E => {
-                E.addEventListener("IsCurrentDays", () => {
-                    E.classList.add("IsCurrentDays");
-                });
-        
-                E.addEventListener("IsNotCurrentDays",() => 
+                this.DateBlocks_Event = new Custom_UI_Event_Handler(E, {
+                    Event_List: [
+                        "IsCurrentMonthDays",
+                        "IsNotCurrentMonthDays",
+                        "IsCurrentDays",
+                        "IsNotCurrentDays"
+                    ],
+                    Event_config: {}}, 
+                    ); ///SetupEvent
+                
+
+                this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to UI event 
                 {
-                    E.classList.remove("IsCurrentDays")
-                });
-        
-                E.addEventListener("IsCurrentMonthDays",() =>  ////IsCurrent Monthdays event
-                {
-                    E.classList.add("Is_Days_In_Month")
+                    debugger
+                    console.log(E)
+                    this.DateBlocks_Event.AddHandlerToEvent(_event, () => {
+                        this.Element_Renderer.AddingClasslist(E, _event.type)
+                    });////pass the AddingClassList function to the Handler method
                 })
-        
-                E.addEventListener("IsNotCurrentMonthDays",() => {
-                    E.classList.remove("Is_Days_In_Month")
-                })
+                
+                console.log("Event Setup success!")
             });
         }
     }
@@ -77,7 +81,7 @@
     
     #ConvertMonthType(MonthIndex)
     {
-        debugger
+        
 
         const monthNames = [
             "January", "February", "March", "April", "May", "June",
@@ -99,9 +103,10 @@
         return monthNames[currentMonth];
     }
     
+
     ///public main Method
     updateCalendar(_year, _month) { ///render days to grid
-        debugger
+        
         let currentYear, currentMonth;
         const Time_Now = this.#GetFirstDaysOfCurrentMonth();
     
@@ -125,19 +130,21 @@
         // Display the last day of the previous month
         for (let i = previuosDayOfMonth; i >= 0; i--) {
             if (lastDayOfPrevMonth == Time_Now.date && currentMonth - 1 == Time_Now.month) {
-                this.DateBlocks[i].dispatchEvent(this.CurrentDays_Event);///firing current days event
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays);///Firing event
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentDays")); ////firing for specifics days
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays")); 
             } 
             else if(currentMonth - 1 == Time_Now.month)
             {
-                this.DateBlocks[i].dispatchEvent(this.NotCurrentDays_Event);
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays);
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"));
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays"));
             }
             else 
             {
-                this.DateBlocks[i].dispatchEvent(this.IsNotCurrentMonthDays);
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"))
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentMonthDays"));
             }
-    
+            
+            
             this.DateBlocks[i].textContent = lastDayOfPrevMonth;
             lastDayOfPrevMonth--;
         }
@@ -148,20 +155,18 @@
             {
                 break;
             }
-    
             if (currentDate == Time_Now.date && currentMonth == Time_Now.month) {///checking for current days
-                this.DateBlocks[i].dispatchEvent(this.CurrentDays_Event);///firing current days event
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays);///Firing event
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentDays"));
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays"));
             } 
             else if(currentMonth == Time_Now.month)///checking for current monthS
             {
-                this.DateBlocks[i].dispatchEvent(this.NotCurrentDays_Event);
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays)//the current days of month
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"));
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays"));
             }
             else {
-                
-                this.DateBlocks[i].dispatchEvent(this.IsNotCurrentMonthDays);
-                this.DateBlocks[i].dispatchEvent(this.NotCurrentDays_Event);
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"))
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentMonthDays"));
             }
     
             this.DateBlocks[i].textContent = currentDate;
@@ -173,18 +178,18 @@
         for (let i = firstDayOfWeek + totalDays; i < this.DateBlocks.length; i++) {
             if(nextMonthDate == Time_Now.date && currentMonth + 1 == Time_Now.month)
             {
-                this.DateBlocks[i].dispatchEvent(this.CurrentDays_Event);///firing current days event
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays);///Firing event
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentDays"));
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays"));
             }
             else if(currentMonth + 1 == Time_Now.month)
             {
-                this.DateBlocks[i].dispatchEvent(this.NotCurrentDays_Event);
-                this.DateBlocks[i].dispatchEvent(this.IsCurrentMonthDays);
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"));
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsCurrentMonthDays"));
             }
             else
             {
-                this.DateBlocks[i].dispatchEvent(this.IsNotCurrentMonthDays);
-                this.DateBlocks[i].dispatchEvent(this.NotCurrentDays_Event)///remove the event for css
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentDays"))
+                this.DateBlocks_Event.ExecuteEvent(this.DateBlocks_Event.AccessEvent("IsNotCurrentMonthDays"));
             }
     
             this.DateBlocks[i].textContent = nextMonthDate;
@@ -245,7 +250,7 @@
 
 
 class ElementRenderer ///modify html tag and style class
-{
+{   
     UpdateElement(selector, data) {
         let Element = document.querySelector(selector);
 
@@ -268,40 +273,97 @@ class ElementRenderer ///modify html tag and style class
             Target_Element.style[properties] = data
         }
     }
+
+    AddingClasslist(Selector = Element,values = string)
+    {
+        debugger
+        
+        if(Selector == null)
+        {
+            throw new Error("please give an Element instances");
+        }
+        else if(Selector !=  null)
+        {
+            Selector.classList.add(values);
+        }
+    }   
+
+    removeClassList(Selector,Values)
+    {
+        Selector.classList.remove(Values);
+    }   
 }
 
-class Custom_UI_Event_Handler ///Allows to assign multiple event to a single element
+export class Custom_UI_Event_Handler ///Allows to assign multiple event to a single element
 {
-    constructor(tags,{Event_Name,Event_config})
+    constructor(tags = Element,eventObject = {Event_List : [],Event_config : {}})
     {
-        if(typeof tags == "object" && tags != null)
+        
+        const IsHasEvent = (eventObject.Event_List.length >= 0) ? "true" : "false" ///Checking if any event has assigned to List
+        
+        if(tags != null && IsHasEvent)
         {
             this.Tags = tags
-            this.Event_Info = [Event_Name,Event_config]
-
-            return this.#Initialize_Event();///This will assign and attach event to tags
+            this.Event_Settings = eventObject.Event_config ///Contains settings
+            this.EventMemory = []; ///Contains Customevent classes event
+            
+            eventObject.Event_List.forEach(p => {///Init event inside of EventMemory
+                if(typeof p == 'string')
+                {
+                    
+                    this.EventMemory.push(this.#Initialize_Event(p,this.Event_Settings));///Setup event
+                }
+            })
         }
-        else
+        else if(tags == null && IsHasEvent == false)
         {
-            return "invalid types";
+            return null;
         }
-    }
+    } ////Setup the general event
     
-    #Initialize_Event()///When setup dispatch will work
+    
+   
+    #Initialize_Event(EventName = "",Settings = {})///Convert event to Initiable
     {
-        const Event_Info = new CustomEvent(this.Event_Info[0],this.Event_Info[1]);
-
-        this.Tags.addEventListener(this.Event_Info[0]);
-
-        return Event_Info;
+        
+        const Info = new CustomEvent(EventName,Settings);
+            
+        return Info;
     }
 
-    GetEventInfo()
+    AccessEvent(EventName = "") ///return the CustomEventObject using string
     {
-        return this.Event_Info;
+        const Found_Event = this.EventMemory.find((e) => e.type === EventName)
+
+        if(Found_Event == null) {throw new Error(EventName  + " Cannot be found")} ///Checking if the Event exsits
+        
+        
+        return Found_Event;
     }
 
+    AddHandlerToEvent(EventTarget = new CustomEvent,NewHandler = () => {})
+    {
+         // Use the EventTarget type to determine the custom event type
+         const eventType = EventTarget.type;
+          
+         // Find the corresponding custom event in EventMemory
+         const event = this.EventMemory.find(event_ => event_.type === eventType);
+       
+         // Add the event listener with the correct type
+         this.Tags.addEventListener(event.type, (e) => {
+            debugger
+            NewHandler()///Execute given function
+            console.log(e.type);////Checking the state of Event
+        });
+    }
 
+    ExecuteEvent(CustomeEventObj = new CustomEvent)///Execute the specify event in the memory
+    {   
+        
+        console.log(this.Tags);
+        let state = this.Tags.dispatchEvent(CustomeEventObj)
+        return state;
+    }
 }
 
 
