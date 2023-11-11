@@ -6,18 +6,14 @@ const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text");
 
 document.addEventListener('DOMContentLoaded',() =>
 {   
-    const CalendarRenderer = new Calendar_Rendering(Days_DisplayElement);
+    const CalendarRenderer = new Calendar_Rendering(Days_DisplayElement,Calendar_Header);
     const Month = CalendarRenderer.Current_MonthInCalendar;
     const Year = CalendarRenderer.currentYear;
 
-    console.warn(Calendar_Header);
-    
     Calendar_Header.textContent = Month + " " + Year
 
     const LeftArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-left ");
     const RightArrow = document.querySelector(".Calendar-Main-interface, .Transition-button-right");
-    
-
     
     function handleSidebarOpenEvent() {
         // Code to be executed when the sidebar is opened
@@ -44,7 +40,7 @@ document.addEventListener('DOMContentLoaded',() =>
             containerElement.style.gridTemplateRows = "100%";            ;
         } 
     }
-    ///Hard UI function
+    ///concrete UI function
 
     if(RightArrow && LeftArrow) 
     {
