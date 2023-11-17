@@ -247,10 +247,8 @@
 class ElementRenderer ///modify html tag and style class
 {   
     UpdateElement(selector, data) {
-        let Element = document.querySelector(selector);
-
-        if (Element) {
-            Element.textContent = data;
+        if (selector) {
+            selector.textContent = data;
             return true;
         }
         else
@@ -261,9 +259,7 @@ class ElementRenderer ///modify html tag and style class
 
     UpdateElement_Style(_selector, properties,data)
     {
-        let Target_Element = document.querySelector(_selector);
-
-        if(Target_Element !== null)
+        if(_selector !== null)
         {
             Target_Element.style[properties] = data
         }

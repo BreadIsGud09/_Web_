@@ -6,6 +6,7 @@ const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text");
 
 document.addEventListener('DOMContentLoaded',() =>
 {   
+    console.log(Calendar_Header);
     const CalendarRenderer = new Calendar_Rendering(Days_DisplayElement,Calendar_Header);
     const Month = CalendarRenderer.Current_MonthInCalendar;
     const Year = CalendarRenderer.currentYear;
