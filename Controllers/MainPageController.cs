@@ -26,22 +26,27 @@ namespace RoutingTest.Controllers
             _HttpContextAccessor = accessor;
             DB_Services = DBInject;
         }
-
+        /// <summary>
+        ///     Using Componets
+        /// </summary>
+       
 
         [HttpGet]
         [Route("Project/YourProject")]
-        public ActionResult Index()
+        public ActionResult Index()///Main Project Page
         {
             ViewBag.OnPage = "First-Visited-Page";
             var Contxt = _HttpContextAccessor.HttpContext;
             string LocalCookies = Ck_Handler.Get_Cookies_Key();
-            var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; 
+            var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; ////Request cookies on user machine
 
             if(!(IsHaveLocalCookies is null)) /// Get valid values
             {
-                var Local_UserInfo = DB_Services.Verified_User_Cookies(IsHaveLocalCookies);
+                var Local_UserInfo = DB_Services.Verified_User_Cookies(IsHaveLocalCookies);///Verified
                 if( Local_UserInfo != null) 
-                {
+                {   
+                    ///Loading Project if user have project
+
                     Contxt.Session.SetInt32("User_ID", Local_UserInfo.id);
                     ViewBag.UserStatus = "Logged in"; ////set status
                     ViewBag.Username = Local_UserInfo.username;///Get username for page
@@ -71,7 +76,7 @@ namespace RoutingTest.Controllers
 
             if (Info is userinfo)
             {
-                ViewBag.Username = Info.username;
+                ViewBag.Username = Info.username;///passing the neccessary info to pages
             }
             else 
             {

@@ -3,7 +3,7 @@
     constructor(RenderBlocks = new NodeList(),Header = Element) ///Must provide a RenderBlocks
     {
         //--Componets--\\
-        debugger
+        
         this.Element_Renderer = new ElementRenderer();///Element Renderer Componets
         
         ///Defualt properties
@@ -47,7 +47,7 @@
                 this.DateBlocks_Event
             }
         );
-        debugger
+        
             
         console.log("Event Setup success!")
         }
@@ -360,7 +360,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
           // Add the event listener with the correct type
         this.Tag_Collection.forEach(_e => {
             _e.addEventListener(event.type, (Event_Info) => {
-                debugger
+                
                 NewHandler(_e)///Execute given function
                 console.log(Event_Info.type);////Checking the state of Event
             });
@@ -369,7 +369,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
 
     Call_Event(id = -1,eventNames = "") ///Callin the event 
     {
-        debugger
+        
         if(id < 0){ throw new Error("Missing Event ID!"); }
 
         let Selector = `[event_id="${id}"]`;
