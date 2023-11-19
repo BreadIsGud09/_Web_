@@ -31,20 +31,34 @@
                 "IsCurrentMonthDays",
                 "IsNotCurrentMonthDays",
                 "IsCurrentDays",
-                "IsNotCurrentDays"
+                "IsNotCurrentDays",
+                "Flush_Event"
             ],
             Event_config: {
                 bubbles: false,
             }}, 
         ); ///SetupEvent
             
+        
+
         this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to UI event 
             {
+                debugger
+                const FlushEvent = this.DateBlocks_Event.EventMemory.find((e) => e.type == "Flush_Event");
+
+                if(_event.type == FlushEvent.type) ///Seperate Event
+                {
+                    this.DateBlocks_Event.AddHandlerToEvent(_event,(_E) => {
+                        this.Element_Renderer.removeClassList(_E,"IsCurrentMonthDays");
+                        this.Element_Renderer.removeClassList(_E,"IsNotCurrentMonthDays");
+                        this.Element_Renderer.removeClassList(_E,"IsCurrentDays");
+                        this.Element_Renderer.removeClassList(_E,"IsNotCurrentDays");
+                    });///Remove all event inside of an element
+                }
+                
                 this.DateBlocks_Event.AddHandlerToEvent(_event, (_E) => {
                     this.Element_Renderer.AddingClasslist(_E, _event.type)
                 });
-
-                this.DateBlocks_Event
             }
         );
         
@@ -97,13 +111,14 @@
 
     ///public main Method
     updateCalendar(_year, _month) { ///render days to grid
-        
+        let EventReload = false;
         let currentYear, currentMonth;
         const Time_Now = this.#GetFirstDaysOfCurrentMonth();
     
         if (_year !== undefined && _month !== undefined) {
             ////Remove all the current inside element if exist
-
+            EventReload = true;
+            debugger
 
             currentYear = _year;
             currentMonth = _month;
@@ -120,13 +135,14 @@
     
         let currentDate = 1;
         let lastDayOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-    
+        
         // Display the last day of the previous month
         for (let i = previuosDayOfMonth; i >= 0; i--) {
+            if(EventReload == true){ this.DateBlocks_Event.Call_Event(i,"Flush_Event") }
+
             if (lastDayOfPrevMonth == Time_Now.date && currentMonth - 1 == Time_Now.month) {
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentDays");
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentMonthDays");
-               
             } 
             else if(currentMonth - 1 == Time_Now.month)
             {
@@ -146,10 +162,11 @@
     
         // Display the current month's dates
         for (let i = previuosDayOfMonth + 1; i < totalDays + previuosDayOfMonth + 1; i++) {
-            if(i >= this.DateBlocks.length)
-            {
-                break;
-            }
+            if(i >= this.DateBlocks.length){ break }
+            if(EventReload == true) { this.DateBlocks_Event.Call_Event(i,"Flush_Event") }
+
+
+
             if (currentDate == Time_Now.date && currentMonth == Time_Now.month) {///checking for current days
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentDays");
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentMonthDays");
@@ -171,6 +188,9 @@
         // Calculate the number of days to display from the next month
         let nextMonthDate = 1;
         for (let i = firstDayOfWeek + totalDays; i < this.DateBlocks.length; i++) {
+            if(EventReload == true) { this.DateBlocks_Event.Call_Event(i,"Flush_Event") }///Refresh element
+
+
             if(nextMonthDate == Time_Now.date && currentMonth + 1 == Time_Now.month)
             {
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentDays");
@@ -190,6 +210,7 @@
             this.DateBlocks[i].textContent = nextMonthDate;
             nextMonthDate++;
         }
+        EventReload = false;//set reload on false
     }
 
     UpdatePreviousMonth() {///Update the next month of current month 
@@ -241,6 +262,8 @@
         this.updateCalendar(this.CurrentyearsInCalendar,nextMonth);
         this.Element_Renderer.UpdateElement(this.display_Header, this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
     }
+
+    
 }   
 
 
@@ -280,9 +303,17 @@ class ElementRenderer ///modify html tag and style class
         }
     }   
 
-    removeClassList(Selector,Values)
+    removeClassList(Selected_Elements = null ,MatchingValues = new String())
     {
-        Selector.classList.remove(Values);
+        if(Selected_Elements == null)
+        {
+            throw new Error("please give an element instances")
+        }
+        else if(Selected_Elements != null)
+        {
+            Selected_Elements.classList.remove(MatchingValues);
+            return Selected_Elements;
+        }
     }   
 }
 
@@ -297,7 +328,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         
         if(tags != null && IsHasEvent)
         {
-            this.Tag_Collection = Array.from(tags); 
+            this.Tag_Collection = Array.from(tags); ////Creating new array for Tag_Colllection
             this.Event_Settings = eventObject.Event_config; ///Contains settings
             this.EventMemory = []; ///Contains Customevent classes event
             
@@ -356,12 +387,14 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
           // Add the event listener with the correct type
         this.Tag_Collection.forEach(_e => {
             _e.addEventListener(event.type, (Event_Info) => {
-                
                 NewHandler(_e)///Execute given function
                 console.log(Event_Info.type);////Checking the state of Event
             });
         })
     }
+    
+        
+
 
     Call_Event(id = -1,eventNames = "") ///Callin the event 
     {
