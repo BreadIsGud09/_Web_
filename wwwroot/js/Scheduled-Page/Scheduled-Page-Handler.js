@@ -2,7 +2,7 @@
 
 const Calendar_Header = document.querySelector(".Calendar-Month-Container > #Calendar-Header");///getting the header
 const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element
-
+const CurrentDaysButton = document.querySelector(".CurrentDaysButton");
 
 document.addEventListener('DOMContentLoaded',() =>
 {   
@@ -43,8 +43,14 @@ document.addEventListener('DOMContentLoaded',() =>
     }
     ///concrete UI function
 
-    if(RightArrow && LeftArrow) 
+    if(RightArrow && LeftArrow && CurrentDaysButton) 
     {
+        CurrentDaysButton.addEventListener("click",() =>
+        {
+            CalendarRenderer.ResetCalendarTime();///Reset the calendar time
+            
+        })
+
         RightArrow.addEventListener("click",() => 
         {
             console.log("Ininti1");

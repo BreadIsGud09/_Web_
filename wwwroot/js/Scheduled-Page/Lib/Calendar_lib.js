@@ -7,8 +7,13 @@
         this.Element_Renderer = new ElementRenderer();///Element Renderer Componets
         
         ///Defualt properties
-        let DateObj = new Date();
-        this.CurrentMonth  = DateObj.getMonth()
+        const dateObj = new Date();
+
+        this.RootTime = {
+            Month : dateObj.getMonth(),
+            Year : dateObj.getFullYear()
+        }
+        this.CurrentMonth  = dateObj.getMonth()
         this.currentYear = this.#GetCurrentYear();
         this.Current_MonthInCalendar = this.#ConvertMonthType(this.CurrentMonth);
         this.CurrentyearsInCalendar = this.currentYear;///initial values
@@ -39,11 +44,9 @@
             }}, 
         ); ///SetupEvent
             
-        
-
         this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to UI event 
             {
-                debugger
+                
                 const FlushEvent = this.DateBlocks_Event.EventMemory.find((e) => e.type == "Flush_Event");
 
                 if(_event.type == FlushEvent.type) ///Seperate Event
@@ -63,7 +66,7 @@
         );
         
             
-        console.log("Event Setup success!")
+        console.log("Event Setup success!");
         }
     }
 
@@ -110,23 +113,32 @@
     
 
     ///public main Method
-    updateCalendar(_year, _month) { ///render days to grid
+    updateCalendar(IsReset,_year, _month) { ///render days to grid
+        console.log(this.CurrentMonth, this.currentYear);
+
         let EventReload = false;
         let currentYear, currentMonth;
         const Time_Now = this.#GetFirstDaysOfCurrentMonth();
     
-        if (_year !== undefined && _month !== undefined) {
+        if (_year !== undefined && _month !== undefined && IsReset == false) { /// Reload and update
             ////Remove all the current inside element if exist
             EventReload = true;
-            debugger
-
+            
             currentYear = _year;
             currentMonth = _month;
-        } else {
+        }
+        else if(IsReset == true && _month == undefined && _year == undefined)///Reload and update current time
+        {
+            EventReload = true;
+
+            currentYear = this.RootTime.Year;
+            currentMonth = this.RootTime.Month;
+        } 
+        else { ///Render defualt time
             currentYear = this.currentYear;
             currentMonth = this.CurrentMonth;
         }
-    
+        
         const dateObj = new Date(currentYear, currentMonth, 1);
         let firstDayOfWeek = dateObj.getDay(); // Sunday is 0, Monday is 1
         
@@ -210,13 +222,24 @@
             this.DateBlocks[i].textContent = nextMonthDate;
             nextMonthDate++;
         }
-        EventReload = false;//set reload on false
+    }
+
+    ResetCalendarTime()
+    {
+        this.CurrentMonth = this.RootTime.Month;
+        this.currentYear = this.RootTime.Year;
+        this.Current_MonthInCalendar = this.#ConvertMonthType(this.CurrentMonth);
+        this.CurrentyearsInCalendar = this.currentYear;
+        ///Reset all the time controller in the calendar 
+
+        this.Element_Renderer.UpdateElement(this.display_Header,this.Current_MonthInCalendar + " "+ this.CurrentyearsInCalendar);
+        this.updateCalendar(true);
     }
 
     UpdatePreviousMonth() {///Update the next month of current month 
         let Currentvaluesmonth = this.#ConvertMonthType(this.Current_MonthInCalendar);
 
-        if(Currentvaluesmonth != this.CurrentMonth || this.CurrentyearsInCalendar != this.currentYear)
+        if(Currentvaluesmonth != this.CurrentMonth || this.CurrentyearsInCalendar != this.currentYear) 
         {
             this.CurrentMonth = Currentvaluesmonth;
             this.currentYear = this.CurrentyearsInCalendar 
@@ -236,14 +259,14 @@
         ///updating the element of which display the month and years
         let MonthValues = this.#ConvertMonthType(this.Current_MonthInCalendar);
     
-        this.updateCalendar(this.CurrentyearsInCalendar,MonthValues);
+        this.updateCalendar(false,this.CurrentyearsInCalendar,MonthValues);///Render the given time
         this.Element_Renderer.UpdateElement(this.display_Header,this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
     }
     
     UpdateNextMonth() {///Update the previous month of current month 
         let Currentvaluesmonth = this.#ConvertMonthType(this.Current_MonthInCalendar);
 
-       if(Currentvaluesmonth != this.CurrentMonth || this.CurrentyearsInCalendar != this.currentYear)
+       if(Currentvaluesmonth != this.CurrentMonth || this.CurrentyearsInCalendar != this.currentYear) 
         {
             this.CurrentMonth = Currentvaluesmonth;
             this.currentYear = this.CurrentyearsInCalendar 
@@ -259,11 +282,9 @@
         this.Current_MonthInCalendar= this.#ConvertMonthType(nextMonth);
         this.CurrentyearsInCalendar = nextYear;
     
-        this.updateCalendar(this.CurrentyearsInCalendar,nextMonth);
+        this.updateCalendar(false,this.CurrentyearsInCalendar,nextMonth);///Render the given time
         this.Element_Renderer.UpdateElement(this.display_Header, this.Current_MonthInCalendar + " " + this.CurrentyearsInCalendar);
     }
-
-    
 }   
 
 
