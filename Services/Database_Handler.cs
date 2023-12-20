@@ -13,6 +13,9 @@ namespace Web_demo.Services
         public dynamic Get_UserInfo(string? mail, string? pass); ///Check if Email and pass exsit and return
 
         public userinfo? Get_UserInfo(int ID); ///getting user info by ID
+
+        public userinfo? GetProjectJson(); //get the project setting from the user 
+
     }
 
     public class Database_Handler : IDB_Services
@@ -85,6 +88,11 @@ namespace Web_demo.Services
             }
 
             return null;
+        }
+
+        public userinfo? GetProjectJson()
+        { 
+            
         }
     }
 }

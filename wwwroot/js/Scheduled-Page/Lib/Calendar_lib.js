@@ -225,7 +225,7 @@
     }
 
     ResetCalendarTime()
-    {
+    { 
         this.CurrentMonth = this.RootTime.Month;
         this.currentYear = this.RootTime.Year;
         this.Current_MonthInCalendar = this.#ConvertMonthType(this.CurrentMonth);
@@ -235,6 +235,7 @@
         this.Element_Renderer.UpdateElement(this.display_Header,this.Current_MonthInCalendar + " "+ this.CurrentyearsInCalendar);
         this.updateCalendar(true);
     }
+    
 
     UpdatePreviousMonth() {///Update the next month of current month 
         let Currentvaluesmonth = this.#ConvertMonthType(this.Current_MonthInCalendar);

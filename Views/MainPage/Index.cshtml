@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/Registered_Navigation.cshtml";
     ViewData["username"] = ViewBag.Username;
+    ViewData["ProjectName"] = "None";
 }
 
 <head>
@@ -8,10 +9,19 @@
     <script language="javascript" type="module" src="~/js/Scheduled-Page/Introduction_Page.js"></script>
 </head>
 
-<h1 class="header">Let's get started with your first project</h1>
-<button id="Create-New-calendar" type="submit" >
-    <span class="Content">Create new calendar</span>
-</button>
+@{
+    if (ViewBag.IsHasProject == true)
+    {
+        ///Display board Design
 
+    }
+    else
+    {
+        <h1 class="header">Let's get started with your first project</h1>
+        <button id="Create-New-calendar" type="submit">
+            <span class="Content">Create new calendar</span>
+        </button>
+    }
+}
 
 

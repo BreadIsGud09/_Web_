@@ -24,6 +24,8 @@ namespace Web_demo.Models
         public string? status { get; set; }
         [Required]
         public string? Cookies_ID { get; set; }
+        
+        public string? project_json { get; set; }
     }
 
 

@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded',() =>
     }
     ///concrete UI function
 
+    
     if(RightArrow && LeftArrow && CurrentDaysButton) 
     {
         CurrentDaysButton.addEventListener("click",() =>

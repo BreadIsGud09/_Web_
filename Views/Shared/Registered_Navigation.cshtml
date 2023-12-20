@@ -28,18 +28,23 @@
                         <span>@ViewData["username"]</span>
                     </button>
                 </div>
-                <div class="Scheduled-Views">
-                <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
-                        <img src="~/Images/Scheduled.png">
-                        <span>Schedule</span>
-                    </button>
-                </div>
-                <div class="Task-Views">
-                    <button>
-                        <img src="~/Images/TaskListpng.png" />
-                        <span>Task</span>
-                    </button>
-                </div>
+                @{
+                    if (ViewData["ProjectName"]?.ToString() != "None")
+                    {
+                    <div class="Scheduled-Views">
+                        <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
+                            <img src="~/Images/Scheduled.png">
+                            <span>Schedule</span>
+                        </button>
+                    </div>
+                    <div class="Task-Views">
+                        <button>
+                            <img src="~/Images/TaskListpng.png" />
+                            <span>Task</span>
+                        </button>
+                    </div>
+                    }
+                }
                 <div class="User-settings">
                     <button>
                         <img src="~/Images/setting-iconpng.png">

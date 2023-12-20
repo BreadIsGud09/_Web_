@@ -36,6 +36,7 @@ namespace RoutingTest.Controllers
         public ActionResult Index()///Main Project Page
         {
             ViewBag.OnPage = "First-Visited-Page";
+            ViewBag.IsHasProject = false;
             var Contxt = _HttpContextAccessor.HttpContext;
             string LocalCookies = Ck_Handler.Get_Cookies_Key();
             var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; ////Request cookies on user machine
@@ -44,12 +45,14 @@ namespace RoutingTest.Controllers
             {
                 var Local_UserInfo = DB_Services.Verified_User_Cookies(IsHaveLocalCookies);///Verified
                 if( Local_UserInfo != null) 
-                {   
+                {
                     ///Loading Project if user have project
-
+                   
+                    ///
                     Contxt.Session.SetInt32("User_ID", Local_UserInfo.id);
                     ViewBag.UserStatus = "Logged in"; ////set status
                     ViewBag.Username = Local_UserInfo.username;///Get username for page
+                    
                 }
             }
             else //Return to the Visitor pages
@@ -59,7 +62,10 @@ namespace RoutingTest.Controllers
             
             return View();
         }
-
+        /// <summary>
+        /// Main project section
+        /// </summary>
+        /// <returns></returns>
 
 
         [HttpGet]
@@ -85,5 +91,19 @@ namespace RoutingTest.Controllers
             
             return View();
         }
+        /// <summary>
+        /// Calendar page can only access thru a project
+        /// 
+        [HttpGet]
+        [Route("Project/YourProject/TaskManager")]
+        public IActionResult TaskManager_Project_Section()
+        {   
+
+
+            return View();
+        }
+        ///<summary>
+        ///Task manager page can only access thru a project
+
     }
 }
