@@ -1,17 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="wwwroot\Fonts\.otf" />
     <None Remove="wwwroot\Fonts\Baron Neue Black Italic.otf" />
     <None Remove="wwwroot\Fonts\Baron Neue Bold.otf" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\Images\book_icon.png" />
     <None Include="wwwroot\Images\calendar.png" />
@@ -19,22 +16,20 @@
     <None Include="wwwroot\Images\user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.png" />
     <None Include="wwwroot\Images\users_profile.png" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
-    <PackageReference Include="MimeKit" Version="4.1.0" />
-    <PackageReference Include="Npgsql" Version="7.0.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+    <PackageReference Include="MimeKit" Version="4.3.0" />
+    <PackageReference Include="Npgsql" Version="8.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\Fonts\" />
   </ItemGroup>
-
 </Project>

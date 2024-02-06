@@ -1,21 +1,27 @@
-﻿using System.Reflection;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.IO.Pipelines;
+using System.Reflection;
 using System.Reflection.Metadata;
+using System.Text.Json;
 using Web_demo.Models;
 
 namespace Web_demo.Services
 {
     public interface IDB_Services
     {
-        public userinfo AddToDB(string? USname, string? mail, string pass, string Cookies_Values);///Adding new user to DB/// 
+        public Userinfo AddToDB(string? USname, string? mail, string pass, string Cookies_Values);///Adding new user to DB/// 
 
-        public userinfo? Verified_User_Cookies(string? InputCookies);
+        public Userinfo? Verified_User_Cookies(string? InputCookies);
 
         public dynamic Get_UserInfo(string? mail, string? pass); ///Check if Email and pass exsit and return
 
-        public userinfo? Get_UserInfo(int ID); ///getting user info by ID
+        public Userinfo? Get_UserInfo(int ID); ///getting user info by ID
 
-        public userinfo? GetProjectJson(); //get the project setting from the user 
+        public List<Project_Details>? GetProjectJson(int id); //get the project setting from the user 
 
+        public void UpdateInfo(int User_id);
     }
 
     public class Database_Handler : IDB_Services
@@ -29,11 +35,11 @@ namespace Web_demo.Services
 
         }
 
-        public userinfo AddToDB(string? USname, string? mail, string pass, string Cookies_Values)
+        public Userinfo AddToDB(string? USname, string? mail, string pass, string Cookies_Values)
         {
             using (Profile)
             {
-                userinfo Values = new userinfo()
+                Userinfo Values = new Userinfo()
                 {
                     username = USname,
                     email = mail,
@@ -61,7 +67,7 @@ namespace Web_demo.Services
             return "Can't find user";
         }
 
-        public userinfo? Get_UserInfo(int ID)
+        public Userinfo? Get_UserInfo(int ID)
         {
             foreach(var user in Profile.userinfo)
             {
@@ -74,25 +80,59 @@ namespace Web_demo.Services
             return null;
         }
 
+        public void UpdateInfo(int User_id)///Update neccessary for making any changes for user
+        {
+            var User = Get_UserInfo(User_id);
+            ///Changing the user properties
+            if (User != null)
+            {
+                var Updated_Result = Profile.Update(User!);
 
-        public userinfo? Verified_User_Cookies(string? Cookies)
+                Profile.SaveChanges();
+            }
+            else {
+                throw new Exception("User ID not found!");
+            }
+            
+        }
+
+        public Userinfo? Verified_User_Cookies(string? Cookies)
         {
             var Table = Profile.userinfo;
 
-            foreach (var element in Table)
+            foreach (var properties in Table)
             {
-                if (element.Cookies_ID == Cookies)
+                if (properties.Cookies_ID == Cookies)
                 {
-                    return element;
+                    return properties;
                 }
             }
 
             return null;
         }
 
-        public userinfo? GetProjectJson()
-        { 
-            
+        public List<Project_Details>? GetProjectJson(int id)
+        {
+            ///Get the user info then retrive JSON
+            var User = Get_UserInfo(id);
+
+            if (User != null && User.user_project != null)
+            {
+                List<Project_Details> P_Data = new List<Project_Details>();
+
+                var Project_Data = User.user_project.RootElement.EnumerateArray();
+
+                foreach (var P in Project_Data)
+                {
+                    P_Data.Add(JsonSerializer.Deserialize<Project_Details>(P.ToString()));
+                    ////Adding all the project into a Project_Details model list 
+                }
+                return P_Data;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

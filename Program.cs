@@ -16,13 +16,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<UserDB>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("web"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("_Web_"));
 });
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 builder.Services.AddTransient<IDB_Services,Database_Handler>();
 builder.Services.AddTransient<ICookies_Handler, Cookies_Handler>();
+builder.Services.AddTransient<IProject_Services, Project_Handler>();
 
 ///Adding Services
 ///

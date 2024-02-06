@@ -1,4 +1,6 @@
-﻿namespace Web_demo.Models
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace Web_demo.Models
 {
     public class Project_Details
     {
@@ -18,5 +20,6 @@
             
             public string? Date { get; set; }
         }
+
     }
 }

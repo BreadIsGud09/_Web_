@@ -51,11 +51,11 @@ namespace RoutingTest.Controllers
         public async Task<IActionResult> SignUp(string? UserName, string? Email, string? Password)
         {
             string body = "<h1>Please Verifield your email by reading this</h1>";
-            userinfo UserData;
+            Userinfo UserData;
             string Cookies = cookies.Get_LocalCookies();
             var GmailExsit = userProfile.Get_UserInfo(Email, null);
 
-            if (GmailExsit is userinfo && !(Cookies is null))
+            if (GmailExsit is Userinfo && !(Cookies is null))
             {
                 ViewBag.UserStatus = "Visitor";
                 ViewBag.Message = "The Account already signed in";
@@ -103,7 +103,7 @@ namespace RoutingTest.Controllers
             var info = userProfile.Get_UserInfo(_Email, password); ///Get all INFO for the user required
             string Requested_Cookies = cookies.Get_LocalCookies();
 
-            if (info is userinfo && IsCorrectGmail && info.Cookies_ID == Requested_Cookies)////Checking Cookies Values and stuff
+            if (info is Userinfo && IsCorrectGmail && info.Cookies_ID == Requested_Cookies)////Checking Cookies Values and stuff
             {
                 ViewBag.UserInfo = info;
                 ViewBag.UserStatus = "Logged In";

@@ -8,10 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+
 
 namespace Web_demo.Models
 {
-    public class userinfo///the Database interface itself
+    public class Userinfo///the Database interface itself
     {
         [Required]
         public string? username { get; set; }
@@ -25,15 +29,15 @@ namespace Web_demo.Models
         [Required]
         public string? Cookies_ID { get; set; }
         
-        public string? project_json { get; set; }
+        public JsonDocument? user_project { get; set; }
     }
 
 
-    public class UserDB : DbContext //Host=localhost;Port=5432;Database=web;Username=postgres;Password=123chu123so;
+    public class UserDB : DbContext //Host=localhost;Port=5432;Database=_Web_;Username=postgres;Password=123123123;
     {
         public UserDB(DbContextOptions<UserDB> options) : base(options) { }
 
-        public DbSet<userinfo> userinfo { get; set; }///Table
+        public DbSet<Userinfo> userinfo { get; set; }///Table
     }
 
 }
