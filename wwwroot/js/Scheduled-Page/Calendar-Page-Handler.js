@@ -1,4 +1,4 @@
-﻿import { Calendar_Rendering } from "/js/Scheduled-Page/Lib/Calendar_lib.js"
+﻿import { Calendar_Rendering } from "/js/Lib/Calendar_lib.js"
 
 const Calendar_Header = document.querySelector(".Calendar-Month-Container > #Calendar-Header");///getting the header
 const Days_DisplayElement = document.querySelectorAll(".Date-Block #Days-Text"); ///date display element

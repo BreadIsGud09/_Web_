@@ -19,6 +19,11 @@ builder.Services.AddDbContext<UserDB>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("_Web_"));
 });
 
+builder.Services.AddDbContext<ProjectDb>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("_Web_"));
+});
+
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 builder.Services.AddTransient<IDB_Services,Database_Handler>();

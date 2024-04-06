@@ -1,4 +1,6 @@
 ﻿using Microsoft.IdentityModel.Abstractions;
+using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Asn1.CryptoPro;
 using System.Text.Json;
 using Web_demo.Models;
 
@@ -6,42 +8,46 @@ namespace Web_demo.Services
 {
     public interface IProject_Services
     {
-        public string? Initialize_Project(int userid, Project_Details options); ///Create new project method
+        public Project? Initialize_Project(int userid, Project options); ///Create new project method
         public void DeleteProject(int id);///Delete current project
         public void DeleteAllProjects(int UserId);///Delete all project
-        public Project_Details GetUserProject(int UserId);
+        public List<Project> GetUserProject(int UserId);
     }
 
     public class Project_Handler : IProject_Services
     {
         private readonly IDB_Services DB_services;
+        private readonly ProjectDb _db;
 
-        public Project_Handler(IDB_Services Services)
+        public Project_Handler(IDB_Services Services, ProjectDb db)
         {
             DB_services = Services;
+            _db = db;
         }
 
-        public string? Initialize_Project(int User_Id, Project_Details options)
+        public Project? Initialize_Project(int User_Id, Project options)
         {
-            ////Get the user info and the user project settings
-            ///
+            var Queries = _db.ProjectTable;
             var UserInfo = DB_services.Get_UserInfo(User_Id);
-
-            Project_Details _details = new Project_Details();
+            var _project = new Project();
 
             if (UserInfo != null && options.id == 0)
             {
                 ///Initialize project
                 ///
-                _details.Name = options.Name;
-                _details.Description = options.Description;
-                _details.id = GenerateUniqueId();
-                ///Serialize the Object to JSON and assign to DB
-                UserInfo.user_project = JsonSerializer.Serialize(_details);///Serialize JSON
+                using (_db)
+                { 
+                    _project.id = GenerateUniqueId();
+                    _project.Name = options.Name;
+                    _project.Description = options.Description;
+                    _project.DateCreated = DateTime.Now.ToString();
+                    _project.Owner = UserInfo.id;
 
-                DB_services.UpdateInfo(User_Id);///update data to the database
+                    Queries.Add(_project);
 
-                return UserInfo.user_project;
+                    _db.SaveChanges();
+                }
+                return _project;
             }
             else { 
                 return null;
@@ -53,18 +59,20 @@ namespace Web_demo.Services
 
         public void DeleteAllProjects(int UserId) { }
 
-        public Project_Details GetUserProject(int UserId)
+        public List<Project> GetUserProject(int UserId)
         {
             var user = DB_services.Get_UserInfo(UserId);
+            var p_table = _db.ProjectTable;
 
-            if (user == null || user.user_project == null)
+            if (user.id != 0)
             {
-                return new Project_Details();
+                return p_table.Where<Project>(p => p.Owner == UserId).ToList();
+            }
+            else
+            {
+                return new List<Project>();
             }
 
-            var Data = JsonSerializer.Deserialize<Project_Details>(user.user_project);
-
-            return Data;
         }
 
         private int GenerateUniqueId()

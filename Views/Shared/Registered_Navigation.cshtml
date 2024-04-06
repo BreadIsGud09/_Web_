@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
+
 @{
     ViewBag.Title = "Project";
+    ViewBag.IsUsingProject = false;
+    var IsUsingProject = ViewBag.IsUsingProject;
 }
 
 <html>
@@ -9,13 +12,22 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/css/Project-site/Registered-Navigation.css">
     <script language="javascript" type="module" src="~/js/Registered-Nav/Sidebar-Handler.js"></script>
+    <script language="javascript" type="module" src="~/js/Scheduled-Page/Project-Page-Handler.js"></script>
 </head>
     <body>
-        <div class="nav-bar-trigger">
-            <img src="/Images/menu-regular-48Gray.png"/>
+        
+        <div class="Horizontal-Bar">
+            <button class="nav-bar-trigger">
+                <img src="/Images/menu-regular-48Gray.png" />
+            </button>
+            <div class="Header-Bar">
+                <h1>My Project</h1>
+            </div>
+            
         </div>
+        
 
-        <div class="nav container"> 
+        <div class="nav-container"> 
             <nav class="nav-bar">
                 <div class="Menus">
                     <button>
@@ -29,20 +41,20 @@
                     </button>
                 </div>
                 @{
-                    if (ViewData["ProjectName"]?.ToString() != "None")
+                    if (IsUsingProject == true)
                     {
-                    <div class="Scheduled-Views">
-                        <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
-                            <img src="~/Images/Scheduled.png">
-                            <span>Schedule</span>
-                        </button>
-                    </div>
-                    <div class="Task-Views">
-                        <button>
-                            <img src="~/Images/TaskListpng.png" />
-                            <span>Task</span>
-                        </button>
-                    </div>
+                        <div class="Scheduled-Views">
+                            <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
+                                <img src="~/Images/Scheduled.png">
+                                <span>Schedule</span>
+                            </button>
+                        </div>
+                        <div class="Task-Views">
+                            <button>
+                                <img src="~/Images/TaskListpng.png" />
+                                <span>Task</span>
+                            </button>
+                        </div>
                     }
                 }
                 <div class="User-settings">
@@ -54,8 +66,7 @@
             </nav>
         </div>
 
-        <div class="Main-Section">
-            @RenderBody()
-        </div>
+        @RenderBody();
+
     </body>
 </html>

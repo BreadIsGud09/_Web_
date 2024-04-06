@@ -1,9 +1,20 @@
-﻿window.addEventListener('DOMContentLoaded', (event) => {
+﻿import { LayoutBehavior } from "../Lib/Layout_Handler";
+
+window.addEventListener('DOMContentLoaded', (event) => {
     const menusButton = document.querySelector('.Menus button');
     const navBar = document.querySelector('.nav-bar');
     const navBarTrigger = document.querySelector('.nav-bar-trigger');
     const mainContent = document.querySelector('.Main-Section');
     const body = document.body;
+
+    const Layout = new LayoutBehavior.LayoutManager({
+        Name: "Defualt",
+        Row: body.style.getPropertyValue("GridTemplateRows"),
+        Coll: body.style.getPropertyValue("GridTemplateCollums")
+    }, body);
+
+
+    
 
     // Function to save the state to local storage
     function saveStateToLocalStorage(navBarCollapsed) {
@@ -35,21 +46,16 @@
 
     if (initialNavBarCollapsed) {
         navBar.classList.add('collapsed');
+        navBarTrigger.style.display = "block";
+        
         dispatchSidebarCloseEvent();
-        navBarTrigger.style.display = 'flex';
-        navBarTrigger.style.justifyContent = 'center';
-        navBarTrigger.style.alignItems = 'center';
-        body.style.gridTemplateColumns = 'auto 100%';
     } else {
+        navBarTrigger.style.display = "none";
         dispatchSidebarOpenEvent();
-        body.style.gridTemplateColumns = 'auto 83.8%';
-        navBarTrigger.style.display = 'none';
     }
 
     // Remove the class after the initial state is set to prevent animation on page load
     body.classList.remove('page-loading');
-
-
 
     menusButton.addEventListener('click', () => {
         
@@ -65,7 +71,6 @@
             dispatchSidebarCloseEvent();
             saveStateToLocalStorage(true);
 
-          
             navBarTrigger.style.display = 'flex';
             navBarTrigger.style.justifyContent = 'center';
             navBarTrigger.style.alignItems = 'center';
@@ -79,8 +84,8 @@
     });
 
     navBarTrigger.addEventListener('click', () => {
-        
         dispatchSidebarOpenEvent();
+        console.log("Triggered");
         navBar.classList.remove('collapsed');
         mainContent.classList.remove('expanded');
         navBarTrigger.style.display = 'none';
@@ -88,3 +93,11 @@
         saveStateToLocalStorage(false);
     });
 });
+
+
+
+
+
+
+
+

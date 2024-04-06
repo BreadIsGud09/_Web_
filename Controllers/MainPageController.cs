@@ -16,7 +16,6 @@ using System.Text.Json;
 using Microsoft.IdentityModel.Tokens;
 
 
-
 namespace RoutingTest.Controllers
 {
     public class MainPageController : Controller
@@ -51,7 +50,7 @@ namespace RoutingTest.Controllers
             string LocalCookies = Ck_Handler.Get_Cookies_Key();
             var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; ////Request cookies on user machine
 
-            List<Project_Details> UserProject = new List<Project_Details>(); //UserProject variables 
+            List<Project> UserProject = new List<Project>(); //UserProject 
 
 
             if (!(IsHaveLocalCookies is null)) /// Get valid values
@@ -62,7 +61,7 @@ namespace RoutingTest.Controllers
                 if (Local_UserInfo != null)
                 {
                     ///Loading Project if user have project
-                    UserProject = DB_Services.GetProjectJson(Local_UserInfo.id);
+                     UserProject = Project_Services.GetUserProject(Local_UserInfo.id);
 
                     ///Creating new Session
                     Contxt.Session.SetInt32("User_ID", Local_UserInfo.id);
@@ -117,7 +116,7 @@ namespace RoutingTest.Controllers
             var HttpCxt = _HttpContextAccessor.HttpContext;
             int? User_SessionId = HttpCxt.Session.GetInt32("User_ID");////Getting user cookies
 
-            Project_Details options = new Project_Details()///Assign request to a new class
+            Project options = new Project()///Assign request to a new class
             {
                 Name = P_Name,
                 Description = P_Description,

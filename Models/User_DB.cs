@@ -28,8 +28,6 @@ namespace Web_demo.Models
         public string? status { get; set; }
         [Required]
         public string? Cookies_ID { get; set; }
-        
-        public JsonDocument? user_project { get; set; }
     }
 
 

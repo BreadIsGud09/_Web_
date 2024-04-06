@@ -19,8 +19,6 @@ namespace Web_demo.Services
 
         public Userinfo? Get_UserInfo(int ID); ///getting user info by ID
 
-        public List<Project_Details>? GetProjectJson(int id); //get the project setting from the user 
-
         public void UpdateInfo(int User_id);
     }
 
@@ -109,30 +107,6 @@ namespace Web_demo.Services
             }
 
             return null;
-        }
-
-        public List<Project_Details>? GetProjectJson(int id)
-        {
-            ///Get the user info then retrive JSON
-            var User = Get_UserInfo(id);
-
-            if (User != null && User.user_project != null)
-            {
-                List<Project_Details> P_Data = new List<Project_Details>();
-
-                var Project_Data = User.user_project.RootElement.EnumerateArray();
-
-                foreach (var P in Project_Data)
-                {
-                    P_Data.Add(JsonSerializer.Deserialize<Project_Details>(P.ToString()));
-                    ////Adding all the project into a Project_Details model list 
-                }
-                return P_Data;
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }

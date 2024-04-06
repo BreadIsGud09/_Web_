@@ -1,0 +1,92 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;800&display=swap');
+
+
+:root {
+    --TextFont: 'Sora', sans-serif;
+    --Header_Text_Color: rgb(242, 239, 234);
+}
+
+.Project_Container { /*Layout container for project display*/
+    display: grid;
+    width:100%;
+    height:100%;
+    grid-template-rows:15% 85%;
+    grid-template-columns: 100%;
+}
+
+
+.Project_Display { /*Project display container*/
+    grid-row:2;
+    grid-column:1;
+    display:flex;
+    align-content:center;
+    gap:10px;
+}
+
+
+.My-Project { /*Page Header text*/
+    font-family: var(--TextFont);
+    font-weight: bolder;
+    font-size: 2.7rem;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: var(--Header_Text_Color);
+}
+
+
+.Project_Layout {/*Project interfaces*/
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    background-color: rgb(69, 69, 69);
+    margin:10px;
+    border-radius:20px;
+}
+
+.Access {
+    display: block;
+    width: 300px;
+    height: 250px;
+    border-radius:inherit;
+}
+
+.Project {
+    display: grid;
+    grid-template-rows: [Header-start] 25% [OwnerTag] 15% [description-start] 60%;
+    grid-template-columns: [Project-Col] 100%;
+    width: inherit;
+    height: inherit;
+    justify-content: center;
+}
+
+.P_Name {
+    font-family:var(--TextFont);
+    color: var(--Header_Text_Color);
+    font-weight:200; 
+    display:flex;
+    flex-direction:row;
+    align-content:center;
+    justify-content:center;
+    grid-row-start: Header-start;
+    grid-row-end: Header-start;
+    grid-column-start: Project-Col;
+    grid-column-end:Project-Col;
+}
+
+.Description {
+    display:block;
+    grid-row-start: description-start;
+    grid-row-end: description-start;
+    grid-column-start: Project-Col;
+    grid-column-end: Project-Col;
+}
+
+
+.Access:hover {
+    background-color: rgba(69, 69, 69,0.2)
+}
+
+
