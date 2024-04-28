@@ -10,16 +10,22 @@ export class LayoutManager
         Coll: ""
     }, Container = Element)
     {
-        this.Defualt = DefualtLayoutObj;
+        this.Defualt = DefualtLayoutObj;////Set the defualt layout to 
         this.Layout_Container = Container; 
+
+
+        this.SavedLayout.push(this.Defualt);////Push the defualt into the table
+        this.#SetDefaultLayout();///Set the Defualt layout
     }
 
 
-    SetDefaultLayout()///Set the Defualt properties to the Layout 
+    #SetDefaultLayout()///Set the Defualt properties to the Layout 
     {
         this.Layout_Container.style.display = "grid";
-        this.Layout_Container.style.gridTemplateRows = Obj.Row;
-        this.Layout_Container.style.gridTemplateCollums = Obj.Coll;
+        this.Layout_Container.style.gridTemplateRows = this.Defualt.Row;
+        this.Layout_Container.style.gridTemplateCollums = this.Defualt.Coll;
+
+        
     }
 
     Push(layout_id = "",Rows = "",Collums = "")///Push the Layout Stats to arr 
@@ -43,7 +49,7 @@ export class LayoutManager
                 try {
                     this.Layout_Container.style.display = "grid";
                     this.Layout_Container.style.gridTemplateRows = Obj.Row;
-                    this.Layout_Container.style.gridTemplateCollums = Obj.Coll;
+                    this.Layout_Container.style.gridTemplateColumns = Obj.Coll;
                 }
                 catch (error) { console.error(error) }
                 return;

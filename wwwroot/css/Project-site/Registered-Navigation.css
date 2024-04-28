@@ -1,9 +1,29 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@1,500&family=Roboto+Condensed:ital,wght@0,700;1,400&family=Rubik:ital,wght@1,500&family=Sora:wght@700&family=Vollkorn:wght@500;700&display=swap');
 
+@keyframes sidebarAnimation {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes reverseSidebarAnimation {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
 body {
     display: grid;
     grid-template-rows: [Top_Nav] 15% 80%;
-    grid-template-columns: auto 83.8%;
+    grid-template-columns: auto 83.8%; /*Defualt grid layout*/
     background-color: rgb(35, 35, 34);
 }
 
@@ -212,27 +232,6 @@ button {
 .User-settings:hover span {
     color: rgb(243, 243, 244);
 }
-
-@keyframes sidebarAnimation {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-@keyframes reverseSidebarAnimation {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
 
 .nav-bar:not(.collapsed) {
     animation: sidebarAnimation 0.3s forwards;

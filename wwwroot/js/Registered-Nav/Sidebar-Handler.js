@@ -1,4 +1,4 @@
-﻿import { LayoutBehavior } from "../Lib/Layout_Handler";
+﻿import * as LayoutBehavior from "../Lib/Layout_Handler.js";
 
 window.addEventListener('DOMContentLoaded', (event) => {
     const menusButton = document.querySelector('.Menus button');
@@ -7,15 +7,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const mainContent = document.querySelector('.Main-Section');
     const body = document.body;
 
-    const Layout = new LayoutBehavior.LayoutManager({
+    const Layout = new LayoutBehavior.LayoutManager({ ///Set initial layout
         Name: "Defualt",
-        Row: body.style.getPropertyValue("GridTemplateRows"),
-        Coll: body.style.getPropertyValue("GridTemplateCollums")
+        Row: getComputedStyle(body).getPropertyValue("grid-template-rows"),
+        Coll: getComputedStyle(body).getPropertyValue("grid-template-columns") // Corrected spelling
     }, body);
 
-
+    Layout.Push("FullSize", getComputedStyle(body).getPropertyValue("grid-template-rows"),"auto 100%");///Assign new layout 
     
-
     // Function to save the state to local storage
     function saveStateToLocalStorage(navBarCollapsed) {
         localStorage.setItem("navBarCollapsed", JSON.stringify(navBarCollapsed));
@@ -47,9 +46,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if (initialNavBarCollapsed) {
         navBar.classList.add('collapsed');
         navBarTrigger.style.display = "block";
-        
+        Layout.Set("FullSize");////Set to fullsize layout
         dispatchSidebarCloseEvent();
     } else {
+        Layout.Set("Defualt");
         navBarTrigger.style.display = "none";
         dispatchSidebarOpenEvent();
     }
@@ -70,15 +70,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             console.log("Saving data");
             dispatchSidebarCloseEvent();
             saveStateToLocalStorage(true);
-
+            Layout.Set("FullSize");
             navBarTrigger.style.display = 'flex';
             navBarTrigger.style.justifyContent = 'center';
             navBarTrigger.style.alignItems = 'center';
-            body.style.gridTemplateColumns = 'auto 100%';
         } else {
+            Layout.Set("Defualt");
             dispatchSidebarOpenEvent();
             saveStateToLocalStorage(false);
-            body.style.gridTemplateColumns = 'auto 83.8%';
             navBarTrigger.style.display = 'none';
         }
     });
@@ -89,7 +88,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         navBar.classList.remove('collapsed');
         mainContent.classList.remove('expanded');
         navBarTrigger.style.display = 'none';
-        body.style.gridTemplateColumns = 'auto 83.8%';
+        Layout.Set("Defualt");
         saveStateToLocalStorage(false);
     });
 });
