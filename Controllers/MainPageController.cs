@@ -41,53 +41,65 @@ namespace RoutingTest.Controllers
 
 
         [HttpGet]
-        [Route("Project/YourProject")]
-        public ActionResult Index()///Main Project Page
+        [Route("/Project")]
+        public ActionResult Index()
         {
             ViewBag.OnPage = "First-Visited-Page";
-
             var Contxt = _HttpContextAccessor.HttpContext;
             string LocalCookies = Ck_Handler.Get_Cookies_Key();
             var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; ////Request cookies on user machine
 
-            List<Project> UserProject = new List<Project>(); //UserProject 
-
+            List<Project> UserProject = new List<Project>(); //UserProject List
 
             if (!(IsHaveLocalCookies is null)) /// Get valid values
             {
                 var Local_UserInfo = DB_Services.Verified_User_Cookies(IsHaveLocalCookies);///Verified
-                
+
 
                 if (Local_UserInfo != null)
                 {
                     ///Loading Project if user have project
-                     UserProject = Project_Services.GetUserProject(Local_UserInfo.id);
+                    UserProject = Project_Services.GetUserProject(Local_UserInfo.id);
 
-                    ///Creating new Session
-                    Contxt.Session.SetInt32("User_ID", Local_UserInfo.id);
-                    ViewBag.UserStatus = "Logged in"; ////set status
-                    ViewBag.Username = Local_UserInfo.username;///Get username for page
-                    ///
+                    if (UserProject.Any() != false) { 
+                        ///Creating new Session
+                        Contxt.Session.SetInt32("User_ID", Local_UserInfo.id);
+                        ViewBag.UserStatus = "Logged in"; ////set status
+                        ViewBag.Username = Local_UserInfo.username;///Get username for page
+
+
+                        return RedirectToAction("User_Project_Section", "MainPage", UserProject);///Redirect to the Main project page      
+                    }
+
                 }
             }
-            else //Return to the Visitor pages
-            {
-                return RedirectToAction("Index","Visitor");
-            }
-            
-            return View(UserProject);
+
+
+            return View();
         }
-        /// <summary>
-        /// Main project section
-        /// </summary>
-        /// <returns></returns>
+
+        [HttpGet]
+        [Route("Project/YourProject/{UserID}")]
+        public IActionResult User_Project_Section(int UserID)
+        {
+            var Project = Project_Services.GetUserProject(UserID);///Getting the user project 
+
+
+            if (Project.Any() == true) ///checking if the List has any project
+            {
+                return View(Project);
+            }
+            else
+            {
+                return RedirectToAction("Index","Mainpage");
+            }
+        }
 
 
         [HttpGet]
         [Route("Project/YourProject/Calendar")]
         public IActionResult Calendar_Project_Section()
         {
-    
             ViewBag.OnPage = "Scheduled-Page";
             ////Load all current Project/display
             var Http_Context = _HttpContextAccessor.HttpContext;
@@ -111,10 +123,13 @@ namespace RoutingTest.Controllers
         /// 
         [HttpPost]
         [Route("Project/YourProject/Init_Project")]
-        public IActionResult Init_Project([FromForm] string P_Name, string P_Description)
+        public async Task<IActionResult> Init_Project([FromForm] string P_Name, string P_Description)///Creating new project 
         {
-            var HttpCxt = _HttpContextAccessor.HttpContext;
-            int? User_SessionId = HttpCxt.Session.GetInt32("User_ID");////Getting user cookies
+            var Contxt = _HttpContextAccessor.HttpContext;
+            string LocalCookies = Ck_Handler.Get_Cookies_Key();
+            var IsHaveLocalCookies = Contxt.Request.Cookies[LocalCookies]; ////Request cookies on user machine
+
+            var Local_User = DB_Services.Verified_User_Cookies(IsHaveLocalCookies);///Verified
 
             Project options = new Project()///Assign request to a new class
             {
@@ -123,19 +138,36 @@ namespace RoutingTest.Controllers
             };
             //Creating a Project model samples for initialziing
 
-            if (!(User_SessionId is null))
+            if (!(Local_User is null))///Checking if userSession still available
             {
-                Project_Services.Initialize_Project(User_SessionId.Value,options);///Initialize project
-
-                return RedirectToAction("Index");
+                await Project_Services.Initialize_Project(Local_User.id,options);///Initialize project to the database 
+            
+                
+                return RedirectToAction("User_Project_Section", "MainPage", new { UserID = Local_User.id });//send to Action
             }
             else
             {
                 return Ok("user Session expired");
             }
         }
-        ///<summary>
-        ///Task manager page can only access thru a project
 
+        [HttpGet]
+        [Route("Project/YourProject/api/ProjectUser")]
+        public IActionResult IsHaveProject() 
+        {
+            var HttpCxt = _HttpContextAccessor.HttpContext;
+            int? User_SessionId = HttpCxt.Session.GetInt32("User_ID");////Getting user cookies
+
+            if (User_SessionId != null)
+            {
+                List<Project> UserProjectApi = Project_Services.GetUserProject(User_SessionId.Value);
+                var ToJson = JsonSerializer.Serialize(UserProjectApi);
+
+                return Ok(ToJson);///Returnning a JSON string 
+            }
+            else {
+                return Ok(null);
+            }
+        }
     }
 }

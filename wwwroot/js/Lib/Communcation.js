@@ -1,6 +1,23 @@
-export class Client_Signal ///Sending XML Request to the server
+export class Polling ///Sending XML Request to the server
 {
-    PostRequest(Url = "", data = {})///Post method
+    #Secret_Url;
+
+    constructor(DefualtUrl = "")
+    {
+        this.#Secret_Url = DefualtUrl;
+    }
+
+
+    set NewDirectory(values = "") {
+        this.#Secret_Url = values;
+    }
+
+    /**
+     * 
+     * @param {object} data
+     * @returns status
+     */
+    PostRequest(data = {})///Post method
     {
         var Jsonify_Data = JSON.stringify(data)
 
@@ -28,6 +45,17 @@ export class Client_Signal ///Sending XML Request to the server
                 
             }
             Request.send(Jsonify_Data);/// Sending request
+        }
+    }
+
+    async GetRequest() { //Return a JSON promises 
+        var polledRespone = await fetch(this.#Secret_Url, { method: "GET" });
+
+        if (polledRespone.ok) {
+            return polledRespone.json();
+        }
+        else if (!polledRespone.ok) {
+            return new Error(polledRespone.status);
         }
     }
 }

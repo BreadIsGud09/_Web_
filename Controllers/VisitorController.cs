@@ -39,7 +39,7 @@ namespace RoutingTest.Controllers
             if (!(getUserCookies is null) && !(IsUserVerified is null)) ///Checl if not null
             {
                 ViewBag.UserStatus = "Logged In";
-                return RedirectToAction("Index", "MainPage", IsUserVerified);
+                return RedirectToAction("Index", "MainPage");
             }
 
 
@@ -88,7 +88,7 @@ namespace RoutingTest.Controllers
                     return View();
                 }
 
-                return RedirectToAction("Index", "MainPage", UserData);
+                return RedirectToAction("Index", "MainPage");
             }
 
             return View();
@@ -103,11 +103,13 @@ namespace RoutingTest.Controllers
             var info = userProfile.Get_UserInfo(_Email, password); ///Get all INFO for the user required
             string Requested_Cookies = cookies.Get_LocalCookies();
 
-            if (info is Userinfo && IsCorrectGmail && info.Cookies_ID == Requested_Cookies)////Checking Cookies Values and stuff
+            if (info is Userinfo && IsCorrectGmail)////Checking Cookies Values and stuff
             {
+                if(Requested_Cookies == "Cookies not found") { string Currentcookies = cookies.CreateCookies(); }
                 ViewBag.UserInfo = info;
                 ViewBag.UserStatus = "Logged In";
-                return RedirectToAction("Index", "MainPage", info);
+
+                return RedirectToAction("Index", "MainPage");
             }
             else
             {
@@ -123,7 +125,7 @@ namespace RoutingTest.Controllers
             ViewBag.UserStatus = "Logging In";
 
             return View();
-        }
+        }       
 
         public IActionResult SignUp()
         {

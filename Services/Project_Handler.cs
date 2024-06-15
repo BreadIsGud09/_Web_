@@ -8,7 +8,7 @@ namespace Web_demo.Services
 {
     public interface IProject_Services
     {
-        public Project? Initialize_Project(int userid, Project options); ///Create new project method
+        public Task<Project?> Initialize_Project(int userid, Project options); ///Create new project method
         public void DeleteProject(int id);///Delete current project
         public void DeleteAllProjects(int UserId);///Delete all project
         public List<Project> GetUserProject(int UserId);
@@ -25,7 +25,7 @@ namespace Web_demo.Services
             _db = db;
         }
 
-        public Project? Initialize_Project(int User_Id, Project options)
+        public async Task<Project?> Initialize_Project(int User_Id, Project options)
         {
             var Queries = _db.ProjectTable;
             var UserInfo = DB_services.Get_UserInfo(User_Id);
@@ -45,7 +45,7 @@ namespace Web_demo.Services
 
                     Queries.Add(_project);
 
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
                 }
                 return _project;
             }
@@ -61,10 +61,10 @@ namespace Web_demo.Services
 
         public List<Project> GetUserProject(int UserId)
         {
-            var user = DB_services.Get_UserInfo(UserId);
+            var user = DB_services.Get_UserInfo(UserId);///Getting the user info
             var p_table = _db.ProjectTable;
 
-            if (user.id != 0)
+            if (user.id != 0)///Checking if the user exist
             {
                 return p_table.Where<Project>(p => p.Owner == UserId).ToList();
             }

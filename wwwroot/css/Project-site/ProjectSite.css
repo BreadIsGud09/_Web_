@@ -1,9 +1,33 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;800&display=swap');
 
+@keyframes scale-up-center {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
 :root {
     --TextFont: 'Sora', sans-serif;
+    --TextHeader_Size:25px;
+    --TextBody_Size:18px;
     --Header_Text_Color: rgb(242, 239, 234);
+    --Description_Text_Color: rgba(242, 239, 234,0.7);
+    --Project_Color: rgb(69, 69, 69);
+}
+
+
+.Project-Header /*Header of dialog box*/ {
+    font-family: 'Sora', sans-serif;
+    position: relative;
+    color: rgb(242, 239, 234);
+    font-size: 2.2rem;
+    font-weight: bold;
+    top: -25px;
+    margin-bottom: 20px;
 }
 
 .Project_Container { /*Layout container for project display*/
@@ -14,13 +38,17 @@
     grid-template-columns: 100%;
 }
 
+.Button_Container {
+    display:block;
+    height:fit-content;
+}
 
 .Project_Display { /*Project display container*/
+    margin-top:15px;
     grid-row:2;
     grid-column:1;
     display:flex;
     align-content:center;
-    gap:10px;
 }
 
 
@@ -42,7 +70,20 @@
     align-content: center;
     justify-content: center;
     background-color: rgb(69, 69, 69);
-    margin:10px;
+    margin:5px;
+    border-radius:20px;
+}
+
+.Create_Project {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    Background-color: rgba(69,69,69,1);
+    width: 300px;
+    height: 250px;
+    opacity:0.2;
+    margin:5px;
     border-radius:20px;
 }
 
@@ -53,40 +94,89 @@
     border-radius:inherit;
 }
 
+.Create_Icon {
+    opacity:0.6;
+    color:white;
+}
+
 .Project {
     display: grid;
-    grid-template-rows: [Header-start] 25% [OwnerTag] 15% [description-start] 60%;
+    grid-template-rows: [Header-start] 25% [description-start] 55% [OwnerTag] 20%;
     grid-template-columns: [Project-Col] 100%;
     width: inherit;
     height: inherit;
     justify-content: center;
 }
 
+.P_Header {
+    grid-row-start: Header-start;
+    grid-row-end: Header-start;
+    grid-column-start: Project-Col;
+    grid-column-end: Project-Col;
+}
+
 .P_Name {
     font-family:var(--TextFont);
     color: var(--Header_Text_Color);
+    font-size:var(--TextHeader_Size);
     font-weight:200; 
     display:flex;
     flex-direction:row;
     align-content:center;
     justify-content:center;
-    grid-row-start: Header-start;
-    grid-row-end: Header-start;
-    grid-column-start: Project-Col;
-    grid-column-end:Project-Col;
 }
 
-.Description {
-    display:block;
+.Owner_Container {
+    display: block;
+    grid-row-start: OwnerTag;
+    grid-row-end: OwnerTag;
+    grid-column-start: Project-Col;
+    grid-column-end: Project-Col;
+}
+
+.Owner {
+    font-family:var(--TextFont);
+    color:var(--Header_Text_Color);
+    font-weight:bold;
+    font-size:1rem;
+}
+
+
+.Description_Container {
+    display: flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    align-items:flex-start;
     grid-row-start: description-start;
     grid-row-end: description-start;
     grid-column-start: Project-Col;
     grid-column-end: Project-Col;
 }
 
+.Description {
+    display: block;
+    font-family:var(--TextFont);
+    margin-left: 10px;
+    font-weight:500;
+    font-size:var(--TextBody_Size);
+    color:var(--Description_Text_Color);
+}
+
+hr {
+    display:block;
+    border: 0; /* Remove default border */
+    height: 1px; /* Set height for the line */
+    background-color: #ddd; /* Set a light gray background color */
+}
+
+.Create_Project:hover {
+    opacity:0.7;
+    cursor:pointer;
+}
 
 .Access:hover {
-    background-color: rgba(69, 69, 69,0.2)
+    background-color: rgba(69, 69, 69,0.2);
+    cursor: pointer;
 }
 
 

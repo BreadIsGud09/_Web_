@@ -1,0 +1,66 @@
+﻿@model List<Project>
+@{
+    Layout = "~/Views/Shared/Registered_Navigation.cshtml";
+    ViewData["username"] = ViewBag.Username;
+    var UserProject = Model;
+}
+
+<head>
+    <script language="javascript" type="module" src="~/js/Registered-Nav/Sidebar-Handler.js"></script>
+    <script language="javascript" type="module" src="~/js/Scheduled-Page/Project-Page-Handler.js"></script>
+    <link rel="stylesheet" href="~/css/Project-site/ProjectSite.css" />
+</head>
+
+<div class="dialog">
+    <button class="Cancel-icon">
+        <img id="X-Icon" src="~/Images/x-regular-48.png">
+    </button>
+
+    <h1 class="Project-Header">Project Settings</h1>
+
+    <div class="Sub-dialog">
+        <form id="Project-info" method="post" asp-controller="MainPage" asp-action="Init_Project">
+            <label class="Dialog-label">Name</label>
+
+            <input autocomplete="off" required type="text" name="P_Name" id="Project-TextBox" class="Name_Box">
+
+            <label class="Dialog-label">Description</label>
+
+            <input autocomplete="off" required type="text" name="P_Description" id="Project-TextBox">
+
+
+            <input class="Save-button" type="submit" value="Save">
+        </form>
+    </div>
+</div>
+
+<div class="Project_Container">
+    <div class="Project_Display">
+        @foreach (var P in UserProject)///Display board Design
+        {
+            <div class="Project_Layout">
+                <button class="Access">
+                    <div class="Project">
+                        <div class="P_Header">
+                            <h1 class="P_Name">@P.Name</h1>
+                            <hr>
+                        </div>
+                        <div class="Description_Container">
+                            <h3 class="Description">@P.Description</h3>
+                        </div>
+                        <div class="Owner_Container">
+                            <hr>
+                            <h2 class="Owner">@@@ViewBag.Username.</h2>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        }
+
+        <div class="Button_Container">
+            <button class="Create_Project">
+                <img src="~/Images/plus-regulaCreate_Icon">
+            </button>
+        </div>
+    </div>
+</div>

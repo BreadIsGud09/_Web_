@@ -343,41 +343,83 @@ class ElementRenderer ///modify html tag and style class
 
 export class Custom_UI_Event_Handler ///Allows to add multiple certain event to multiple element
 {
-    constructor(tags = NodeList,eventObject = {Event_List : [],Event_config : {}})
+    Tag_Collection = []; ///Css collection 
+    Event_Settings = {};///Contains genereal settings
+    EventMemory = []; ///Contains Customevent classes event 
+
+    /**
+     * 
+     * @param {NodeList} tags
+     * @param {object} eventObject
+     * @returns this 
+     * constructor only intiilize event into the memory without mapping the event to the element
+     */
+    constructor( tags = NodeList, eventObject = { Event_List: [], Event_config: {} } )///Multiple event element
     {
+        const IsHasEvent = (eventObject.Event_List.length > 0) ? "true" : "false" ///Checking if any event has assigned to List
         
-        const IsHasEvent = (eventObject.Event_List.length >= 0) ? "true" : "false" ///Checking if any event has assigned to List
-        
-        if(tags != null && IsHasEvent)
+        if(IsHasEvent == "true")
         {
             this.Tag_Collection = Array.from(tags); ////Creating new array for Tag_Colllection
             this.Event_Settings = eventObject.Event_config; ///Contains settings
             this.EventMemory = []; ///Contains Customevent classes event
-            
-            this.#Initialize_Collection();
+
+            this.#Initialize_CollectionEvent();
 
             eventObject.Event_List.forEach(p => {///Init event inside of EventMemory
                 if(typeof p == 'string')
                 {
-                    let Event = this.#Initialize_Event(p,this.Event_Settings)
-                    this.EventMemory.push(Event);///Setup event
+                    let event = this.#Initialize_Event(p, this.Event_Settings)
+                    this.EventMemory.push(event);///Setup event
                 }
             })
         }
         else if(tags == null && IsHasEvent == false)
         {
-            return null;
+            return this;
         }
     } ////Setup the general event
+
     
-    #Initialize_Collection()///Creating new identified properties for each element
+
+    SingleSetup(SetupModel = { interfaces: Element,
+        eventObject : {
+            Event_List: [""],
+            Event_Config: {} 
+        } })///Custom initilize constructor 
+    {
+        const IsHasEvent = (SetupModel.eventObject.Event_List.length > 0) ? "true" : "false" ///Checking if any event has assigned to List
+
+        this.Tag_Collection.push(SetupModel.interfaces);//add new element to the Collection
+
+        this.#Initialize_CollectionEvent();///give the event an event id in the list
+
+        if (IsHasEvent) {
+            for (let i = 0; i <= SetupModel.eventObject.Event_List.length - 1; i++)///Creating event
+            {
+                var info = this.#Initialize_Event(SetupModel.eventObject.Event_List[i], SetupModel.eventObject.config);
+
+                this.EventMemory.push(info);///Adding info to Memory 
+
+                return this;
+            }
+        }
+        else {
+            return this;
+        }
+    }
+
+
+    #Initialize_CollectionEvent()///Creating new identified properties for each element
     {
         ///sorting here
         let Event_id = 0; 
 
         this.Tag_Collection.forEach(e => {
-            e.setAttribute("Event_id",Event_id);////set new properties
-            Event_id++;
+            if (e.className !== "") {
+                e.setAttribute("Event_id", Event_id);////set new properties
+                Event_id++;
+            }
         })
     }
 
@@ -398,26 +440,54 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         return Found_Event;
     }
 
-    AddHandlerToEvent(EventTarget = new CustomEvent,NewHandler = (OnRun_Data) => {},Index = 0)
+    /**
+     * 
+     * @param {CustomEvent} EventTarget
+     * @param {Function} NewHandler
+     * method will map event to all tag_collection child
+     */
+
+    AddHandlerToEvent(event = new CustomEvent,NewHandler = (eventProperties) => {}) 
     {
-        //  // Use the EventTarget type to determine the custom event type
-        const eventType = EventTarget.type;
-          
-          // Find the corresponding custom event in EventMemory
-        const event = this.EventMemory.find(event_ => event_.type === eventType);
-       
-          // Add the event listener with the correct type
         this.Tag_Collection.forEach(_e => {
-            _e.addEventListener(event.type, (Event_Info) => {
+            this.ListenOn(_e, event, () =>
+            {
                 NewHandler(_e)///Execute given function
                 console.log(Event_Info.type);////Checking the state of Event
-            });
+            },false);
         })
     }
     
-        
+    /**
+     * 
+     * @param {Element} Target
+     * @param {Event} event
+     * @returns {boolean}
+     */
 
+    ListenOn(Target = Element, event = "", Handler = () => { }, IsDefualtEvent = true)
+    {
+        if (IsDefualtEvent === true) {
+            Target.addEventListener(event, (Event_Properties) => { //Listenning
+                Handler(Event_Properties);///Execute given function 
+            });
+        }
+        else if (IsDefualtEvent === false)
+        {
+            const EventInMemo = this.EventMemory.find((e) => e.type === event);
+            const TargetInMemo = this.Tag_Collection.find((e) => e.className === Target.className);
 
+            if (EventInMemo === true && TargetInMemo === true)
+            {
+                TargetInMemo.addEventListener(EventInMemo.type, (Event_Properties) => { //Listenning
+                    Handler(Event_Properties);///Execute given function 
+                });
+            }
+
+            return false;
+        }
+    }
+   
     Call_Event(id = -1,eventNames = "") ///Callin the event 
     {
         
@@ -439,7 +509,4 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         }
     }
 }
-
-
-
 

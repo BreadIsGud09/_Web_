@@ -33,7 +33,7 @@
 .dialog {
     display: flex;
     position: absolute;
-    transform: translate(-50%, -50%);
+    transform: translate(0%,0%);
     flex-direction: column;
     align-content: center;
     flex-wrap: wrap;

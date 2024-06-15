@@ -9,66 +9,39 @@
 <head>
     <script language="javascript" type="module" src="~/js/Registered-Nav/Sidebar-Handler.js"></script>
     <script language="javascript" type="module" src="~/js/Scheduled-Page/Introduction_Page.js"></script>
-    <link rel="stylesheet" href="~/css/Project-site/ProjectSite.css" />
     <link rel="stylesheet" href="~/css/Project-site/ProjectStarter.css" />
 </head>
 
 
 <div class="Main-Section">
     @{
-        if (UserProject.Any() == true)///Checking is there any project in user
-        {
-            <div class="Project_Container">
-                
+    <div class="Overlay"></div>
+        <h1 class="header">Let's get started with your first project</h1>
+        <button id="Create-New-calendar" type="submit">
+            <span class="Content">Create new calendar</span>
+        </button>
 
-                <div class="Project_Display">
-                    @foreach (var P in Model)///Display board Design
-                    {
-                        <div class="Project_Layout">
-                            <button class="Access">
-                                <div class="Project">
-                                    <h1 class="P_Name">@P.Name</h1>
-                                    <h2 class="Owner">@P.Owner</h2>
-                                    <h3 class="Description">@P.Description</h3>
-                                </div>
-                            </button>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="Overlay"></div>
-
-            <h1 class="header">Let's get started with your first project</h1>
-            <button id="Create-New-calendar" type="submit">
-                <span class="Content">Create new calendar</span>
+        <div class="dialog">
+            <button class="Cancel-icon">
+                <img id="X-Icon" src="~/Images/x-regular-48.png">
             </button>
 
-            <div class="dialog">
-                <button class="Cancel-icon">
-                    <img id="X-Icon" src="~/Images/x-regular-48.png">
-                </button>
+            <h1 class="Project-Header">Project Settings</h1>
+            <div class="Sub-dialog">
+                <form id="Project-info" method="post" asp-controller="MainPage" asp-action="Init_Project">
+                    <label class="Dialog-label">Name</label>
 
-                <h1 class="Project-Header">Project Settings</h1>
+                    <input autocomplete="off" required type="text" name="P_Name" id="Project-TextBox" class="Name_Box">
 
-                <div class="Sub-dialog">
-                    <form id="Project-info" method="post" asp-controller="MainPage" asp-action="Init_Project">
-                        <label class="Dialog-label">Name</label>
+                    <label class="Dialog-label">Description</label>
 
-                        <input autocomplete="off" required type="text" name="P_Name" id="Project-TextBox" class="Name_Box">
-
-                        <label class="Dialog-label">Description</label>
-
-                        <input autocomplete="off" required type="text" name="P_Description" id="Project-TextBox">
+                    <input autocomplete="off" required type="text" name="P_Description" id="Project-TextBox">
 
 
-                        <input class="Save-button" type="submit" value="Save">
-                    </form>
-                </div>
+                    <input class="Save-button" type="submit" value="Save">
+                </form>
             </div>
-        }
+        </div>
     }
 </div>
 

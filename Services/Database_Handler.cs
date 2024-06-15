@@ -19,7 +19,7 @@ namespace Web_demo.Services
 
         public Userinfo? Get_UserInfo(int ID); ///getting user info by ID
 
-        public void UpdateInfo(int User_id);
+        public Task UpdateInfo(int User_id);
     }
 
     public class Database_Handler : IDB_Services
@@ -57,13 +57,13 @@ namespace Web_demo.Services
         {
             foreach (var user in Profile.userinfo)
             {
-                if ((mail != null && user.email == mail) || (pass != null && user.emailkey == pass))
+                if ((mail != null && user.email == mail) && (pass != null && user.emailkey == pass))
                 {
                     return user;
                 }
             }
             return "Can't find user";
-        }
+        }//get through gmail 
 
         public Userinfo? Get_UserInfo(int ID)
         {
@@ -76,9 +76,9 @@ namespace Web_demo.Services
             }
 
             return null;
-        }
+        }///get through id
 
-        public void UpdateInfo(int User_id)///Update neccessary for making any changes for user
+        public async Task UpdateInfo(int User_id)///Update neccessary for making any changes for user
         {
             var User = Get_UserInfo(User_id);
             ///Changing the user properties
@@ -86,7 +86,7 @@ namespace Web_demo.Services
             {
                 var Updated_Result = Profile.Update(User!);
 
-                Profile.SaveChanges();
+                await Profile.SaveChangesAsync();///Saving changes  
             }
             else {
                 throw new Exception("User ID not found!");
@@ -96,13 +96,11 @@ namespace Web_demo.Services
 
         public Userinfo? Verified_User_Cookies(string? Cookies)
         {
-            var Table = Profile.userinfo;
-
-            foreach (var properties in Table)
+            foreach (var properties in Profile.userinfo)
             {
                 if (properties.Cookies_ID == Cookies)
                 {
-                    return properties;
+                    return properties;///return all user info
                 }
             }
 
