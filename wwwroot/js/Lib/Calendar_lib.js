@@ -1,6 +1,4 @@
-﻿import { event } from "jquery";
-
-export class Calendar_Rendering////This class handles everything about calendar behavior
+﻿export class Calendar_Rendering////This class handles everything about calendar behavior
 {   
     constructor(RenderBlocks = new NodeList(),Header = Element) ///Must provide a RenderBlocks
     {
@@ -53,35 +51,18 @@ export class Calendar_Rendering////This class handles everything about calendar 
 
                 if (_event.type == FlushEvent.type) ///Seperate Event
                 {
-                    this.DateBlocks_Event.Tag_Collection.forEach(_e => {
-                        if (_e.className == '' && _event.target == null)///Checking if the event is element is already fired
-                        {
-                            this.DateBlocks_Event.ListenOn(_e, _event.type, (_E = new CustomEvent()) => {
-                                this.Element_Renderer.removeClassList(_E.target, "IsCurrentMonthDays");
-                                this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentMonthDays");
-                                this.Element_Renderer.removeClassList(_E.target, "IsCurrentDays");
-                                this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentDays");
+                    this.DateBlocks_Event.AddHandlerToEvent(_event, (_E = new CustomEvent()) => {
+                        this.Element_Renderer.removeClassList(_E.target, "IsCurrentMonthDays");
+                        this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentMonthDays");
+                        this.Element_Renderer.removeClassList(_E.target, "IsCurrentDays");
+                        this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentDays");
 
-                            }, false);
-                        }
-                        else {
-                            break;
-                        }
                     });
                 }
 
-
-                this.DateBlocks_Event.Tag_Collection.forEach(_e => {
-                    if (_e.className == '' && _event.target == null)///Checking if the event is element is already fired
-                    {
-                        this.DateBlocks_Event.ListenOn(_e, _event.type, (_E = new CustomEvent()) => {
-                            console.log("adding new classlist ");
-                            this.Element_Renderer.AddingClasslist(_E.target, _event.type);
-                        }, false);
-                    }
-                    else {
-                        break;
-                    }
+                this.DateBlocks_Event.AddHandlerToEvent(_event, (_E = new CustomEvent()) => { ///add new event handler to all tag 
+                    console.log("adding new classlist ");
+                    this.Element_Renderer.AddingClasslist(_E.target, _event.type);
                 });
             }
         );
@@ -200,8 +181,6 @@ export class Calendar_Rendering////This class handles everything about calendar 
         for (let i = previuosDayOfMonth + 1; i < totalDays + previuosDayOfMonth + 1; i++) {
             if(i >= this.DateBlocks.length){ break }
             if(EventReload == true) { this.DateBlocks_Event.Call_Event(i,"Flush_Event") }
-
-
 
             if (currentDate == Time_Now.date && currentMonth == Time_Now.month) {///checking for current days
                 this.DateBlocks_Event.Call_Event(i,"IsCurrentDays");
@@ -471,7 +450,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
     AddHandlerToEvent(event = new CustomEvent, NewHandler = () => { }) ///Add event handler to all element inside the Tag_Collection 
     { 
         this.Tag_Collection.forEach(_e => {
-            if (_e.className == '' && event.target == null)///Checking if the event is element is already fired
+            if (_e.className == '' && event.target == null)///Checking if the event is element is already fired or event has not assigned 
             {
                 this.ListenOn(_e, event.type, NewHandler, false);
             }
@@ -500,7 +479,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         else if (IsDefualtEvent === false)
         {
             const EventInMemo = this.EventMemory.find((e) => e.type === event);
-            const TargetInMemo = this.Tag_Collection.find((e) => e.className === Target.className);
+            const TargetInMemo = this.Tag_Collection.find((e) => e.getAttribute("Event_id") === Target.getAttribute("Event_id"));
             
             if (EventInMemo !== undefined && TargetInMemo !== undefined) {
                 TargetInMemo.addEventListener(EventInMemo.type, (Event_Properties = new CustomEvent) => { //Listenning
