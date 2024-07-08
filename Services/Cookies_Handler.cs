@@ -77,7 +77,7 @@ namespace Web_demo.Services
         public string Get_LocalCookies()
         {
             var Server_Request = _HttpContextAccessor.HttpContext.Request;
-            string? Result = Server_Request.Cookies[_cookie_Key];
+            string? Result = Server_Request.Cookies.ToString();
             
             if(Result is null)
             {

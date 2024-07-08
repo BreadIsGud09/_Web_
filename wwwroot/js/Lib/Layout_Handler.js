@@ -24,8 +24,6 @@ export class LayoutManager
         this.Layout_Container.style.display = "grid";
         this.Layout_Container.style.gridTemplateRows = this.Defualt.Row;
         this.Layout_Container.style.gridTemplateCollums = this.Defualt.Coll;
-
-        
     }
 
     Push(layout_id = "",Rows = "",Collums = "")///Push the Layout Stats to arr 

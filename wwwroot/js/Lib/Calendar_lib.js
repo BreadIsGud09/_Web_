@@ -1,4 +1,6 @@
-﻿export class Calendar_Rendering////This class handles everything about calendar behavior
+﻿import { event } from "jquery";
+
+export class Calendar_Rendering////This class handles everything about calendar behavior
 {   
     constructor(RenderBlocks = new NodeList(),Header = Element) ///Must provide a RenderBlocks
     {
@@ -43,34 +45,56 @@
                 bubbles: false,
             }}, 
         ); ///SetupEvent
-            
-        this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to UI event 
+
+
+            this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to event 
             {
-                
                 const FlushEvent = this.DateBlocks_Event.EventMemory.find((e) => e.type == "Flush_Event");
 
-                if(_event.type == FlushEvent.type) ///Seperate Event
+                if (_event.type == FlushEvent.type) ///Seperate Event
                 {
-                    this.DateBlocks_Event.AddHandlerToEvent(_event,(_E) => {
-                        this.Element_Renderer.removeClassList(_E,"IsCurrentMonthDays");
-                        this.Element_Renderer.removeClassList(_E,"IsNotCurrentMonthDays");
-                        this.Element_Renderer.removeClassList(_E,"IsCurrentDays");
-                        this.Element_Renderer.removeClassList(_E,"IsNotCurrentDays");
-                    });///Remove all event inside of an element
+                    this.DateBlocks_Event.Tag_Collection.forEach(_e => {
+                        if (_e.className == '' && _event.target == null)///Checking if the event is element is already fired
+                        {
+                            this.DateBlocks_Event.ListenOn(_e, _event.type, (_E = new CustomEvent()) => {
+                                this.Element_Renderer.removeClassList(_E.target, "IsCurrentMonthDays");
+                                this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentMonthDays");
+                                this.Element_Renderer.removeClassList(_E.target, "IsCurrentDays");
+                                this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentDays");
+
+                            }, false);
+                        }
+                        else {
+                            break;
+                        }
+                    });
                 }
-                
-                this.DateBlocks_Event.AddHandlerToEvent(_event, (_E) => {
-                    this.Element_Renderer.AddingClasslist(_E, _event.type)
+
+
+                this.DateBlocks_Event.Tag_Collection.forEach(_e => {
+                    if (_e.className == '' && _event.target == null)///Checking if the event is element is already fired
+                    {
+                        this.DateBlocks_Event.ListenOn(_e, _event.type, (_E = new CustomEvent()) => {
+                            console.log("adding new classlist ");
+                            this.Element_Renderer.AddingClasslist(_E.target, _event.type);
+                        }, false);
+                    }
+                    else {
+                        break;
+                    }
                 });
             }
         );
-        
-            
+
+      
+
         console.log("Event Setup success!");
         }
     }
 
-///Private componets method 
+    ///Private componets method
+    
+
     #GetFirstDaysOfCurrentMonth()
     {
         const Currentdate = new Date().getDate();
@@ -288,7 +312,6 @@
     }
 }   
 
-
 class ElementRenderer ///modify html tag and style class
 {   
     UpdateElement(selector, data) {
@@ -310,9 +333,8 @@ class ElementRenderer ///modify html tag and style class
         }
     }
 
-    AddingClasslist(Selected_Elements = null,values = new String)///selector using css based 
+    AddingClasslist(Selected_Elements = new Element(), values = "")///selector using css based 
     {
-        
         if(Selected_Elements == null)
         {
             throw new Error("please give an Element instances");
@@ -346,6 +368,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
     Tag_Collection = []; ///Css collection 
     Event_Settings = {};///Contains genereal settings
     EventMemory = []; ///Contains Customevent classes event 
+    Call = 0;
 
     /**
      * 
@@ -354,7 +377,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
      * @returns this 
      * constructor only intiilize event into the memory without mapping the event to the element
      */
-    constructor( tags = NodeList, eventObject = { Event_List: [], Event_config: {} } )///Multiple event element
+    constructor(tags = NodeList, eventObject = { Event_List: [], Event_config: {} })///Multiple event element
     {
         const IsHasEvent = (eventObject.Event_List.length > 0) ? "true" : "false" ///Checking if any event has assigned to List
         
@@ -407,7 +430,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         else {
             return this;
         }
-    }
+    } ///For singular
 
 
     #Initialize_CollectionEvent()///Creating new identified properties for each element
@@ -416,11 +439,9 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         let Event_id = 0; 
 
         this.Tag_Collection.forEach(e => {
-            if (e.className !== "") {
-                e.setAttribute("Event_id", Event_id);////set new properties
-                Event_id++;
-            }
-        })
+            e.setAttribute("Event_id", Event_id);////set new properties
+            Event_id++;
+        }); 
     }
 
     #Initialize_Event(EventName = "",Settings = {})///Convert event to Initiable type
@@ -447,15 +468,17 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
      * method will map event to all tag_collection child
      */
 
-    AddHandlerToEvent(event = new CustomEvent,NewHandler = (eventProperties) => {}) 
-    {
+    AddHandlerToEvent(event = new CustomEvent, NewHandler = () => { }) ///Add event handler to all element inside the Tag_Collection 
+    { 
         this.Tag_Collection.forEach(_e => {
-            this.ListenOn(_e, event, () =>
+            if (_e.className == '' && event.target == null)///Checking if the event is element is already fired
             {
-                NewHandler(_e)///Execute given function
-                console.log(Event_Info.type);////Checking the state of Event
-            },false);
-        })
+                this.ListenOn(_e, event.type, NewHandler, false);
+            }
+            else {
+                return new Error("event target is: " + event.target);
+            }
+        });
     }
     
     /**
@@ -463,10 +486,12 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
      * @param {Element} Target
      * @param {Event} event
      * @returns {boolean}
+     * 
      */
 
     ListenOn(Target = Element, event = "", Handler = () => { }, IsDefualtEvent = true)
     {
+        
         if (IsDefualtEvent === true) {
             Target.addEventListener(event, (Event_Properties) => { //Listenning
                 Handler(Event_Properties);///Execute given function 
@@ -476,15 +501,18 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         {
             const EventInMemo = this.EventMemory.find((e) => e.type === event);
             const TargetInMemo = this.Tag_Collection.find((e) => e.className === Target.className);
-
-            if (EventInMemo === true && TargetInMemo === true)
-            {
-                TargetInMemo.addEventListener(EventInMemo.type, (Event_Properties) => { //Listenning
+            
+            if (EventInMemo !== undefined && TargetInMemo !== undefined) {
+                TargetInMemo.addEventListener(EventInMemo.type, (Event_Properties = new CustomEvent) => { //Listenning
                     Handler(Event_Properties);///Execute given function 
+                    this.Call++;
+                    console.log(this.Call);
                 });
             }
-
-            return false;
+            else {
+                console.error("Could not find Event/Target inside memo");
+                return false;
+            }
         }
     }
    

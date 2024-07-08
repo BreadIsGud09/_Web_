@@ -48,7 +48,7 @@ export class Polling ///Sending XML Request to the server
         }
     }
 
-    async GetRequest() { //Return a JSON promises 
+    async GetRequest() { //Return a JSONfy promises 
         var polledRespone = await fetch(this.#Secret_Url, { method: "GET" });
 
         if (polledRespone.ok) {
@@ -58,4 +58,5 @@ export class Polling ///Sending XML Request to the server
             return new Error(polledRespone.status);
         }
     }
+
 }

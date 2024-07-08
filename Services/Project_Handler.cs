@@ -12,6 +12,7 @@ namespace Web_demo.Services
         public void DeleteProject(int id);///Delete current project
         public void DeleteAllProjects(int UserId);///Delete all project
         public List<Project> GetUserProject(int UserId);
+        public List<Project> GetProjectByID(int ID);
     }
 
     public class Project_Handler : IProject_Services
@@ -73,6 +74,22 @@ namespace Web_demo.Services
                 return new List<Project>();
             }
 
+        }
+
+        public List<Project> GetProjectByID(int ID) {///Return singular project that mathces the ID 
+            var P_table = _db.ProjectTable;
+
+            var IsHaveProject = P_table.Where<Project>(p => p.id == ID).ToList();
+
+            if (IsHaveProject != null)
+            {
+                return IsHaveProject;
+            }
+            else 
+            {
+                return new List<Project>(); 
+            }
+            
         }
 
         private int GenerateUniqueId()

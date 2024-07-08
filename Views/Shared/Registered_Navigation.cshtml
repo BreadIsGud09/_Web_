@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model List<Project>;
 
+<!DOCTYPE html>
 @{
     ViewBag.Title = "Project";
-    ViewBag.IsUsingProject = false;
     var IsUsingProject = ViewBag.IsUsingProject;
+    var ProjectID = ViewBag.ProjectID;
+    var ProjectModel = Model;
+    var ToggleProjectHeader = ViewBag.ToggleHeader;
 }
 
 <html>
@@ -12,22 +15,34 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/css/Project-site/Registered-Navigation.css">
     <script language="javascript" type="module" src="~/js/Registered-Nav/Sidebar-Handler.js"></script>
-    <script language="javascript" type="module" src="~/js/Scheduled-Page/Project-Page-Handler.js"></script>
 </head>
+
     <body>
-        
         <div class="Horizontal-Bar">
             <button class="nav-bar-trigger">
                 <img src="/Images/menu-regular-48Gray.png" />
             </button>
-            <div class="Header-Bar">
-                <h1>My Project</h1>
-            </div>
-            
-        </div>
-        
 
-        <div class="nav-container"> 
+            @if (ToggleProjectHeader == true)
+            {
+                <div class="Header-Bar">
+                    @if (ProjectModel is not null && IsUsingProject == true)
+                    {
+                        <h1>
+                            @ProjectModel[0].Name;
+                        </h1>
+                    }
+                    else
+                    {
+                        <h1>
+                            Your project
+                        </h1>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="nav-container">
             <nav class="nav-bar">
                 <div class="Menus">
                     <button>
@@ -35,28 +50,28 @@
                     </button>
                 </div>
                 <div class="User-Profile-Canva">
-                    <button class="Profile-Button" >
+                    <button class="Profile-Button">
                         <img src="~/Images/User-Profile.png">
-                        <span>@ViewBag.Username</span>
+                        <span>@ViewData["username"]</span>
                     </button>
                 </div>
-                @{
-                    if (IsUsingProject == true)
-                    {
-                        <div class="Scheduled-Views">
-                            <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage")'">
-                                <img src="~/Images/Scheduled.png">
-                                <span>Schedule</span>
-                            </button>
-                        </div>
-                        <div class="Task-Views">
-                            <button>
-                                <img src="~/Images/TaskListpng.png" />
-                                <span>Task</span>
-                            </button>
-                        </div>
-                    }
+            @{
+                if (ProjectModel is not null && IsUsingProject == true)
+                {
+                    <div class="Scheduled-Views">
+                        <button onclick="location.href ='@Url.Action("Calendar_Project_Section","MainPage",new { ProjectID })'">
+                            <img src="~/Images/Scheduled.png">
+                            <span>Schedule</span>
+                        </button>
+                    </div>
+                    <div class="Task-Views">
+                        <button>
+                            <img src="~/Images/TaskListpng.png" />
+                            <span>Task</span>
+                        </button>
+                    </div>
                 }
+            }
                 <div class="User-settings">
                     <button>
                         <img src="~/Images/setting-iconpng.png">
@@ -65,6 +80,7 @@
                 </div>
             </nav>
         </div>
+        
 
         @RenderBody()
 

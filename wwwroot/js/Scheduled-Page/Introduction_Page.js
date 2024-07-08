@@ -32,41 +32,45 @@ const IshaveProject = new polling.Polling("YourProject/api/ProjectUser");
 
 ///this page only active when the user has no project or new to the web
 const CreateNew_Project = document.querySelector("#Create-New-calendar");
-var Project_Dialog = document.querySelector(".dialog");
-var Overlay = document.querySelector(".Overlay");
-var CancelButton = document.querySelector(".Cancel-icon");
-
 const Submit = document.querySelector(".Save-button");
 const MainPageLayout = document.querySelector(".Main-Section");
+var CancelButton = document.querySelector(".Cancel-icon");
+var Project_Dialog = document.querySelector(".dialog");
+var Overlay = document.querySelector(".Overlay");
 
 const Pop_Project_Dialog = new UIModule.PartialUI(DialogHTML, [
     CreateNew_Project,
     CancelButton
 ]);///Creating new partialUI
 
-    document.addEventListener("DOMContentLoaded", () => {
-        Pop_Project_Dialog.On_Action(CreateNew_Project, "click", (EventDetails) => {
-            Project_Dialog.style.visibility = "visible";
+var Dialog_Function = Pop_Project_Dialog.SetGlobalHandler("Dialog_Click", (Data = { Project_Dialog }) => {////Set new click action
+    if (Data.Project_Dialog !== null) {
+        Data.Project_Dialog.style.visibility = "visible";
 
-            Project_Dialog.style.animationName = 'scale-up-center';
-            Project_Dialog.style.animationDuration = '0.2s';
-            Project_Dialog.style.animationTimingFunction = 'cubic-bezier(0.785, 0.135, 0.150, 0.860';
-            Project_Dialog.style.animationDelay = '0.02s';
-            Project_Dialog.style.animationFillMode = 'both';
+        Data.Project_Dialog.style.animationName = 'scale-up-center';
+        Data.Project_Dialog.style.animationDuration = '0.2s';
+        Data.Project_Dialog.style.animationTimingFunction = 'cubic-bezier(0.785, 0.135, 0.150, 0.860';
+        Data.Project_Dialog.style.animationDelay = '0.02s';
+        Data.Project_Dialog.style.animationFillMode = 'both';
 
-            Overlay.style.display = "block";
-        });///Action of project dialog
+        Overlay.style.display = "block";
+    }
+});  ///Create a new global handler 
 
-        Pop_Project_Dialog.On_Action(CancelButton, "click", () => {
-            Project_Dialog.style.visibility = "hidden";
-            Overlay.style.display = "none";
-            Project_Dialog.style.animation = 'none';
+document.addEventListener("DOMContentLoaded", () => {
+    console.log(Dialog_Function);    
 
-        });
+    Pop_Project_Dialog.On_Action(CreateNew_Project, "click", (EventDetails) => {
+        Dialog_Function.Caller({ Project_Dialog });///Calling the global handler 
+    });///Action of project dialog
+
+
+    Pop_Project_Dialog.On_Action(CancelButton, "click", () => {
+        Project_Dialog.style.visibility = "hidden";
+        Overlay.style.display = "none";
+        Project_Dialog.style.animation = 'none';
+
     });
+});
 
 export const Partial_ProjectDialog = Pop_Project_Dialog.ExportedData();///Exported the UI to another file
-   
-
-
-

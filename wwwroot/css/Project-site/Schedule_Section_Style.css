@@ -66,7 +66,6 @@
     gap:40px;
 }
 
-
 /*Container----Section*/
 
 .Calendar-Month-Container > #Calendar-Header {
@@ -514,7 +513,7 @@
 
 .First-Calendar-Row > div { /*all the element inside First calendar rows*/
     display: grid;
-    flex: 1; /* Add this line to make the elements inside First-Calendar-Row have equal width */
+    flex: 1;
     width: 14%;
     height: 100%;
     border: 2px solid rgb(128, 128, 128);

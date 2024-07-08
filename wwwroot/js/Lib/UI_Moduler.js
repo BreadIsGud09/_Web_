@@ -7,6 +7,8 @@ export class UIDataModel {
     #ActionList = [''];///action List
     #Handler = [];
 
+    #global_Handler = {};//seperate reuseable handler 
+
     #ActionLog = {
         prototype: {
             Target: Element,
@@ -69,13 +71,40 @@ export class UIDataModel {
         return map
     }
 
+    #GenerateLogIndentifer() {
+        return Math.floor(Math.random() * (999 - 100 + 1)) + 100;
+    }///Generate a 3 digits number 
+
     AddNewMap(E = Element, event = "", Handler = () => { }) {///Addding a new map clues to the memory
         ///create an indentifier
-        let identifer = 0;
+        let identifer = this.#GenerateLogIndentifer;
         const Map_Clues = this.#CreateMapPoints(E, event,Handler);///will return a data map for pushing into log object
 
         this.#ActionLog["Log " + identifer] = Map_Clues;///Creating a new map object by the event name
         return Map_Clues;
+    }
+
+
+    /**
+     * 
+     * @param {String} key
+     * @returns {Caller: Handler}
+     */
+    GetGlobalHandler(key = "") { ///Takes a key to return 
+
+        if (key == "") { return undefined };
+
+        return this.#global_Handler[key];/// return function caller() method
+    }
+
+    SetGlobalHandler(Key = "", Handler = () => { }) {
+        if (Key !== "") {
+            this.#global_Handler[Key] = {
+                Caller: Handler,
+            }///Set Handler to passed in handler 
+            return true;
+        }
+        return false;
     }
 }
 
@@ -87,7 +116,7 @@ export class PartialUI  ///Only available for html and js
     ClassCollection = [];///Class involve in the UI
     #Action_Service;
     #ExportModel;
-    
+
 
     constructor(html = "", CSS_ClassName = [Element]) {
         this.HTML = html;
@@ -118,17 +147,42 @@ export class PartialUI  ///Only available for html and js
                 });///Initilizing service
             }
             else {
-                this.ClassCollection.splice(index,1);///remove the null out of the element 
+                this.ClassCollection.splice(index, 1);///remove the null out of the element 
             }
         });
     }
 
-    CallAction(ClassName = Element)///Calling the action directly without listenner
+    CallAction(ClassName = Element)///Calling exitsing action directly without listenner
     {
-        const IndexOfClass = this.ClassCollection.indexOf(ClassName);
-        const EventObj = this.#Action_Service.EventMemory.find((act) => act.classname === ClassName.classname);
+        const IndexOfClass = this.ClassCollection.indexOf(ClassName);////return element inside memo
+        const EventObj = this.#Action_Service.EventMemory.find((act) => act.classname === ClassName.className);///Event string 
 
-        this.#Action_Service.Call_Event(IndexOfClass, EventObj); ///executing the event         
+        if (EventObj !== undefined) {
+            return this.#Action_Service.Call_Event(IndexOfClass, EventObj); ///executing the event
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * 
+     * @param {string} key
+     * @param {Function} Handler
+    * Method will set a new global handler inside UIDataModel class
+     */
+
+    SetGlobalHandler(key = "", Handler = () => { })
+    {
+        if (key !== "") {
+            this.#ExportModel.SetGlobalHandler(key, Handler);///Set handler 
+
+            return this.#ExportModel.GetGlobalHandler(key);///The handler that saved to the ExportModel 
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -136,7 +190,7 @@ export class PartialUI  ///Only available for html and js
      * @param {Element} ClassName
      * @param {string} TriggerEvent
      * @param {Function} Handler
-     * Method map action to the element exsiting in the memory 
+     * Method map action to the element exsiting in the MEMORY 
      */
     On_Action(ClassName = Element, TriggerEvent = "", Handler = () => { })
     {
@@ -198,7 +252,7 @@ export class PartialUI  ///Only available for html and js
         });
 
 
-        return this;
+        return this; 
     }
 
 }
