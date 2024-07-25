@@ -11,8 +11,10 @@ namespace Web_demo.Services
     {
         public void SetCookies_Configuration(CookieOptions config, string Cookies_Key1);
         public string CreateCookies();
-        public string Get_LocalCookies();
+        //public string Get_LocalCookies();
         public string Get_Cookies_Key();
+        public string Get_UserLocal_Cookies();
+
     }
 
     public class Cookies_Handler : ICookies_Handler
@@ -20,7 +22,7 @@ namespace Web_demo.Services
         private readonly IHttpContextAccessor _HttpContextAccessor;
         private string _cookie_Key { get; set; }
         private CookieOptions _cookie_config;
-        
+
         public Cookies_Handler(IHttpContextAccessor httpContextAccessor)
         {
             _HttpContextAccessor = httpContextAccessor;
@@ -41,7 +43,7 @@ namespace Web_demo.Services
             return builder.ToString();
         }
 
-        public void SetCookies_Configuration(CookieOptions config,string Cookies_Key)
+        public void SetCookies_Configuration(CookieOptions config, string Cookies_Key)
         {
             var HTTP_Context = _HttpContextAccessor.HttpContext;
 
@@ -56,8 +58,21 @@ namespace Web_demo.Services
         {
             var HTTP_Context = _HttpContextAccessor.HttpContext;
 
-
             return HTTP_Context.Session.GetString("Scheudled_Cookies");
+        }
+
+        public string Get_UserLocal_Cookies() {
+            string LocalCookies = this.Get_Cookies_Key();
+            var IsHaveLocalCookies = this._HttpContextAccessor.HttpContext.Request.Cookies[LocalCookies]; ////Request cookies on user machine
+
+            if (IsHaveLocalCookies is not null)
+            {
+                return IsHaveLocalCookies;
+            }
+            else 
+            {
+                return "";
+            }
         }
 
         public string CreateCookies() 
@@ -74,17 +89,17 @@ namespace Web_demo.Services
             return CookiesValue;
         }
 
-        public string Get_LocalCookies()
-        {
-            var Server_Request = _HttpContextAccessor.HttpContext.Request;
-            string? Result = Server_Request.Cookies.ToString();
+        //public string Get_LocalCookies()///
+        //{
+            //var Server_Request = _HttpContextAccessor.HttpContext.Request;
+            //string? Result = Server_Request.Cookies.ToString();
             
-            if(Result is null)
-            {
-                return "Cookies not found";
-            }
+            //if(Result is null)
+            //{
+                //return "Cookies not found";
+            //}
 
-            return Result;
-        }
+            //return Result;
+        //}
     }
 }

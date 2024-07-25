@@ -33,7 +33,7 @@ namespace RoutingTest.Controllers
         public IActionResult Index()
         {
             ///Perform checking for Cookies 
-            string getUserCookies = cookies.Get_LocalCookies();
+            string getUserCookies = cookies.Get_UserLocal_Cookies();
             var IsUserVerified = userProfile.Verified_User_Cookies(getUserCookies);
 
             if (!(getUserCookies is null) && !(IsUserVerified is null)) ///Checl if not null
@@ -52,7 +52,7 @@ namespace RoutingTest.Controllers
         {
             string body = "<h1>Please Verifield your email by reading this</h1>";
             Userinfo UserData;
-            string Cookies = cookies.Get_LocalCookies();
+            string Cookies = cookies.Get_UserLocal_Cookies();
             var GmailExsit = userProfile.Get_UserInfo(Email, null);
 
             if (GmailExsit is Userinfo && !(Cookies is null))
@@ -101,7 +101,7 @@ namespace RoutingTest.Controllers
             ///
             bool IsCorrectGmail = Email_Services.IsGmailFormat(_Email);
             var info = userProfile.Get_UserInfo(_Email, password); ///Get all INFO for the user required
-            string Requested_Cookies = cookies.Get_LocalCookies();
+            string Requested_Cookies = cookies.Get_UserLocal_Cookies();
 
             if (info is Userinfo && IsCorrectGmail)////Checking Cookies Values and stuff
             {

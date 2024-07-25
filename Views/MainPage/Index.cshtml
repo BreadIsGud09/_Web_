@@ -15,11 +15,14 @@
 
 <div class="Main-Section">
     @{
-    <div class="Overlay"></div>
-        <h1 class="header">Let's get started with your first project</h1>
-        <button id="Create-New-calendar" type="submit">
-            <span class="Content">Create new project</span>
-        </button>
+        <div class="Overlay"></div>
+        <div class="Introduction-Container">
+            <h1 class="header">Let's get started with your first project</h1>
+            <button id="Create-New-calendar" type="submit">
+                <span class="Content">Create new project</span>
+            </button>
+        </div>
+       
 
         <div class="dialog">
             <button class="Cancel-icon">
@@ -29,7 +32,7 @@
             <h1 class="Project-Header">Project Settings</h1>
 
             <div class="Sub-dialog">
-                <form id="Project-info" method="post" asp-controller="MainPage" asp-action="Init_Project">
+                <form id="Project-info" method="post" asp-controller="Main_Api" asp-action="Init_Project">
                     <label class="Dialog-label">Name</label>
 
                     <input autocomplete="off" required type="text" name="P_Name" id="Project-TextBox" class="Name_Box">

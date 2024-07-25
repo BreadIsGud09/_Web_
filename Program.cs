@@ -29,6 +29,8 @@ builder.Services.AddTransient<IEmail_Sender,Email_Handler>();
 builder.Services.AddTransient<IDB_Services,Database_Handler>();
 builder.Services.AddTransient<ICookies_Handler, Cookies_Handler>();
 builder.Services.AddTransient<IProject_Services, Project_Handler>();
+builder.Services.AddTransient<ITaskManager, TaskManager>();
+
 
 ///Adding Services
 ///

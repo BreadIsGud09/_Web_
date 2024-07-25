@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web_demo.Migrations.ProjectDbMigrations
 {
     /// <inheritdoc />
-    public partial class InitProject : Migration
+    public partial class Updated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,8 +22,8 @@ namespace Web_demo.Migrations.ProjectDbMigrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     DateCreated = table.Column<string>(type: "text", nullable: false),
                     Owner = table.Column<int>(type: "integer", nullable: false),
-                    Task = table.Column<string>(type: "text", nullable: true),
-                    Events = table.Column<string>(type: "text", nullable: true)
+                    Category = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Task_List = table.Column<List<string>>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {

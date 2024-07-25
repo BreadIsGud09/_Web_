@@ -22,9 +22,10 @@ var Project_Dialog = document.querySelector(".dialog");
 ///Container UI
 const Dialog = new UIModule.PartialUI();
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () =>
+{
     var PartialDialog = Dialog.ImportData(Partial_ProjectDialog);///Import UI module
-
+    
     var Dialog_Click = Partial_ProjectDialog.GetGlobalHandler("Dialog_Click");///Access the global handler
 
     PartialDialog.NewClass = CreateNewProject///Set new class for the action 

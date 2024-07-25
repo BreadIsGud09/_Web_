@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.SqlServer.Server;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
+
+
 namespace Web_demo.Models
 {
-    public class Project 
+    public class Project
     {
         [Required]
         public string? Name { get; set; }
@@ -19,12 +22,15 @@ namespace Web_demo.Models
 
         [Required]
         public int Owner { get; set; } /// <summary>
-        /// Properties use for retrive when user GetProject Method is called
-        /// </summary>
+                                       /// Properties use for retrive when user GetProject Method is called
+                                       /// </summary>
+                                       /// 
+        ///Category properties for sorting task
+        
+        public List<string>? Category { get; set; }
 
-        public JsonDocument? Task { get; set; }
-
-        public JsonDocument? Events { get; set; }
+        //will be serialize as JSONB as task
+        public List<string>? Task_List { get; set; }
     }
 
     public class ProjectDb : DbContext
