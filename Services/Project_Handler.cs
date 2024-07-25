@@ -50,6 +50,9 @@ namespace Web_demo.Services
                     _project.Description = options.Description;
                     _project.DateCreated = DateTime.Now.ToString();
                     _project.Owner = UserInfo.id;
+                    _project.Task_List = new List<string>();
+                    _project.Category = new List<string>();//Initilize List for further update
+
 
                     Queries.Add(_project);
 
@@ -69,7 +72,7 @@ namespace Web_demo.Services
             var CurrentProject = this.GetProjectByID(ProjectId)[0];
             var User = DB_services.Get_UserInfo(CurrentProject.Owner);
 
-            if (User is not null)///Check the user info
+            if (User is not null && CurrentProject.Task_List is not null)///Check the user info
             {
                 TaskModel.Assignee = User.username;
                 TaskModel.RootProject_ID = CurrentProject.id;

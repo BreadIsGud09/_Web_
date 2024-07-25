@@ -23,7 +23,7 @@ namespace Web_demo.Migrations.ProjectDbMigrations
                     DateCreated = table.Column<string>(type: "text", nullable: false),
                     Owner = table.Column<int>(type: "integer", nullable: false),
                     Category = table.Column<List<string>>(type: "text[]", nullable: true),
-                    Task_List = table.Column<List<string>>(type: "text[]", nullable: true)
+                    Task_List = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {

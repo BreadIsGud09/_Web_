@@ -15,7 +15,9 @@
 <body>
     <div class="Main-Section">
         @{
-            if (Task_ is not null)
+            if (Task_ is null) { return; }
+
+            if (Task_.Any() == true)
             {
                 ///Accessing every element of task
                 ///
@@ -67,7 +69,7 @@
                     }
                 }
             }
-            else if (Model is not null && Task_ is null)
+            else if (Model is not null && Task_.Any() == false)
             {
                 ///display create new Task screen
                 <div class="Container_">

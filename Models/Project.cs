@@ -25,12 +25,15 @@ namespace Web_demo.Models
                                        /// Properties use for retrive when user GetProject Method is called
                                        /// </summary>
                                        /// 
-        ///Category properties for sorting task
-        
+                                       ///Category properties for sorting task
+
         public List<string>? Category { get; set; }
 
         //will be serialize as JSONB as task
+
         public List<string>? Task_List { get; set; }
+         
+
     }
 
     public class ProjectDb : DbContext

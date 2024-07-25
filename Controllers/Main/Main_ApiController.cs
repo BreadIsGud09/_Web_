@@ -56,7 +56,7 @@ namespace Web_demo.Controllers.Main
 
                 if (Task.RootProject_ID != 0)
                 {
-                    return RedirectToAction("User_Task", "MainPage");
+                    return RedirectToAction("User_Task", "MainPage",new { ProjectID = ProjectID });
                 }
             }
             
