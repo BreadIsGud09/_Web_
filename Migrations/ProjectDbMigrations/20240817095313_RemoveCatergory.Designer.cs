@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web_demo.Models;
@@ -11,9 +12,11 @@ using Web_demo.Models;
 namespace Web_demo.Migrations.ProjectDbMigrations
 {
     [DbContext(typeof(ProjectDb))]
-    partial class ProjectDbModelSnapshot : ModelSnapshot
+    [Migration("20240817095313_RemoveCatergory")]
+    partial class RemoveCatergory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

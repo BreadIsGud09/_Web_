@@ -3,19 +3,24 @@
 
 export class UIDataModel {
     HTML = ""; ///html
-    #ActionClass = [Element];///CSS class
+
+    /**@type {[Element]}*/
+    #ActionClass = [Element];///CSS class collection
+    /**@type {[""]}*/
     #ActionList = [''];///action List
+    /**@type {[(e = CustomEvent) => {}]}*/
     #Handler = [];
 
-    #global_Handler = {};//seperate reuseable handler 
+    
+    #global_Handler = {};//seperate reuseable handler
 
-    #ActionLog = {
-        prototype: {
-            Target: Element,
-            EventName: "",
-            Handler: (EventData = CustomEvent) => { }
-        }
-    };
+    /**@type {[string]}
+     * @description Collection of css modules
+     */
+    Css_Path = [""]
+
+    /**@type {{prototype : {Target : Element, EventName : "",Handler : (e = CustomEvent) => {}}}}*/
+    #ActionLog = {};
 
     constructor(html = "", actionClass = [Element], actionList = [''], handler = {}) {
         this.HTML = html;
@@ -31,22 +36,24 @@ export class UIDataModel {
             ActionClass: this.ActionClass,
             ActionList: this.#ActionList,
             Handler: this.#Handler
-        }    
+        }
     }
 
-    get Log()
-    {
+    get Log() {
         return this.#ActionLog;
     }
 
-    get Classlist()
-    {
+    get Classlist() {
         return this.#ActionClass;
     }
 
     set Class(E = Element)///set new value to the memory
     {
         this.#ActionClass.push(E);
+    }
+
+    set CssModules(Path = "") {
+        this.Css_Path.push(Path);
     }
 
     set Handler(Handler = () => { })///
@@ -73,22 +80,25 @@ export class UIDataModel {
 
     #GenerateLogIndentifer() {
         return Math.floor(Math.random() * (999 - 100 + 1)) + 100;
-    }///Generate a 3 digits number 
+    }///Generate a 3 digits number
+
+
+
 
     AddNewMap(E = Element, event = "", Handler = () => { }) {///Addding a new map clues to the memory
         ///create an indentifier
         let identifer = this.#GenerateLogIndentifer;
         const Map_Clues = this.#CreateMapPoints(E, event,Handler);///will return a data map for pushing into log object
 
-        this.#ActionLog["Log " + identifer] = Map_Clues;///Creating a new map object by the event name
-        return Map_Clues;
+        this.#ActionLog[identifer] = Map_Clues;///Creating a new map object by the event name
+        return identifer;
     }
 
 
     /**
      * 
      * @param {String} key
-     * @returns {Caller: Handler}
+     * @returns {{Caller : Function}}
      */
     GetGlobalHandler(key = "") { ///Takes a key to return 
 
@@ -96,6 +106,14 @@ export class UIDataModel {
 
         return this.#global_Handler[key];/// return function caller() method
     }
+
+    /**
+     * 
+     * @param {string} Key
+     * @param {Function} Handler
+     * @returns {boolean}
+     * Will access the global handler properties, call the global handler by Caller method
+     */
 
     SetGlobalHandler(Key = "", Handler = () => { }) {
         if (Key !== "") {
@@ -113,18 +131,24 @@ export class UIDataModel {
 export class PartialUI  ///Only available for html and js
 {
     HTML = "";
+    /**@type {[HTMLDivElement]}*/
     ClassCollection = [];///Class involve in the UI
+    /**@type {CustomUIEvent.Custom_UI_Event_Handler()}*/
     #Action_Service;
+    /**@type {UIDataModel}*/
     #ExportModel;
-
-
-    constructor(html = "", CSS_ClassName = [Element]) {
+    
+    /** 
+     * @type {string} html
+     * @type {[element]} Css_ClassName
+     * @type {string} Css_Modules_Path
+     */
+    constructor(html = "", Element_List = [Element]) {
         this.HTML = html;
-        this.ClassCollection = CSS_ClassName;
-        this.#Action_Service = new CustomUIEvent.Custom_UI_Event_Handler();///using service
+        this.ClassCollection = Element_List;
+        this.#Action_Service = new CustomUIEvent.Custom_UI_Event_Handler()///using service
         this.#ExportModel = new UIDataModel(html, this.ClassCollection);
-
-
+        
         this.#InitilizeSetupAction();///Initilize event service for Class collection
     }
 
@@ -133,6 +157,19 @@ export class PartialUI  ///Only available for html and js
         this.#InitilizeSetupAction();///Runs the event services for class;
     }
 
+    #DisposeCollection()
+    {
+        for (var keys in this.ClassCollection) {
+            let Values = this.ClassCollection[keys];
+            if (Values == null) {
+                this.ClassCollection.splice(Values);
+            }
+        }
+    }///Remove any null element that still exsit in memory
+
+    /**
+     * @description intialize event to each element
+     */
     #InitilizeSetupAction()//Setup event for collection 
     {
         this.ClassCollection.forEach((e, index) => {
@@ -152,13 +189,23 @@ export class PartialUI  ///Only available for html and js
         });
     }
 
-    CallAction(ClassName = Element)///Calling exitsing action directly without listenner
+   
+    /**
+     * 
+     * @param {Element} ClassName
+     * @param {string} EventNameOptional
+     * @returns {boolean}
+     * @description Trigger the call event inside the Action service
+     */
+    CallAction(ClassName = Element,EventName = "")///Calling exitsing action directly without listenner
     {
         const IndexOfClass = this.ClassCollection.indexOf(ClassName);////return element inside memo
-        const EventObj = this.#Action_Service.EventMemory.find((act) => act.classname === ClassName.className);///Event string 
+        const EventObj = this.#Action_Service.EventMemory.find((act) => act.type === EventName);///Event string
+        const ClassId = ClassName.getAttribute("event_id");
+
 
         if (EventObj !== undefined) {
-            return this.#Action_Service.Call_Event(IndexOfClass, EventObj); ///executing the event
+            return this.#Action_Service.Call_Event(ClassId, EventObj.type); ///executing the event
         }
         else {
             return false;
@@ -168,8 +215,8 @@ export class PartialUI  ///Only available for html and js
     /**
      * 
      * @param {string} key
-     * @param {Function} Handler
-    * Method will set a new global handler inside UIDataModel class
+     * @param {(e = new CustomEvent()) => {}} Handler
+     * @description Method will set a new global handler inside UIDataModel class
      */
 
     SetGlobalHandler(key = "", Handler = () => { })
@@ -189,18 +236,45 @@ export class PartialUI  ///Only available for html and js
      * 
      * @param {Element} ClassName
      * @param {string} TriggerEvent
-     * @param {Function} Handler
-     * Method map action to the element exsiting in the MEMORY 
+     * @param {(e = CustomEvent) => {}} Handler
+     * @param {boolean} IsDefualtEvent
+     * @description Method Map any action to the element exsiting in the MEMORY 
+     * @description action will be disposed when export
      */
-    On_Action(ClassName = Element, TriggerEvent = "", Handler = () => { })
+    On_Action(Class = Element, TriggerEvent = "", Handler = (e) => { },IsDefualtEvent = false)
     {
-        const IndexOfClass = this.ClassCollection.indexOf(ClassName);
+        this.#DisposeCollection();
 
-        if (IndexOfClass !== -1)///Exsiting in the memory?
+        const IndexOfClass = this.ClassCollection.indexOf(Class);
+        const IntialAction = new CustomEvent(TriggerEvent);
+
+        this.#Action_Service.EventMemory.push(IntialAction);
+
+        if (IndexOfClass !== -1 && Class !== null)///Exsiting in the memory?
         {
-            this.#Action_Service.ListenOn(this.ClassCollection[IndexOfClass], TriggerEvent, Handler); ///Mapping event to Class
-            this.#ExportModel.AddNewMap(ClassName, TriggerEvent, Handler);//Add a new map to memory 
+            this.#Action_Service.ListenOn(this.ClassCollection[IndexOfClass], TriggerEvent, Handler, IsDefualtEvent); ///Mapping event to Class
+
+            this.#ExportModel.AddNewMap(Class, TriggerEvent, Handler);//Add a new map to memory
         }
+    }
+
+    /**
+     * @description return false if not success
+     */
+    LoadModules() {
+        const ModulesList = this.#ExportModel.Css_Path;
+        const HtmlHeader = document.getElementsByTagName('head')[0];
+
+        ModulesList.forEach(e => {
+            const Link = document.createElement('link');
+            Link.rel = "stylesheet";
+            Link.type = "text/css";
+            Link.href = e;
+            Link.media = 'all';
+            
+            HtmlHeader.appendChild(Link);
+
+        });
     }
 
     RenderHTML(ParentClass = Element) { ///Rendering the html 
@@ -237,6 +311,8 @@ export class PartialUI  ///Only available for html and js
         this.HTML = Model.HTML;
         this.ClassCollection = Model.Classlist.slice();
         this.#ExportModel = Model;
+
+        this.LoadModules(); ////Loading all the neccesary modules
 
         this.#InitilizeSetupAction();///Assignning element to event Service
         const Map = this.#ExportModel.Log;

@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Permissions;
 using System.Text.Json;
 using System.Transactions;
 using Web_demo.Models;
@@ -13,6 +16,8 @@ namespace Web_demo.Services
         public List<UserTask> LoadUserTask(int ProjectId);
         public Task<UserTask> UpdateTask(UserTask task);
         public Task<UserTask> RemoveTaskFromProject(int Project_ID);
+
+        public UserTask FindTask(int ProjectId,int RootProjectID);
     }
 
     public class TaskManager : Project_Handler, ITaskManager ///Task Manager service 
@@ -26,17 +31,37 @@ namespace Web_demo.Services
         }
 
 
+        public UserTask FindTask(int ProjectId, int RootProjectID) {
+
+            var Project = this.GetProjectByID(ProjectId)[0];
+            UserTask Serialized;
+
+
+            if (Project is not null && Project.Task_List is not null)
+            {
+                foreach (var E in Project.Task_List)
+                {
+                    Serialized = JsonSerializer.Deserialize<UserTask>(E);
+                    if (Serialized is not null && Serialized.RootProject_ID == RootProjectID) {
+                        return Serialized;
+                    }
+
+                }
+            }
+            return new UserTask();
+        }
+
         public List<UserTask> LoadUserTask(int ProjectId)///Load the user by accessing the TaskList properties 
         {
             var project = this.GetProjectByID(ProjectId)[0];
 
-            if (project is not null && project.Task_List is not null)
+            if (project is not null && project.Task_List.Any() == true)
             {
-                var List = project.Task_List.Select(e => JsonSerializer.Deserialize<UserTask>(e)).ToList();
+                var ConvertedList = project.Task_List.Select(e => JsonSerializer.Deserialize<UserTask>(e)).ToList();
 
-                if (List.Any() == true)
+                if (ConvertedList.Any() == true)
                 {
-                    return List;
+                    return ConvertedList;
                 }
                 
             }
@@ -60,7 +85,7 @@ namespace Web_demo.Services
             return RootLess_model;
         }
 
-        public Task<UserTask> RemoveTaskFromProject(int Project_ID)
+        public async Task<UserTask> RemoveTaskFromProject(int Project_ID)
         {
             throw new NotImplementedException();
         }

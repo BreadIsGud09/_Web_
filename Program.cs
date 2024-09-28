@@ -62,7 +62,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-
 app.UseEndpoints(endpoints =>
 {
     app.MapControllerRoute(
@@ -72,8 +71,9 @@ app.UseEndpoints(endpoints =>
     app.MapControllerRoute(
         name: "MainPage",
         pattern: "Project/YourProject/{user?}",
-        defaults: new { controller = "MainPage", Action = "Index"}
+        defaults: new { controller = "MainPage", Action = "Index" }
     );
 });
+
 
 app.Run();

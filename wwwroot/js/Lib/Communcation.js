@@ -2,6 +2,10 @@ export class Polling ///Sending XML Request to the server
 {
     #Secret_Url;
 
+    /**
+     * 
+     * @param {string} DefualtUrl
+     */
     constructor(DefualtUrl = "")
     {
         this.#Secret_Url = DefualtUrl;
@@ -14,37 +18,25 @@ export class Polling ///Sending XML Request to the server
 
     /**
      * 
-     * @param {object} data
-     * @returns status
+     * @param {{}} data
+     * @returns {Promise}
      */
-    PostRequest(data = {})///Post method
+    async PostRequest(data = {})///Post method
     {
-        var Jsonify_Data = JSON.stringify(data)
+        var Jsonify = JSON.stringify(data);
+        console.log(Jsonify);
 
-        if(Url == "")
-        {
-            return new console.error("Please provide URL");
+        var PolledRespone = await fetch(this.#Secret_Url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: Jsonify
+        });
+
+        if (PolledRespone.ok) {
+            return PolledRespone.json(); 
         }
-        else if(Url !== "")
-        {
-            ////Creating new POST Request from XMLHttp
-            var Request = new XMLHttpRequest();
-
-            Request.open("POST",Url);
-            Request.setRequestHeader("Content-Type","application/json");
-
-            Request.onreadystatechange = () => {
-                if(Request.readyState == 400 && Request.status == 200)
-                {
-                    return Request.response; ////Return server respon
-                }
-                else
-                {
-                    return "Error";
-                }
-                
-            }
-            Request.send(Jsonify_Data);/// Sending request
+        else if (!PolledRespone.ok) {
+            return new Error(PolledRequest.status);
         }
     }
 

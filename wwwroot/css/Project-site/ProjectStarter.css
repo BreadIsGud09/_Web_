@@ -101,7 +101,7 @@
     color: rgb(242, 239, 234);
  }
 
-#Project-TextBox {
+.Project_TextBox {
     font-weight: 200;
     border-radius: 5px;
     font-size: 1.5rem;

@@ -15,8 +15,6 @@
 <body>
     <div class="Main-Section">
         @{
-            if (Task_ is null) { return; }
-
             if (Task_.Any() == true)
             {
                 ///Accessing every element of task
@@ -24,52 +22,42 @@
                 foreach (var t in Task_)
                 {
                     var Task_Obj = JsonSerializer.Deserialize<UserTask>(t);///Convert string to UserTask obj
-
+                    
                     if (Task_Obj is not null)
                     {
+                        ///Getting the current project
+                        var CurrentProject = Model.Where(e => e.id == Task_Obj.RootProject_ID).ToList()[0];
+
                         ///Display the task design
                         <div class="Task_Container">
-                           
-                            <div class="Task_Display">
-                                <div class="Undone_Tag">
-                                    <div class="Button_Container">
-                                        <button class="Create_Task">
-                                            <img src="~/Images/plus-regular-60.png">
-                                        </button>
-                                    </div>
-                                    <div class="Tag_Header_Container">
-                                        <h2 class="Tag_Name">Undone</h2>
-                                        <div class="Task_Layout" id="@Task_Obj.RootProject_ID">
-                                            <button class="Access"
-                                                    onclick="location.href = '@Url.Action("User_Task","MainPage",new { ProjectID = Task_Obj.RootProject_ID })' ">
-                                                <div class="Project">
-                                                    <div class="T_Header">
-                                                        <h1 class="T_Name">@Task_Obj.Name</h1>
-                                                        <hr>
-                                                    </div>
-                                                    <div class="Description_Container">
-                                                        <h3 class="Description">@Task_Obj.Content</h3>
-                                                    </div>
-                                                    <div class="Owner_Container">
-                                                        <hr>
-                                                        <h2 class="Owner">@@@Task_Obj.Assignee</h2>
-                                                    </div>
-                                                    <div class="Tag_Container">
-                                                        <hr>
-                                                        <h2 class="Tag">@@@Task_Obj.Tags</h2>
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
+                            <div class="Defualt_Tag_Collums">
+                                <div class="Catergory_Header_Container">
+                                    <h2 class="Catergory_Header">@Task_Obj.Tags</h2>
+                                    <button class="CreateNewCategory">
+                                        <img class="Create_Task_Icon" src="/Images/plus-regular-60.png" alt="Task creation button">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="Tag_Template" data-TaskId = "@Task_Obj.id()" data-projectid = "@CurrentProject.id" data-rootprojectid = "@Task_Obj.RootProject_ID">
+                                <div class="Template_Header_Container">
+                                    <img class="Task_Icon" src="~/Images/notepad-solid-48.png">
+                                    <h1 class="Task_Template_Header">
+                                        @Task_Obj.Name
+                                    </h1>
+                                </div>
+                                <div class="Tag_Properties_Container">
+                                    <p class="Properties">Tag: @Task_Obj.Tags</p>
+                                </div>
+                                <div class="Duedate_Properties_Container">
+                                    <p class="Properties">Due-date: @Task_Obj.Due_Date</p>
                                 </div>
                             </div>
                         </div>
-
                     }
                 }
             }
-            else if (Model is not null && Task_.Any() == false)
+            else if (Model is not null && Task_.Any() == false)///Checking for user task
             {
                 ///display create new Task screen
                 <div class="Container_">
@@ -77,42 +65,47 @@
                         <h1 class="Intro_Header">Let's get started! with making new task</h1>
                         <button class="CreateNewTask">Create your first task!</button>
                     </div>
-                </div>
-
-
-                <div class="Task_dialog">
-                    <div class="Task-Sub-dialog">
-                        <form class="dialog_Form" id="Task-info" method="post" asp-action="CreateNewTask" asp-controller="Main_Api" asp-route-ProjectID = "@Model[0].id">
-                            <button class="Cancel-icon">
-                                <img id="X-Icon" src="~/Images/x-regular-48.png">
-                            </button>
-
-                            <div class="Portions_Container">
-                                <input type="text" maxlength="50" class="Task_TextBox_Header" placeholder="Untitled" name="Task_Name" required autocomplete="off" id="Text-Box-Header">
-                            </div>
-                            
-                            <div class="Atributes_Container">
-                                <div class="Atributes_">
-                                    <label class="Task-Dialog-label">Tags: </label>
-                                    <input type="text" name="TagName" maxlength="20" class="Tags_Selection" autocomplete="off" required id="Text-Box-Tags">
-                                </div>
-
-                                <div class="Atributes_">
-                                    <label class="Task-Dialog-label">Due-date:</label>
-                                    <input autocomplete="off" class="DueDate_Box" required type="date" name="Task_Duedate" id="Task-TextBox">
-                                </div>
-                            </div>
-
-                            <div class="Main_Description_Container">
-                                <textarea  rows="50" cols="100" id="Task-TextBox-Description" placeholder="Your ideas start here" required name="Task_Content"></textarea>
-                            </div>
-
-                            
-                            <input class="Task-Save-button" type="submit" value="Save">
-                        </form>
-                    </div>
-                </div>
+                </div>               
             }
+
+            <div class="Task_dialog">
+                <div class="Task-Sub-dialog">
+                    <form class="dialog_Form" id="Task-info" method="post" asp-action="CreateNewTask"
+                          asp-controller="Main_Api" asp-route-ProjectID="@Model[0].id">
+                        <button class="Cancel-icon">
+                            <img id="X-Icon" src="~/Images/x-regular-48.png">
+                        </button>
+
+                        <div class="Portions_Container">
+                            <input value="" contenteditable="true" type="text" maxlength="50" class="Task_TextBox_Header" placeholder="Untitled"
+                                   name="Task_Name" required autocomplete="off" id="Text-Box-Header">
+                        </div>
+
+                        <div class="Atributes_Container">
+                            <div class="Atributes_">
+                                <label class="Task-Dialog-label">Tags: </label>
+                                <input contenteditable="true" type="text" name="TagName" maxlength="20" class="Tags_Selection" autocomplete="off"
+                                       required id="Text-Box-Tags">
+                            </div>
+
+                            <div class="Atributes_">
+                                <label class="Task-Dialog-label">Due-date:</label>
+                                <input contenteditable="true" autocomplete="off" class="DueDate_Box" required type="date" name="Task_Duedate"
+                                       id="Task-TextBox">
+                            </div>
+                        </div>
+
+                        <div class="Main_Description_Container">
+                            <textarea rows="50" cols="100" id="Task-TextBox-Description" placeholder="Your ideas start here"
+                            required name="Task_Content"></textarea>
+                        </div>
+
+
+                        <input class="Task-Save-button" type="submit" value="Save">
+                    </form>
+                </div>
+            </div>
+
         }
     </div>
 </body>

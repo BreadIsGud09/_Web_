@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Evaluation;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Web_demo.Models;
 using Web_demo.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Web_demo.Controllers.Main
 {
@@ -18,7 +17,7 @@ namespace Web_demo.Controllers.Main
         private readonly IHttpContextAccessor _HttpContextAccessor;
 
 
-        public Main_ApiController(IProject_Services project_, IDB_Services user_dB_, ICookies_Handler cookies, IHttpContextAccessor httpContextAccessor,ITaskManager taskManager)
+        public Main_ApiController(IProject_Services project_, IDB_Services user_dB_, ICookies_Handler cookies, IHttpContextAccessor httpContextAccessor, ITaskManager taskManager)
         {
             Project_Services = project_;
             User_dB_ = user_dB_;
@@ -32,36 +31,77 @@ namespace Web_demo.Controllers.Main
             return View();
         }
 
+
+        [HttpGet]
+        [Route("api/Task/{ProjectID}/{ProjectRootId}")]
+        public async Task<IActionResult> GetUserTask([FromRoute] int ProjectID, [FromRoute] int ProjectRootId)
+        {
+            var SessionChecked = HttpContext.Session.GetInt32("User_ID");
+
+            var Project_Result = Project_Services.GetProjectByID(ProjectID)[0];
+
+            if (Project_Result is not null && SessionChecked is not null)
+            {
+                var UserTask_ = _taskManager.LoadUserTask(ProjectID);///get the user task
+
+
+                var ToJson = UserTask_.Where<UserTask>(e => e.RootProject_ID == ProjectRootId).ToJson();
+
+                return Ok(ToJson);
+            }
+
+            return Ok("Try again!");
+        }
+
+
+        [HttpGet]
+        [Route("Project/YourProject/api/GetProject/{Cookies}")]
+        public IActionResult GetProject([FromRoute]string Cookies)
+        {
+            Userinfo? Info = User_dB_.Verified_User_Cookies(Cookies);
+
+            if (Info is not null)
+            {
+                var UserP = Project_Services.GetUserProject(Info.id);
+
+                if (UserP.Any() == true)
+                {
+                    return Ok(UserP.ToJson());
+                }
+
+            }
+
+            return Ok("");
+        }
+
+
         [HttpPost]
         [Route("Project/YourProject/api/Task/{ProjectID}")]
         public async Task<IActionResult> CreateNewTask([FromRoute] int ProjectID, [FromForm] string Task_Name, [FromForm] string TagName, [FromForm] string Task_Duedate, [FromForm] string Task_Content)
         {
-
-
-
-            var task_Model = new UserTask()
+            var task_Model = new UserTask()///Creating a new task model
             {
                 Name = Task_Name,
                 Content = Task_Content,
                 Due_Date = Task_Duedate,
                 Tags = TagName
             };
-            
+
             var UserSessionID = HttpContext.Session.GetInt32("User_ID");//Getting the Session saved on server 
 
             if (UserSessionID != null)//Check session 
             {
-
-                var Task = await _taskManager.CreateTaskModel(task_Model, ProjectID);
+                var Task = await _taskManager.CreateTaskModel(task_Model, ProjectID);////update the database 
 
                 if (Task.RootProject_ID != 0)
                 {
-                    return RedirectToAction("User_Task", "MainPage",new { ProjectID = ProjectID });
+                    return RedirectToAction("User_Task", "MainPage", new { ProjectID = ProjectID });
                 }
             }
-            
+
             return Ok("try again");
         }
+
 
 
         [HttpGet]
@@ -120,6 +160,40 @@ namespace Web_demo.Controllers.Main
                 return Ok("user Session expired");
             }
         }
+
+        
+        [HttpPost]
+        [Route("Project/YourProject/Update/{ProjectID}")]
+        
+        public async Task<IActionResult> Modify_Project([FromRoute] int ProjectID, [FromBody] Project UpdatedProject) {
+
+            var IsHaveLocalCookies = Cookie_Handler.Get_UserLocal_Cookies();////Request cookies on user machine
+            var Local_User = User_dB_.Verified_User_Cookies(IsHaveLocalCookies);///Verified and return the userinfo if have
+
+            var CurrentProject = Project_Services.GetProjectByID(ProjectID)[0];
+            
+
+            if (CurrentProject is not null && Local_User is not null)
+            {
+                //Perform changes from project to the database then return the full project properties
+                var Updated = await Project_Services.UpdateModels(Local_User.id, ProjectID,
+                    new Project()
+                    {
+                        Name = UpdatedProject.Name,
+                        Description = UpdatedProject.Description
+                    }); 
+
+                if (Updated.DateCreated is not null)
+                {
+                    var Body = JsonSerializer.Serialize<Project>(Updated);
+
+                    return Ok(Body); ///Return the UpdatedProject json
+                }
+
+            }
+            return Ok("Could not find the project");
+        }
+
 
 
     }

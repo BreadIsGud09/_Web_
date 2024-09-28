@@ -15,10 +15,22 @@
     --Defualt_Background_Color:rgb(45,45,45);
 }
 
+
+
+/**----------Starter_Section----------**/
+
 .Container_ {/*Starter task container*/
     display: flex;
     height: var(--Container_height);
     width: var(--Container_width);
+}
+
+
+.Intro_Header {
+    display:flex;
+    font-family:var(--Font_Style);
+    font-size:var(--header_Size);
+    color:var(--Text_color);
 }
 
 .Header_Container {
@@ -312,4 +324,172 @@
 .Cancel-icon:hover {
     cursor: pointer;
     transform: translateY(-10px) scale(10px);
+}
+
+
+/**----------Display_Section----------**/
+
+.Task_Container {/*Task container*/
+    position:relative;
+    display:grid;
+    grid-template-columns:20% 20% 20% 20% 20%;
+    grid-template-rows:50px repeat(1,100px);
+    top:10px;
+    height:fit-content;
+    width:100%;
+    
+}
+
+
+.Defualt_Tag_Collums {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+
+.Task_Icon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 5px;
+    padding: 0px;
+}
+
+.Catergory_Header_Container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom-color: antiquewhite;
+    border-bottom-style: solid;
+    border-width: 2px;
+}
+
+.Catergory_Header {
+    display:flex;
+    flex-direction:row;
+    align-content:center;
+    justify-content:center;
+    align-content:center;
+
+    /**Spacing element*/
+    margin-left:5px;
+    margin-bottom:2px;
+    margin-top:2px;
+    padding-right:56%;
+    
+    font-family:var(--Font_Style);
+    font-size:1.3rem;
+    color:var(--Text_color);
+    
+    
+}
+
+.CreateNewCategory {
+    background-color:transparent;
+    width:fit-content;
+    height:fit-content;
+    transition-property:transform;
+    transition-duration:0.1s;
+    transition-timing-function:ease-out;
+}
+
+.CreateNewCategory:hover {
+    transform:scale(1.2);
+    cursor:pointer;
+}
+
+
+.Create_Task_Icon {
+    width:25px;
+    height:25px;
+    padding:0px;
+}
+
+
+.Tag_Template {
+    position:relative;
+    margin-left:5px;
+    margin-right:5px;
+
+    grid-row: 2;
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: [TaskHeader] 6vh [Prop1] 5vh [Prop2] 5vh [AccessButton] 32%;
+
+    background-color:var(--Defualt_Background_Color);
+
+    border-radius:3px;
+}
+
+.Task_Template_Header {
+    font-family:var(--Font_Style);
+    font-size:1rem;
+    color:antiquewhite;
+    margin:0px;
+    padding:0px;
+    padding-left:5px;
+}
+
+.Tag_Properties_Container{
+    grid-row:Prop1;
+    
+    background-color:var(--Defualt_Background_Color);
+
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    align-content:center;
+    justify-content:flex-start;
+}
+
+.Duedate_Properties_Container {
+    grid-row: Prop2;
+    
+    background-color:var(--Defualt_Background_Color);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+}
+
+.Properties {
+    margin-left:15px;
+
+    font-family: var(--Font_Style);
+    font-size: 0.8rem;
+    color: var(--Text_color);
+}
+
+
+
+.Template_Header_Container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    grid-row: TaskHeader;
+    grid-column: 1;
+    font-family: var(--Font_Style);
+}
+
+
+.Properties:hover {
+    border-radius:3px;
+    background-color:dimgrey;
+    cursor:pointer;
+}
+
+.Tag_Template:hover {
+    filter:brightness(150%);
+    cursor:pointer;
 }

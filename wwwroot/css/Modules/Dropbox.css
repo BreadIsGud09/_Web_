@@ -1,0 +1,52 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;800&display=swap');
+
+:root {
+    --Font_Style: 'Sora', sans-serif;
+}
+
+.Dropbox_container {
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background-color: rgb(48,48,48);
+}
+
+.EditContent {
+    display:flex;
+    justify-content:center;
+    justify-items:center;
+    font-family:var(--Font_Style);
+    font-size:1.2rem;
+    color:antiquewhite;
+}
+
+.DeleteContent {
+    color:antiquewhite;
+    font-family:var(--Font_Style);
+    font-size:1.2rem;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.Drop_Box_Text {
+    font-family:var(--Font_Style);
+    font-size:0.8rem
+
+}
+
+.DeleteContent:hover {
+    filter:brightness(150%) grayscale(50%);
+
+}
+
+.EditContent:hover{
+    filter:brightness(150%) grayscale(50%);
+
+}
+
