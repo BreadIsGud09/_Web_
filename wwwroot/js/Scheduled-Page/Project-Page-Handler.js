@@ -63,12 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     Dialog.NewClass = CreateNewProject///Set new class for the action 
 
-    Dialog.On_Action(CreateNewProject, "click", (eventConfig) => {
-        IsEditState = false;
-
-        Dialog_Click.Caller();
-    }, true);///Adding new Action
-
     //------------\\
 
     ///Custom hevaior for project display element
@@ -82,6 +76,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let X = 0;
     let Y = 0;
+    //--- Project Form declaration--\\
+    const Dialog_Element = Dialog.ClassCollection.find(k => k.className == "dialog");
+
+    const Project_Form = Dialog_Element.getElementsByClassName("Project-info")[0];
+
+    /**@type {HTMLInputElement}*/
+    let ProjectForm_Header = Project_Form.getElementsByTagName("INPUT").namedItem("P_Name");
+    /**@type {HTMLInputElement}*/
+    let ProjectForm_Body = Project_Form.getElementsByTagName("INPUT").namedItem("P_Description");
+    /**@type {HTMLInputElement}*/
+    let ProjectForm_Saving = Project_Form.getElementsByClassName("Save-button")[0];
+
 
 
     document.addEventListener("mousemove", (mouse) => { ///Capturing mouse position
@@ -108,6 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(X,Y);
     }, false);
 
+
+
+
+    Dialog.On_Action(CreateNewProject, "click", (eventConfig) => {
+        IsEditState = false;
+
+        ProjectForm_Saving.setAttribute("type", "submit");///Set saving button type to "Button
+
+        Dialog_Click.Caller();
+    }, true);///Adding new Action
+
+
     ContextMenuPartial.On_Action(TargetEditButton, "click", (e) => { ///Editing project properties
         const AddedDialogElementAction = Partial_ProjectDialog.GetGlobalHandler("Dialog_Click");
 
@@ -128,18 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
             SentModel.Description = CurrentProjectElement.getElementsByClassName("Description")[0].innerHTML;
         }
 
-        const Dialog_Element = Dialog.ClassCollection.find(k => k.className == "dialog");
-
-        const Project_Form = Dialog_Element.getElementsByClassName("Project-info")[0];
-
-        /**@type {HTMLInputElement}*/
-        let ProjectForm_Header = Project_Form.getElementsByTagName("INPUT").namedItem("P_Name");
-        /**@type {HTMLInputElement}*/
-        let ProjectForm_Body = Project_Form.getElementsByTagName("INPUT").namedItem("P_Description");
-        /**@type {HTMLInputElement}*/
-        let ProjectForm_Saving = Project_Form.getElementsByClassName("Save-button")[0];
-
-        ProjectForm_Saving.setAttribute("type", "button");///Set saving button type to "Button"
+       
+        ProjectForm_Saving.setAttribute("type", "button");///Set saving button type to "Button
         ProjectForm_Body.value = SentModel.Description;
         ProjectForm_Header.value = SentModel.Name; ///Set the modal to the Existing value
 
