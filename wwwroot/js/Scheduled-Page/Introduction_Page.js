@@ -38,16 +38,16 @@ var CancelButton = document.querySelector(".Cancel-icon");
 var Project_Dialog = document.querySelector(".dialog");
 var Overlay = document.querySelector(".Overlay");
 
+<<<<<<< HEAD
 var ProjectForm = Project_Dialog.querySelector(".Sub-dialog");
 
 
+=======
+>>>>>>> parent of 9ba607d (beta edit mode on project)
 const Pop_Project_Dialog = new UIModule.PartialUI(DialogHTML, [
-    Project_Dialog,
     CreateNew_Project,
     CancelButton
 ]);///Creating new partialUI
-
-
 
 var Dialog_Function = Pop_Project_Dialog.SetGlobalHandler("Dialog_Click", (Data = { Project_Dialog }) => {////Set new click action
     if (Data.Project_Dialog !== null) {
@@ -61,21 +61,18 @@ var Dialog_Function = Pop_Project_Dialog.SetGlobalHandler("Dialog_Click", (Data 
 
         Overlay.style.display = "block";
     }
-});  ///Create a new global handler
-
-
+});  ///Create a new global handler 
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log(Dialog_Function);    
 
     Pop_Project_Dialog.On_Action(CreateNew_Project, "click", (EventDetails) => {
-        console.log("Clicked");
-
         Dialog_Function.Caller({ Project_Dialog });///Calling the global handler 
-    },true);///Action of project dialog
+    });///Action of project dialog
 
 
     Pop_Project_Dialog.On_Action(CancelButton, "click", () => {
+<<<<<<< HEAD
         ///Refresh the content inside of the dialog input field and then set invisible
 
         console.log(ProjectForm);
@@ -89,11 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
         DialogProjectHeader.value = "";
         DIalogProjectBody.value = "";
 
+=======
+>>>>>>> parent of 9ba607d (beta edit mode on project)
         Project_Dialog.style.visibility = "hidden";
         Overlay.style.display = "none";
         Project_Dialog.style.animation = 'none';
-    }, true);
 
+    });
 });
 
 export const Partial_ProjectDialog = Pop_Project_Dialog.ExportedData();///Exported the UI to another file

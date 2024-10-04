@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/css/Visitor-site/Navgiation.css">
+    <script lang="javascript" type="module" src="~/js//Registered-Nav/Sidebar-Handler.js"></script>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 </head>
@@ -32,7 +33,6 @@
                 }
                 else if (ViewBag.UserStatus == "Logged in")
                 {
-                    <script async="async" lang="javascript" type="module" src="~/js//Registered-Nav/Sidebar-Handler.js"></script>
                     <a href=@Url.Action("Index","MainPage",new {user = ViewBag.UserInfo}) class="Brand-Button">
                         <span class="BrandFont-Text">SCHEDULED</span>
                     </a>
@@ -50,13 +50,10 @@
 
     @RenderBody()
 
-    <script async= "async" language="javascript">
-        //***Handles sidebar of the already logged in site*/
-        document.addEventListener("DOMContentLoaded", (e) => { 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
             const loginIcon = document.querySelector(".Login-icon");
             const loginOptions = document.querySelector(".Login-options");
-
-            if(loginIcon == null) return null;
 
             let isOpen = false; // Track the state of the Login options
 

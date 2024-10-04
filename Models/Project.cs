@@ -22,15 +22,17 @@ namespace Web_demo.Models
 
         [Required]
         public int Owner { get; set; } /// <summary>
-        /// Properties use for retrive when user GetProject Method is called
-        /// </summary>
-        /// 
-        ///Category properties for sorting task
+                                       /// Properties use for retrive when user GetProject Method is called
+                                       /// </summary>
+                                       /// 
+                                       ///Category properties for sorting task
+
+        public List<string>? Category { get; set; }
+
+        //will be serialize as JSONB as task
 
         public List<string>? Task_List { get; set; }
-        ///*Must be initilize by Project Services 
-
-
+         
 
     }
 

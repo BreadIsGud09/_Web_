@@ -1,16 +1,17 @@
-export class LayoutManager {
+export class LayoutManager
+{
     SavedLayout = [] ///Saved layout Stats
     Defualt = {};
-    /**@type {HTMLDivElement} */
-    Layout_Container;
+    Layout_Container = Element;
 
-    constructor(DefualtLayoutObj = {
+    constructor(DefualtLayoutObj =  {
         Name: "Defualt",
         Row: "",
         Coll: ""
-    }, Container = Element) {
+    }, Container = Element)
+    {
         this.Defualt = DefualtLayoutObj;////Set the defualt layout to 
-        this.Layout_Container = Container;
+        this.Layout_Container = Container; 
 
 
         this.SavedLayout.push(this.Defualt);////Push the defualt into the table
@@ -25,7 +26,7 @@ export class LayoutManager {
         this.Layout_Container.style.gridTemplateCollums = this.Defualt.Coll;
     }
 
-    Push(layout_id = "", Rows = "", Collums = "")///Push the Layout Stats to arr 
+    Push(layout_id = "",Rows = "",Collums = "")///Push the Layout Stats to arr 
     {
         const LayoutObj = {
             Name: layout_id,
@@ -38,7 +39,7 @@ export class LayoutManager {
         return LayoutObj;
     }
 
-    Set(MatchingId = "", Addition = new Object())///Set the layout to specific layout
+    Set(MatchingId = "")///Set the layout to specific layout
     {
         this.SavedLayout.forEach((Obj) =>
         {

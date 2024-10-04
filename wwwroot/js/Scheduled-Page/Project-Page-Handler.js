@@ -1,11 +1,10 @@
 ﻿import * as UIModule from "../Lib/UI_Moduler.js";
 import { Partial_ProjectDialog } from "../Scheduled-Page/Introduction_Page.js";
 import {  Custom_UI_Event_Handler } from "../Lib/Calendar_lib.js";
-import { Polling } from "../Lib/Communcation.js";
+
 
 const Submit = document.querySelector(".Save-button");
 const MainPageLayout = document.querySelector(".Main-Section");
-
 
 const ProjectList = document.querySelectorAll(".Project_Layout");
 
@@ -18,83 +17,47 @@ const ProjectListID = [];
 
 ProjectList.forEach(project => {
     ProjectListID.push(document.getElementById(project.id));
-});///getting element based on IDs
+});///getting element based on IDs 
 
-
-//Declaring Dropbox Element\\\
-/**@type {string}*/
-const DropboxHtml = `<div class="Dropbox_container">
-  <button class="EditContent">
-    <h3 class="Drop_Box_Text">Edit</h3>
-  </button>
-  <button class="DeleteContent">
-    <h3 class="Drop_Box_Text">Delete</h3>
-  </button>
-</div>`;
-/**@type {HTMLDivElement}*/
-const Dropbox = document.querySelector(".Dropbox_container");
-/**@type {HTMLButtonElement}*/
-const EditContentButton = document.querySelector(".EditContent");
-/**@type {HTMLButtonElement}*/
-const DeleteContentButton = document.querySelector(".DeleteContent");
-
-let IsEditState = false;
-
-
-const ContextMenuPartial = new UIModule.PartialUI(DropboxHtml, [Dropbox, EditContentButton, DeleteContentButton]);
-let modules = ContextMenuPartial.ExportedData().CssModules = 'https://localhost:7146/css/Modules/Dropbox.css';
-
-//-----\\
+const UserProjectEvent = new Custom_UI_Event_Handler();
 
 const CreateNewProject = document.querySelector(".Create_Project");
 var Project_Dialog = document.querySelector(".dialog");
 
-///Partail container UI
-const PartialUI = new UIModule.PartialUI();
-const Dialog = PartialUI.ImportData(Partial_ProjectDialog);
+///Container UI
+const Dialog = new UIModule.PartialUI();
 
-let CurrentProjectElement;
-
-document.addEventListener("DOMContentLoaded", () => {
-    ////----Partial Dialog behavior-----\\\\\
+document.addEventListener("DOMContentLoaded", () =>
+{
+    var PartialDialog = Dialog.ImportData(Partial_ProjectDialog);///Import UI module
+    
     var Dialog_Click = Partial_ProjectDialog.GetGlobalHandler("Dialog_Click");///Access the global handler
 
-    ContextMenuPartial.LoadModules();//loading css modules
+    PartialDialog.NewClass = CreateNewProject///Set new class for the action 
+    
+    PartialDialog.On_Action(CreateNewProject, "click", (eventConfig) => {
+        Dialog_Click.Caller({ Project_Dialog });
+    });///Adding new Action 
 
-    Dialog.NewClass = CreateNewProject///Set new class for the action 
+    Dialog.On_Action(CreateNewProject, "click", (eventConfig) => {
+        IsEditState = false;
+
+        Dialog_Click.Caller();
+    }, true);///Adding new Action
 
     //------------\\
 
     ///Custom hevaior for project display element
     const OpenMenu = ProjectAction.EventMemory.find(e => e.type == "contextmenu");///ContextMenu action
     const CloseMenu = ProjectAction.EventMemory.find(e => e.type == "ExitMenu");///Exit menu
-    const AccessProject = ProjectAction.EventMemory.find(e => e.type == "click");
     const Target = ContextMenuPartial.ClassCollection.find((e => e.className == "Dropbox_container"));
     const TargetEditButton = ContextMenuPartial.ClassCollection.find(e => e.className == "EditContent");
     const TargetDeleteContent = ContextMenuPartial.ClassCollection.find(e => e.className == "DeleteContent");
     /**@type {HTMLDivElement}*/
-    let CurrentProjectElement; 
+    let CurrentProjectElement;
 
     let X = 0;
     let Y = 0;
-    //--- Project Form declaration--\\
-    const Dialog_Element = Dialog.ClassCollection.find(k => k.className == "dialog");
-
-    const Project_Form = Dialog_Element.getElementsByClassName("Project-info")[0];
-
-    /**@type {HTMLInputElement}*/
-    let ProjectForm_Header = Project_Form.getElementsByTagName("INPUT").namedItem("P_Name");
-    /**@type {HTMLInputElement}*/
-    let ProjectForm_Body = Project_Form.getElementsByTagName("INPUT").namedItem("P_Description");
-    /**@type {HTMLInputElement}*/
-    let ProjectForm_Saving = Project_Form.getElementsByClassName("Save-button")[0];
-
-    //-----------------------\\
-
-    //--Acccesing project element--\\
-    /**@type {HTMLDivElement}*/
-    const ProjectAccessElement = document.querySelector(".Access");
-    Dialog.ClassCollection.push(ProjectAccessElement);
 
 
     document.addEventListener("mousemove", (mouse) => { ///Capturing mouse position
@@ -121,16 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(X,Y);
     }, false);
 
-
-    Dialog.On_Action(CreateNewProject, "click", (eventConfig) => {
-        IsEditState = false;
-
-        ProjectForm_Saving.setAttribute("type", "submit");///Set saving button type to "Button
-
-        Dialog_Click.Caller();
-    }, true);///Adding new Action
-
-
     ContextMenuPartial.On_Action(TargetEditButton, "click", (e) => { ///Editing project properties
         const AddedDialogElementAction = Partial_ProjectDialog.GetGlobalHandler("Dialog_Click");
 
@@ -151,8 +104,18 @@ document.addEventListener("DOMContentLoaded", () => {
             SentModel.Description = CurrentProjectElement.getElementsByClassName("Description")[0].innerHTML;
         }
 
-       
-        ProjectForm_Saving.setAttribute("type", "button");///Set saving button type to "Button
+        const Dialog_Element = Dialog.ClassCollection.find(k => k.className == "dialog");
+
+        const Project_Form = Dialog_Element.getElementsByClassName("Project-info")[0];
+
+        /**@type {HTMLInputElement}*/
+        let ProjectForm_Header = Project_Form.getElementsByTagName("INPUT").namedItem("P_Name");
+        /**@type {HTMLInputElement}*/
+        let ProjectForm_Body = Project_Form.getElementsByTagName("INPUT").namedItem("P_Description");
+        /**@type {HTMLInputElement}*/
+        let ProjectForm_Saving = Project_Form.getElementsByClassName("Save-button")[0];
+
+        ProjectForm_Saving.setAttribute("type", "button");///Set saving button type to "Button"
         ProjectForm_Body.value = SentModel.Description;
         ProjectForm_Header.value = SentModel.Name; ///Set the modal to the Existing value
 
@@ -236,23 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Deleting project");
     });
 
-    ProjectAction.AddHandlerToEvent(AccessProject, (e) => {
-        e.preventDefault();
-
-        if (e.target instanceof Element) {
-            CurrentProjectElement = e.target.parentElement;
-
-            if (CurrentProjectElement.className == "Project") {
-                CurrentProjectElement = CurrentProjectElement.parentNode.parentNode;
-            }
-        }///Finding the "Project" element classname
-
-        const ProjectId = CurrentProjectElement.getAttribute('id');
-        const RedirectionRespone = new Polling('');
-
-        const respone = RedirectionRespone.GetRequest("Project/YourProject/Access/Task/" + ProjectId); //Redirect to new pages
-    });
-
 
     ProjectAction.AddHandlerToEvent(OpenMenu, (e) => {///Assigning the "Call" event to ProjectAction
         e.preventDefault();///prevent defualt action to occurs
@@ -272,9 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("click", (e) => {
         ContextMenuPartial.CallAction(Target,"Inactive");// Disable the custom contextmenu
     });
-
-
-    
 });
 
 

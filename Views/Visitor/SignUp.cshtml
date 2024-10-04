@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/Navigation_Bar.cshtml";
 }
 
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="~/css/Visitor-site/SignUp_Page.css">
     </head>
 
-    <body>
-        <div class="Sign-up-field">
+    <div class="Sign-up-field">
             <h1 class="header">Sign up</h1>
             <form class="input-field" action="SignUp" method="post">
                 <label>Username:</label>
@@ -18,12 +18,11 @@
                 <input name="Email" autocomplete="off" type="email" class="gmail-box" required />
                 <label>Password:</label>
                 <input name="Password" autocomplete="off" type="password" class="password-box" required />
-
+                
                 <input type="submit" class="Submit-gmail-button" value="Continue" formmethod="post" />
             </form>
-            <a class="Login-Link" href=@Url.Action("Login")>already have an account ?</a>
-        </div>
-    </body>
+        <a class="Login-Link" href=@Url.Action("Login")>already have an account ?</a>
+    </div>
 </html>
 
 

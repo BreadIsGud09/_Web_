@@ -30,6 +30,9 @@ namespace Web_demo.Migrations.ProjectDbMigrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
+                    b.Property<List<string>>("Category")
+                        .HasColumnType("text[]");
+
                     b.Property<string>("DateCreated")
                         .IsRequired()
                         .HasColumnType("text");

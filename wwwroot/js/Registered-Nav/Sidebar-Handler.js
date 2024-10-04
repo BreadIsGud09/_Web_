@@ -10,11 +10,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const Layout = new LayoutBehavior.LayoutManager({ ///Set initial layout
         Name: "Defualt",
         Row: getComputedStyle(body).getPropertyValue("grid-template-rows"),
-        Coll: getComputedStyle(body).getPropertyValue("grid-template-columns")
+        Coll: getComputedStyle(body).getPropertyValue("grid-template-columns") // Corrected spelling
     }, body);
 
-    Layout.Push("FullSize", getComputedStyle(body).getPropertyValue("grid-template-rows"),
-        "auto  100%");//auto 100%
+    Layout.Push("FullSize", getComputedStyle(body).getPropertyValue("grid-template-rows"),"auto 100%");///Assign new layout 
     
     // Function to save the state to local storage
     function saveStateToLocalStorage(navBarCollapsed) {

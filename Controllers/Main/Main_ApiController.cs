@@ -31,6 +31,7 @@ namespace Web_demo.Controllers.Main
             return View();
         }
 
+<<<<<<< HEAD
 
         [HttpGet]
         [Route("api/Task/{ProjectID}/{ProjectRootId}")]
@@ -102,22 +103,22 @@ namespace Web_demo.Controllers.Main
                 Due_Date = Task_Duedate,
                 Tags = TagName
             };
-
+            
             var UserSessionID = HttpContext.Session.GetInt32("User_ID");//Getting the Session saved on server 
 
             if (UserSessionID != null)//Check session 
             {
-                var Task = await _taskManager.CreateTaskModel(task_Model, ProjectID);////update the database 
+
+                var Task = await _taskManager.CreateTaskModel(task_Model, ProjectID);
 
                 if (Task.RootProject_ID != 0)
                 {
-                    return RedirectToAction("User_Task", "MainPage", new { ProjectID = ProjectID });
+                    return RedirectToAction("User_Task", "MainPage",new { ProjectID = ProjectID });
                 }
             }
-
+            
             return Ok("try again");
         }
-
 
 
         [HttpGet]
@@ -194,22 +195,6 @@ namespace Web_demo.Controllers.Main
                 //Perform changes from project to the database then return the full project properties
                 var Updated = await Project_Services.UpdateModels(Local_User.id, ProjectID,
                     new Project()
-                    {
-                        Name = UpdatedProject.Name,
-                        Description = UpdatedProject.Description
-                    }); 
-
-                if (Updated.DateCreated is not null)
-                {
-                    var Body = JsonSerializer.Serialize<Project>(Updated);
-
-                    return Ok(Body); ///Return the UpdatedProject json
-                }
-
-            }
-            return Ok("Could not find the project");
-        }
-
 
 
     }

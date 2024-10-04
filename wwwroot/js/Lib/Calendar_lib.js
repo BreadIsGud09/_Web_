@@ -45,13 +45,13 @@
         ); ///SetupEvent
 
 
-        this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to event 
-        {
-            const FlushEvent = this.DateBlocks_Event.EventMemory.find((e) => e.type == "Flush_Event");
+            this.DateBlocks_Event.EventMemory.forEach(_event => ///Adding Handler to event 
+            {
+                const FlushEvent = this.DateBlocks_Event.EventMemory.find((e) => e.type == "Flush_Event");
+
                 if (_event.type == FlushEvent.type) ///Seperate Event
                 {
                     this.DateBlocks_Event.AddHandlerToEvent(_event, (_E = new CustomEvent()) => {
-                        this.Element_Renderer.removeClassList(_E.target, _event.type);
                         this.Element_Renderer.removeClassList(_E.target, "IsCurrentMonthDays");
                         this.Element_Renderer.removeClassList(_E.target, "IsNotCurrentMonthDays");
                         this.Element_Renderer.removeClassList(_E.target, "IsCurrentDays");
@@ -344,20 +344,17 @@ class ElementRenderer ///modify html tag and style class
 
 export class Custom_UI_Event_Handler ///Allows to add multiple certain event to multiple element
 {
-    /**@type {[Element]}*/
     Tag_Collection = []; ///Css collection 
-    /**@type {object}*/
     Event_Settings = {};///Contains genereal settings
-    /**@type {[CustomEvent]}*/
     EventMemory = []; ///Contains Customevent classes event 
     Call = 0;
 
     /**
      * 
      * @param {NodeList} tags
-     * @param {{Event_List : ["eventName"], Event_config : {}}} eventObject
+     * @param {object} eventObject
      * @returns this 
-     * @description only intiilize event into the memory without mapping the event to the element
+     * constructor only intiilize event into the memory without mapping the event to the element
      */
     constructor(tags = NodeList, eventObject = { Event_List: [], Event_config: {} })///Multiple event element
     {
@@ -385,12 +382,8 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         }
     } ////Setup the general event
 
-    /**
-     * 
-     * @param {{ interfaces : Element, eventObject : {Event_List : ["eventName"], Event_Config : {}}}} SetupModel
-     * @returns this
-     * @description will push both event into the memmory so as interface
-     */
+    
+
     SingleSetup(SetupModel = { interfaces: Element,
         eventObject : {
             Event_List: [""],
@@ -421,7 +414,8 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
 
     #Initialize_CollectionEvent()///Creating new identified properties for each element
     {
-    let Event_id = 0; 
+        ///sorting here
+        let Event_id = 0; 
 
         this.Tag_Collection.forEach(e => {
             e.setAttribute("Event_id", Event_id);////set new properties
@@ -449,17 +443,16 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
     /**
      * 
      * @param {CustomEvent} EventTarget
-     * @param {(e = new CustomEvent) => {}} NewHandler
-     * @param {boolean} IsDefualt 
-     * @description method will map event handler to all tag_collection child
-     * 
+     * @param {Function} NewHandler
+     * method will map event to all tag_collection child
      */
-    AddHandlerToEvent(event = CustomEvent, NewHandler = (e = CustomEvent) => { }, IsDefault = false) ///Add event handler to all element inside the Tag_Collection 
-    {
+
+    AddHandlerToEvent(event = new CustomEvent, NewHandler = () => { }) ///Add event handler to all element inside the Tag_Collection 
+    { 
         this.Tag_Collection.forEach(_e => {
-            if (event.target == null)///Checking if the event is element is already fired or event has not assigned 
+            if (_e.className == '' && event.target == null)///Checking if the event is element is already fired or event has not assigned 
             {
-                this.ListenOn(_e, event.type, NewHandler, IsDefault);
+                this.ListenOn(_e, event.type, NewHandler, false);
             }
             else {
                 return new Error("event target is: " + event.target);
@@ -470,7 +463,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
     /**
      * 
      * @param {Element} Target
-     * @param {string} event
+     * @param {Event} event
      * @returns {boolean}
      * 
      */
@@ -485,18 +478,15 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
         }
         else if (IsDefualtEvent === false)
         {
-            const EventInMemo = this.EventMemory.find((e) => e.type === event);//Searching event inside the memory
+            const EventInMemo = this.EventMemory.find((e) => e.type === event);
             const TargetInMemo = this.Tag_Collection.find((e) => e.getAttribute("Event_id") === Target.getAttribute("Event_id"));
             
             if (EventInMemo !== undefined && TargetInMemo !== undefined) {
-
-                TargetInMemo.addEventListener(event, (e) => {
-                    Handler(e);
+                TargetInMemo.addEventListener(EventInMemo.type, (Event_Properties = new CustomEvent) => { //Listenning
+                    Handler(Event_Properties);///Execute given function 
+                    this.Call++;
+                    console.log(this.Call);
                 });
-
-                console.log(EventInMemo.target);
-
-                return;
             }
             else {
                 console.error("Could not find Event/Target inside memo");
@@ -504,15 +494,7 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
             }
         }
     }
-
-
-     /**
-     * 
-     * @param {number} id
-     * @param {string} eventNames
-     * @returns boolean
-     * @description Search event and dispatch by ID
-     */
+   
     Call_Event(id = -1,eventNames = "") ///Callin the event 
     {
         
@@ -520,21 +502,11 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
 
         let Selector = `[event_id="${id}"]`;
         //Gets the Element that has id equal to the passed in params    
-        const Target = document.querySelectorAll(Selector);
-        
-        let Select;
+        const Target = document.querySelector(Selector);
 
-        Target.forEach(e => {
-            const Result = this.Tag_Collection.find(m => m.className == e.className)
-            if (Result !== null) {
-                Select = e;
-                return;
-            }
-        });
-
-        if (Select !== null)
+        if(Target != null)
         {
-            let state = Select.dispatchEvent(this.AccessEvent(eventNames));
+            let state = Target.dispatchEvent(this.AccessEvent(eventNames));
 
             return state;
         }
@@ -543,6 +515,5 @@ export class Custom_UI_Event_Handler ///Allows to add multiple certain event to 
             throw new Error("Cant find Element");
         }
     }
-
 }
 

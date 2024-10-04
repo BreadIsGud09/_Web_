@@ -24,6 +24,9 @@ namespace Web_demo.Models
         [Required]
         private DateTime CreatedDate { get; set; }
 
+        public void SetCatergory() { 
+            
+        }
         private int SetId() {
             // Create a Random object
             Random random = new Random();
@@ -37,11 +40,6 @@ namespace Web_demo.Models
             this.CreatedDate = DateTime.Now;
 
 
-            return this.TaskId;
-        }
-
-        public int id()
-        {
             return this.TaskId;
         }
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+﻿using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Abstractions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -18,9 +17,6 @@ namespace Web_demo.Services
         public List<Project> GetUserProject(int UserId);/// Get userProject object by providing userID 
         public List<Project> GetProjectByID(int ID);///Get project by Project ID
         public Task<UserTask> SetNewTask(UserTask TaskModel, int ProjectId);///Set a new Task to the current project 
-
-        public Task<Project> UpdateModels(int Userid, int ProjectID, Project NewModels);///Update Name and Description of the Project
-
     }
 
 
@@ -55,7 +51,9 @@ namespace Web_demo.Services
                     _project.DateCreated = DateTime.Now.ToString();
                     _project.Owner = UserInfo.id;
                     _project.Task_List = new List<string>();
-                   
+                    _project.Category = new List<string>();//Initilize List for further update
+
+
                     Queries.Add(_project);
 
                     await _db.SaveChangesAsync();
@@ -128,30 +126,7 @@ namespace Web_demo.Services
             
         }
 
-
-        public async Task<Project> UpdateModels(int Userid,int ProjectID,Project NewModels) 
-        {
-            var PTable = _db.ProjectTable;
-            var ResultCollection = this.GetUserProject(Userid);
-
-            if (ResultCollection is not null)
-            {
-                var Project = ResultCollection.Find(e => e.id == ProjectID);
-                if (Project is not null)
-                {
-                    PTable.Update(Project);///Start tracking change for the Project models
-
-                    Project.Name = NewModels.Name; 
-                    Project.Description = NewModels.Description;
-                    ///Updating the updatable properties for a project
-
-                    await _db.SaveChangesAsync(); // Make changes on the database
-
-                    return Project;
-                }
-            }
-            return new Project();
-        }
+                
 
         private int GenerateUniqueId()
         {
