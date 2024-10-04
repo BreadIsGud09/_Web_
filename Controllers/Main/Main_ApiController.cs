@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Evaluation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NuGet.Protocol;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Web_demo.Models;
 using Web_demo.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Web_demo.Controllers.Main
 {
@@ -17,7 +18,7 @@ namespace Web_demo.Controllers.Main
         private readonly IHttpContextAccessor _HttpContextAccessor;
 
 
-        public Main_ApiController(IProject_Services project_, IDB_Services user_dB_, ICookies_Handler cookies, IHttpContextAccessor httpContextAccessor, ITaskManager taskManager)
+        public Main_ApiController(IProject_Services project_, IDB_Services user_dB_, ICookies_Handler cookies, IHttpContextAccessor httpContextAccessor,ITaskManager taskManager)
         {
             Project_Services = project_;
             User_dB_ = user_dB_;
@@ -92,11 +93,16 @@ namespace Web_demo.Controllers.Main
         }
 
 
+=======
+>>>>>>> parent of 9ba607d (beta edit mode on project)
         [HttpPost]
         [Route("Project/YourProject/api/Task/{ProjectID}")]
         public async Task<IActionResult> CreateNewTask([FromRoute] int ProjectID, [FromForm] string Task_Name, [FromForm] string TagName, [FromForm] string Task_Duedate, [FromForm] string Task_Content)
         {
-            var task_Model = new UserTask()///Creating a new task model
+
+
+
+            var task_Model = new UserTask()
             {
                 Name = Task_Name,
                 Content = Task_Content,
@@ -177,24 +183,6 @@ namespace Web_demo.Controllers.Main
                 return Ok("user Session expired");
             }
         }
-
-        
-        [HttpPost]
-        [Route("Project/YourProject/Update/{ProjectID}")]
-        
-        public async Task<IActionResult> Modify_Project([FromRoute] int ProjectID, [FromBody] Project UpdatedProject) {
-
-            var IsHaveLocalCookies = Cookie_Handler.Get_UserLocal_Cookies();////Request cookies on user machine
-            var Local_User = User_dB_.Verified_User_Cookies(IsHaveLocalCookies);///Verified and return the userinfo if have
-
-            var CurrentProject = Project_Services.GetProjectByID(ProjectID)[0];
-            
-
-            if (CurrentProject is not null && Local_User is not null)
-            {
-                //Perform changes from project to the database then return the full project properties
-                var Updated = await Project_Services.UpdateModels(Local_User.id, ProjectID,
-                    new Project()
 
 
     }
