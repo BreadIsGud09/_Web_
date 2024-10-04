@@ -56,7 +56,7 @@ namespace Web_demo.Controllers.Main
 
         [HttpGet]
         [Route("Project/YourProject/api/GetProject/{Cookies}")]
-        public IActionResult GetProject([FromRoute]string Cookies)
+        public IActionResult GetProject([FromRoute] string Cookies)
         {
             Userinfo? Info = User_dB_.Verified_User_Cookies(Cookies);
 
@@ -72,6 +72,22 @@ namespace Web_demo.Controllers.Main
             }
 
             return Ok("");
+        }
+
+        [HttpGet]
+        [Route("Project/YourProject/Access/Task/{ProjectID}")]
+        public IActionResult AccessProject([FromRoute] int ProjectID)
+        {
+            var Verified = Project_Services.GetProjectByID(ProjectID)[0];
+
+            if (Verified.id != 0)
+            {
+                return RedirectToAction("User_Task", "MainPage", new { ProjectID = ProjectID });
+            }
+            else {
+                return Ok("Couln't find appropriate user");
+            }
+
         }
 
 

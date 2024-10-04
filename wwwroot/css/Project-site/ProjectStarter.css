@@ -169,7 +169,7 @@
     color: white;
 }
 
-#Project-TextBox:focus {
+.Project-TextBox:focus {
     font-weight:200;
     font-size: 1.5rem;
     outline: none;

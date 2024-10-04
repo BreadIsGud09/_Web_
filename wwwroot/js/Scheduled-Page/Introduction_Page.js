@@ -38,7 +38,7 @@ var CancelButton = document.querySelector(".Cancel-icon");
 var Project_Dialog = document.querySelector(".dialog");
 var Overlay = document.querySelector(".Overlay");
 
-var ProjectForm = Project_Dialog.querySelector(".Sub-dialog").getElementsByClassName("Project-info")[0];
+var ProjectForm = Project_Dialog.querySelector(".Sub-dialog");
 
 
 const Pop_Project_Dialog = new UIModule.PartialUI(DialogHTML, [
@@ -78,11 +78,13 @@ document.addEventListener("DOMContentLoaded", () => {
     Pop_Project_Dialog.On_Action(CancelButton, "click", () => {
         ///Refresh the content inside of the dialog input field and then set invisible
 
-        /**@type {HTMLInputElement}*/
-        const DialogProjectHeader = ProjectForm.getElementsByTagName("INPUT").namedItem("P_Name");
+        console.log(ProjectForm);
 
         /**@type {HTMLInputElement}*/
-        const DIalogProjectBody = ProjectForm.getElementsByTagName("INPUT").namedItem("P_Description"); 
+        const DialogProjectHeader = ProjectForm.getElementsByTagName("INPUT").namedItem("Project-TextBox-Header");
+
+        /**@type {HTMLInputElement}*/
+        const DIalogProjectBody = ProjectForm.getElementsByTagName("INPUT").namedItem("Project-TextBox-Body"); 
 
         DialogProjectHeader.value = "";
         DIalogProjectBody.value = "";

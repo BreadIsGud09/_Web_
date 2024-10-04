@@ -10,7 +10,7 @@ const MainPageLayout = document.querySelector(".Main-Section");
 const ProjectList = document.querySelectorAll(".Project_Layout");
 
 const ProjectAction = new Custom_UI_Event_Handler(ProjectList, {
-    Event_List: ["contextmenu"],
+    Event_List: ["contextmenu","click"],
     Event_config: {}
 });
 
@@ -68,11 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
     ///Custom hevaior for project display element
     const OpenMenu = ProjectAction.EventMemory.find(e => e.type == "contextmenu");///ContextMenu action
     const CloseMenu = ProjectAction.EventMemory.find(e => e.type == "ExitMenu");///Exit menu
+    const AccessProject = ProjectAction.EventMemory.find(e => e.type == "click");
     const Target = ContextMenuPartial.ClassCollection.find((e => e.className == "Dropbox_container"));
     const TargetEditButton = ContextMenuPartial.ClassCollection.find(e => e.className == "EditContent");
     const TargetDeleteContent = ContextMenuPartial.ClassCollection.find(e => e.className == "DeleteContent");
     /**@type {HTMLDivElement}*/
-    let CurrentProjectElement;
+    let CurrentProjectElement; 
 
     let X = 0;
     let Y = 0;
@@ -88,6 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
     /**@type {HTMLInputElement}*/
     let ProjectForm_Saving = Project_Form.getElementsByClassName("Save-button")[0];
 
+    //-----------------------\\
+
+    //--Acccesing project element--\\
+    /**@type {HTMLDivElement}*/
+    const ProjectAccessElement = document.querySelector(".Access");
+    Dialog.ClassCollection.push(ProjectAccessElement);
 
 
     document.addEventListener("mousemove", (mouse) => { ///Capturing mouse position
@@ -113,8 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Showed");
         console.log(X,Y);
     }, false);
-
-
 
 
     Dialog.On_Action(CreateNewProject, "click", (eventConfig) => {
@@ -231,6 +236,23 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Deleting project");
     });
 
+    ProjectAction.AddHandlerToEvent(AccessProject, (e) => {
+        e.preventDefault();
+
+        if (e.target instanceof Element) {
+            CurrentProjectElement = e.target.parentElement;
+
+            if (CurrentProjectElement.className == "Project") {
+                CurrentProjectElement = CurrentProjectElement.parentNode.parentNode;
+            }
+        }///Finding the "Project" element classname
+
+        const ProjectId = CurrentProjectElement.getAttribute('id');
+        const RedirectionRespone = new Polling('');
+
+        const respone = RedirectionRespone.GetRequest("Project/YourProject/Access/Task/" + ProjectId); //Redirect to new pages
+    });
+
 
     ProjectAction.AddHandlerToEvent(OpenMenu, (e) => {///Assigning the "Call" event to ProjectAction
         e.preventDefault();///prevent defualt action to occurs
@@ -250,6 +272,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("click", (e) => {
         ContextMenuPartial.CallAction(Target,"Inactive");// Disable the custom contextmenu
     });
+
+
+    
 });
 
 

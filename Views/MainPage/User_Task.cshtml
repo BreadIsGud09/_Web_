@@ -1,5 +1,6 @@
 ﻿@model List<Project>;
 @using System.Text.Json;
+
 @{
     Layout = "~/Views/Shared/Registered_Navigation.cshtml";
     var Task_ = Model.Select(e => e.Task_List).ToList()[0];

@@ -120,7 +120,7 @@ namespace Web_demo.Controllers.Main
 
 
         /// <summary>
-        /// User Task manager pages
+        /// User task collection page
         /// </summary>
         /// <param name="ProjectID"></param>
         [HttpGet]
