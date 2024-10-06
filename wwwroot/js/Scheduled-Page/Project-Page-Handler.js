@@ -10,7 +10,7 @@ const MainPageLayout = document.querySelector(".Main-Section");
 const ProjectList = document.querySelectorAll(".Project_Layout");
 
 const ProjectAction = new Custom_UI_Event_Handler(ProjectList, {
-    Event_List: ["contextmenu"],
+    Event_List: ["contextmenu","click"],
     Event_config: {}
 });
 
@@ -20,31 +20,7 @@ ProjectList.forEach(project => {
     ProjectListID.push(document.getElementById(project.id));
 });///getting element based on IDs
 
-
-//Declaring Dropbox Element\\\
-/**@type {string}*/
-const DropboxHtml = `<div class="Dropbox_container">
-  <button class="EditContent">
-    <h3 class="Drop_Box_Text">Edit</h3>
-  </button>
-  <button class="DeleteContent">
-    <h3 class="Drop_Box_Text">Delete</h3>
-  </button>
-</div>`;
-/**@type {HTMLDivElement}*/
-const Dropbox = document.querySelector(".Dropbox_container");
-/**@type {HTMLButtonElement}*/
-const EditContentButton = document.querySelector(".EditContent");
-/**@type {HTMLButtonElement}*/
-const DeleteContentButton = document.querySelector(".DeleteContent");
-
-let IsEditState = false;
-
-
-const ContextMenuPartial = new UIModule.PartialUI(DropboxHtml, [Dropbox, EditContentButton, DeleteContentButton]);
-let modules = ContextMenuPartial.ExportedData().CssModules = 'https://localhost:7146/css/Modules/Dropbox.css';
-
-//-----\\
+const UserProjectEvent = new Custom_UI_Event_Handler();
 
 const CreateNewProject = document.querySelector(".Create_Project");
 var Project_Dialog = document.querySelector(".dialog");
@@ -247,9 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Context actived");
     }, false);
 
-    window.addEventListener("click", (e) => {
-        ContextMenuPartial.CallAction(Target,"Inactive");// Disable the custom contextmenu
-    });
+    console.log(PartialDialog);
 });
 
 

@@ -31,6 +31,7 @@ namespace Web_demo.Controllers.Main
             return View();
         }
 
+<<<<<<< HEAD
 
         [HttpGet]
         [Route("api/Task/{ProjectID}/{ProjectRootId}")]
@@ -56,7 +57,7 @@ namespace Web_demo.Controllers.Main
 
         [HttpGet]
         [Route("Project/YourProject/api/GetProject/{Cookies}")]
-        public IActionResult GetProject([FromRoute]string Cookies)
+        public IActionResult GetProject([FromRoute] string Cookies)
         {
             Userinfo? Info = User_dB_.Verified_User_Cookies(Cookies);
 
@@ -74,12 +75,33 @@ namespace Web_demo.Controllers.Main
             return Ok("");
         }
 
+        [HttpGet]
+        [Route("Project/YourProject/Access/Task/{ProjectID}")]
+        public IActionResult AccessProject([FromRoute] int ProjectID)
+        {
+            var Verified = Project_Services.GetProjectByID(ProjectID)[0];
 
+            if (Verified.id != 0)
+            {
+                return RedirectToAction("User_Task", "MainPage", new { ProjectID = ProjectID });
+            }
+            else {
+                return Ok("Couln't find appropriate user");
+            }
+
+        }
+
+
+=======
+>>>>>>> parent of 9ba607d (beta edit mode on project)
         [HttpPost]
         [Route("Project/YourProject/api/Task/{ProjectID}")]
         public async Task<IActionResult> CreateNewTask([FromRoute] int ProjectID, [FromForm] string Task_Name, [FromForm] string TagName, [FromForm] string Task_Duedate, [FromForm] string Task_Content)
         {
-            var task_Model = new UserTask()///Creating a new task model
+
+
+
+            var task_Model = new UserTask()
             {
                 Name = Task_Name,
                 Content = Task_Content,
