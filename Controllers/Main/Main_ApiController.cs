@@ -31,7 +31,7 @@ namespace Web_demo.Controllers.Main
             return View();
         }
 
-<<<<<<< HEAD
+
 
         [HttpGet]
         [Route("api/Task/{ProjectID}/{ProjectRootId}")]
@@ -92,8 +92,7 @@ namespace Web_demo.Controllers.Main
         }
 
 
-=======
->>>>>>> parent of 9ba607d (beta edit mode on project)
+
         [HttpPost]
         [Route("Project/YourProject/api/Task/{ProjectID}")]
         public async Task<IActionResult> CreateNewTask([FromRoute] int ProjectID, [FromForm] string Task_Name, [FromForm] string TagName, [FromForm] string Task_Duedate, [FromForm] string Task_Content)
@@ -186,7 +185,6 @@ namespace Web_demo.Controllers.Main
         
         [HttpPost]
         [Route("Project/YourProject/Update/{ProjectID}")]
-        
         public async Task<IActionResult> Modify_Project([FromRoute] int ProjectID, [FromBody] Project UpdatedProject) {
 
             var IsHaveLocalCookies = Cookie_Handler.Get_UserLocal_Cookies();////Request cookies on user machine

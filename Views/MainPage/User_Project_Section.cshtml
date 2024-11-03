@@ -22,7 +22,7 @@
             @foreach (var P in UserProject)///Display board Design
             {
                 <div class="Project_Layout" id="@P.id">
-                    <button class="Access">
+                    <button class="Access" onclick="location.href = '@Url.Action("User_Task","MainPage", new {ProjectID = P.id})'"> 
                         <div class="Project">
                             <div class="P_Header">
                                 <h1 class="P_Name">@P.Name</h1>

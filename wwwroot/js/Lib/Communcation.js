@@ -1,4 +1,4 @@
-export class Polling ///Sending XML Request to the server
+export class Polling ///Perform RESTFULL action 
 {
     #Secret_Url;
 
@@ -6,11 +6,9 @@ export class Polling ///Sending XML Request to the server
      * 
      * @param {string} DefualtUrl
      */
-    constructor(DefualtUrl = "")
-    {
+    constructor(DefualtUrl = "") {
         this.#Secret_Url = DefualtUrl;
     }
-
 
     set NewDirectory(values = "") {
         this.#Secret_Url = values;
@@ -21,10 +19,9 @@ export class Polling ///Sending XML Request to the server
      * @param {{}} data
      * @returns {Promise}
      */
-    async PostRequest(data = {})///Post method
+    async PostRequest(BodyData = {})///Post method
     {
-        var Jsonify = JSON.stringify(data);
-        console.log(Jsonify);
+        var Jsonify = JSON.stringify(BodyData);
 
         var PolledRespone = await fetch(this.#Secret_Url, {
             method: "POST",
@@ -33,7 +30,7 @@ export class Polling ///Sending XML Request to the server
         });
 
         if (PolledRespone.ok) {
-            return PolledRespone.json(); 
+            return PolledRespone.json();
         }
         else if (!PolledRespone.ok) {
             return new Error(PolledRequest.status);
@@ -50,5 +47,5 @@ export class Polling ///Sending XML Request to the server
             return new Error(polledRespone.status);
         }
     }
-
+    
 }

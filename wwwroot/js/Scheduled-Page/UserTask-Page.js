@@ -100,7 +100,7 @@ DialogHandler.On_Action(DialogHandler.ClassCollection.find((e) => e.classname ==
     (e = new CustomEvent()) => {
         alert("input change");
     }
-));
+);
 
 
 DialogAction.On_Action(Dialog_Triggered_Button, "click", (e = new CustomEvent()) => {

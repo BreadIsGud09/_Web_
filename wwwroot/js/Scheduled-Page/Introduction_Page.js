@@ -38,12 +38,10 @@ var CancelButton = document.querySelector(".Cancel-icon");
 var Project_Dialog = document.querySelector(".dialog");
 var Overlay = document.querySelector(".Overlay");
 
-<<<<<<< HEAD
+
 var ProjectForm = Project_Dialog.querySelector(".Sub-dialog");
 
 
-=======
->>>>>>> parent of 9ba607d (beta edit mode on project)
 const Pop_Project_Dialog = new UIModule.PartialUI(DialogHTML, [
     Project_Dialog,
     CreateNew_Project,
@@ -79,22 +77,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     Pop_Project_Dialog.On_Action(CancelButton, "click", () => {
-<<<<<<< HEAD
+
         ///Refresh the content inside of the dialog input field and then set invisible
 
         console.log(ProjectForm);
 
         /**@type {HTMLInputElement}*/
-        const DialogProjectHeader = ProjectForm.getElementsByTagName("INPUT").namedItem("Project-TextBox-Header");
+        const DialogProjectHeader = ProjectForm.firstElementChild.children.namedItem("Project-Header-Content");
 
         /**@type {HTMLInputElement}*/
-        const DIalogProjectBody = ProjectForm.getElementsByTagName("INPUT").namedItem("Project-TextBox-Body"); 
+        const DIalogProjectBody = ProjectForm.firstElementChild.children.namedItem("Project-Body-Content");
 
         DialogProjectHeader.value = "";
         DIalogProjectBody.value = "";
 
-=======
->>>>>>> parent of 9ba607d (beta edit mode on project)
+
         Project_Dialog.style.visibility = "hidden";
         Overlay.style.display = "none";
         Project_Dialog.style.animation = 'none';
