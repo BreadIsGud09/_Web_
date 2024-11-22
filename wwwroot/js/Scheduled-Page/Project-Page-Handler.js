@@ -40,7 +40,6 @@ const DeleteContentButton = document.querySelector(".DeleteContent");
 
 let IsEditState = false;
 
-
 const ContextMenuPartial = new UIModule.PartialUI(DropboxHtml, [Dropbox, EditContentButton, DeleteContentButton]);
 let modules = ContextMenuPartial.ExportedData().CssModules = 'https://localhost:7146/css/Modules/Dropbox.css';
 
@@ -237,8 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log(CurrentProject);
                 console.log(SentModel);
 
-                
-
                 const UpdateProjectRequest = new Polling("https://localhost:7146/Project/YourProject/Update/" + CurrentProject.id); ///make a request
 
                 /**@description send sentModel to the directory */
@@ -285,6 +282,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ContextMenuPartial.On_Action(TargetDeleteContent, "click", (e) => {
         IsEditState = true;
+
+
+        
 
         console.log("Deleting project");
     });

@@ -20,6 +20,8 @@ namespace Web_demo.Services
         public Userinfo? Get_UserInfo(int ID); ///getting user info by ID
 
         public Task UpdateInfo(int User_id);
+
+        public Task<bool> DeleteValueFrom(int User_id, object Properties);
     }
 
     public class Database_Handler : IDB_Services
@@ -84,7 +86,7 @@ namespace Web_demo.Services
             ///Changing the user properties
             if (User != null)
             {
-                var Updated_Result = Profile.Update(User!);
+                var Updated_Result = Profile.Update(User);
 
                 await Profile.SaveChangesAsync();///Saving changes  
             }
@@ -105,6 +107,39 @@ namespace Web_demo.Services
             }
 
             return null;
+        }
+
+        public async Task<bool> DeleteValueFrom(int User_id,object Properties)
+        {
+            var GetDeletedUser = this.Get_UserInfo(User_id);
+            bool Saved = false;
+
+            if (GetDeletedUser != null)
+            {
+                using (var AccessDB = Profile)
+                {
+                    var Entry = AccessDB.Entry(Properties);
+                    
+                   
+                    AccessDB.Remove(Entry);
+
+                    var IsSuccess = await AccessDB.SaveChangesAsync();
+
+                    if (IsSuccess > 0)
+                    {
+                        Saved = true;
+                    }
+                    else {
+                        Saved = false;
+                    }
+
+                    return Saved;
+                }
+            }
+            else 
+            {
+                return Saved; 
+            }
         }
     }
 }

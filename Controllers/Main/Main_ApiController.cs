@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Web_demo.Models;
@@ -97,9 +98,6 @@ namespace Web_demo.Controllers.Main
         [Route("Project/YourProject/api/Task/{ProjectID}")]
         public async Task<IActionResult> CreateNewTask([FromRoute] int ProjectID, [FromForm] string Task_Name, [FromForm] string TagName, [FromForm] string Task_Duedate, [FromForm] string Task_Content)
         {
-
-
-
             var task_Model = new UserTask()
             {
                 Name = Task_Name,
@@ -181,6 +179,26 @@ namespace Web_demo.Controllers.Main
                 return Ok("user Session expired");
             }
         }
+
+
+        [HttpPost]
+        [Route("Project/YourProject/DeleteProject")]
+        public async Task<IActionResult> Remove_Project([FromBody]int ProjectId)
+        {
+            var ProjectInstance = Project_Services.GetProjectByID(ProjectId)[0];
+
+            if (ProjectInstance is not null)
+            {
+                var Result = await Project_Services.DeleteProject(ProjectId);
+
+                if (Result is true)
+                {
+                    return Ok("Success removing" + ProjectId);
+                }
+            }
+            return Ok("Try again");
+        }
+
 
         
         [HttpPost]

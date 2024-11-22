@@ -14,7 +14,10 @@
 
 <body>
     <div class="Main-Section">
-        @{
+        <div class="Task_Container">
+            @{
+            
+
             if (Task_.Any() == true)
             {
                 ///Accessing every element of task
@@ -28,32 +31,32 @@
                         ///Getting the current project
                         var CurrentProject = Model.Where(e => e.id == Task_Obj.RootProject_ID).ToList()[0];
 
-                        ///Display the task design
-                        <div class="Task_Container">
-                            <div class="Defualt_Tag_Collums">
-                                <div class="Catergory_Header_Container">
-                                    <h2 class="Catergory_Header">@Task_Obj.Tags</h2>
-                                    <button class="CreateNewCategory">
-                                        <img class="Create_Task_Icon" src="/Images/plus-regular-60.png" alt="Task creation button">
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="Tag_Template" data-TaskId = "@Task_Obj.id()" data-projectid = "@CurrentProject.id" data-rootprojectid = "@Task_Obj.RootProject_ID">
-                                <div class="Template_Header_Container">
-                                    <img class="Task_Icon" src="~/Images/notepad-solid-48.png">
-                                    <h1 class="Task_Template_Header">
-                                        @Task_Obj.Name
-                                    </h1>
-                                </div>
-                                <div class="Tag_Properties_Container">
-                                    <p class="Properties">Tag: @Task_Obj.Tags</p>
-                                </div>
-                                <div class="Duedate_Properties_Container">
-                                    <p class="Properties">Due-date: @Task_Obj.Due_Date</p>
-                                </div>
+                        <div class="Defualt_Tag_Collums">
+                            <div class="Catergory_Header_Container">
+                                <h2 class="Catergory_Header">@Task_Obj.Tags</h2>
+                                <button class="CreateNewCategory">
+                                    <img class="Create_Task_Icon" src="/Images/plus-regular-60.png" alt="Task creation button">
+                                </button>
                             </div>
                         </div>
+
+                        <div class="Tag_Template" data-TaskId="@Task_Obj.id()" data-projectid="@CurrentProject.id" data-rootprojectid="@Task_Obj.RootProject_ID">
+                            <div class="Template_Header_Container">
+                                <img class="Task_Icon" src="~/Images/notepad-solid-48.png">
+                                <h1 class="Task_Template_Header">
+                                    @Task_Obj.Name
+                                </h1>
+                            </div>
+                            <div class="Tag_Properties_Container">
+                                <p class="Properties">Tag: @Task_Obj.Tags</p>
+                            </div>
+                            <div class="Duedate_Properties_Container">
+                                <p class="Properties">Due-date: @Task_Obj.Due_Date</p>
+                            </div>
+                        </div>
+
+
+                        ///Display the task design
                     }
                 }
             }
@@ -107,5 +110,6 @@
             </div>
 
         }
+        </div>
     </div>
 </body>

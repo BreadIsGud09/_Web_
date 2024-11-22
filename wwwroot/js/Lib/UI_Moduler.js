@@ -127,6 +127,22 @@ export class UIDataModel {
 }
 
 
+class ObjectTracker {
+    
+    ListenTo;
+    Triggerer
+    
+    constructor(listenToActionMethod,triggerer)
+    {
+        this.ListenTo = listenToActionMethod;
+        this.Triggerer = triggerer;
+    }
+
+    Alert() {
+    }
+
+}
+
 
 export class PartialUI  ///Only available for html and js
 {

@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Abstractions;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.CryptoPro;
-using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using Web_demo.Models;
 
 namespace Web_demo.Services
@@ -13,7 +7,8 @@ namespace Web_demo.Services
     public interface IProject_Services
     {
         public Task<Project?> Initialize_Project(int userid, Project options); ///Create new project method
-        public void DeleteProject(int id);///Delete current project
+        public Task<bool> DeleteProject(int ProjectId);/// <summary>
+        
         public void DeleteAllProjects(int UserId);///Delete all project
         public List<Project> GetUserProject(int UserId);/// Get userProject object by providing userID 
         public List<Project> GetProjectByID(int ID);///Get project by Project ID
@@ -22,8 +17,6 @@ namespace Web_demo.Services
         public Task<Project> UpdateModels(int Userid, int ProjectID, Project NewModels);///Update Name and Description of the Project
 
     }
-
-
 
     public class Project_Handler : IProject_Services
     {
@@ -92,9 +85,35 @@ namespace Web_demo.Services
             return TaskModel;
         }
 
-        public void DeleteProject(int Id) { }
+        public async Task<bool> DeleteProject(int ProjectId) {
+            var user = DB_services.Get_UserInfo(ProjectId);
+                if (user is not null)
+                {
+                    using (var ProjectDb_Access = _db)
+                    {
+                        var DeleteProject = this.GetProjectByID(ProjectId);
 
-        public void DeleteAllProjects(int UserId) { }
+                        if (DeleteProject is not null)
+                        {
+                            ProjectDb_Access.Remove(DeleteProject);
+                            var Counter = await ProjectDb_Access.SaveChangesAsync();
+
+                            if (Counter > 0)
+                            {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            return false;
+        }
+
+        public void DeleteAllProjects(int UserId) {
+            
+        }
 
         public List<Project> GetUserProject(int UserId)
         {
